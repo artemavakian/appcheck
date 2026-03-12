@@ -14,7 +14,7 @@ export default function Navbar() {
         </a>
 
         <a
-          href="/auth/callback"
+          href="/login"
           className="btn-primary hidden sm:inline-flex gap-2 !px-5 !py-2.5 text-sm"
         >
           <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -35,7 +35,7 @@ export default function Navbar() {
       {mobileOpen && (
         <div className="sm:hidden border-t border-gray-200/60 bg-white/95 backdrop-blur-xl px-6 py-4">
           <a
-            href="/auth/callback"
+            href="/login"
             className="btn-primary w-full gap-2 text-sm"
             onClick={() => setMobileOpen(false)}
           >

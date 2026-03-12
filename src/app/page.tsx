@@ -46,7 +46,7 @@ export default function Home() {
           rejection risks before you wait days for review.
         </p>
         <div className="mt-10">
-          <a href="/auth/callback" className="btn-primary gap-2.5 text-base">
+          <a href="/login" className="btn-primary gap-2.5 text-base">
             <svg
               width="18"
               height="18"
@@ -114,7 +114,7 @@ export default function Home() {
                 violations before you submit.
               </p>
               <a
-                href="/auth/callback"
+                href="/login"
                 className="btn-primary mt-8 gap-2 text-sm"
               >
                 Get started free

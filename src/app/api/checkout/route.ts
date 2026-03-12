@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
-import { getStripe, PRICE_MAP } from "@/lib/stripe";
+import { getStripe, PRICE_MAP, PRODUCT_MAP } from "@/lib/stripe";
 
 const VALID_CREDITS = [1, 5, 15];
 
@@ -32,6 +32,7 @@ export async function POST(request: Request) {
     }
 
     const unitAmount = PRICE_MAP[credits];
+    const productId = PRODUCT_MAP[credits];
     const appUrl = getAppUrl();
 
     const session = await getStripe().checkout.sessions.create({
@@ -40,9 +41,7 @@ export async function POST(request: Request) {
         {
           price_data: {
             currency: "usd",
-            product_data: {
-              name: `AppCheck - ${credits} Scan Credit${credits > 1 ? "s" : ""}`,
-            },
+            product: productId,
             unit_amount: unitAmount,
           },
           quantity: 1,

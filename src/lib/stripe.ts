@@ -14,7 +14,13 @@ export function getStripe(): Stripe {
 }
 
 export const PRICE_MAP: Record<number, number> = {
-  1: 700,   // $7.00 in cents
-  5: 2500,  // $25.00 in cents
-  15: 4500, // $45.00 in cents
+  1: 700,
+  5: 2500,
+  15: 4500,
+};
+
+export const PRODUCT_MAP: Record<number, string> = {
+  1: "prod_U8G0a4JlHhAxMy",
+  5: "prod_U8G01iBzheDQ37",
+  15: "prod_U8G0NMjKEVFg8m",
 };
