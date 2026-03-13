@@ -13,47 +13,64 @@ export default function AuthCallbackPage() {
     if (handled.current) return;
     handled.current = true;
 
-    const handleCallback = async () => {
+    const supabase = createClient();
+
+    async function ensureProfile(userId: string, email?: string | null) {
       try {
-        const supabase = createClient();
-        const params = new URLSearchParams(window.location.search);
-        const code = params.get("code");
-
-        if (!code) {
-          router.replace("/");
-          return;
-        }
-
-        const { data, error } = await supabase.auth.exchangeCodeForSession(code);
-
-        if (error || !data.user) {
-          console.error("Auth callback error:", error?.message);
-          router.replace("/");
-          return;
-        }
-
-        const { data: existingUser } = await supabase
+        const { data } = await supabase
           .from("users")
           .select("id")
-          .eq("id", data.user.id)
+          .eq("id", userId)
           .single();
-
-        if (!existingUser) {
-          await supabase.from("users").insert({
-            id: data.user.id,
-            email: data.user.email,
-            scan_credits: 1,
-          });
+        if (!data) {
+          await supabase
+            .from("users")
+            .insert({ id: userId, email: email ?? null, scan_credits: 1 });
         }
-
-        router.replace("/dashboard");
-      } catch (err) {
-        console.error("Auth callback failed:", err);
-        router.replace("/");
+      } catch {
+        // Profile creation is best-effort; the DB trigger may handle it
       }
-    };
+    }
 
-    handleCallback();
+    async function handleAuth() {
+      // 1. Try PKCE flow: exchange code from query params
+      const code = new URLSearchParams(window.location.search).get("code");
+      if (code) {
+        const { data, error } = await supabase.auth.exchangeCodeForSession(code);
+        if (!error && data.session) {
+          await ensureProfile(data.session.user.id, data.session.user.email);
+          router.replace("/dashboard");
+          return;
+        }
+      }
+
+      // 2. Try implicit flow: session auto-established from hash fragment
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        await ensureProfile(session.user.id, session.user.email);
+        router.replace("/dashboard");
+        return;
+      }
+
+      // 3. Fallback: listen for auth state change
+      const { data: { subscription } } = supabase.auth.onAuthStateChange(
+        async (_event, session) => {
+          if (session) {
+            await ensureProfile(session.user.id, session.user.email);
+            subscription.unsubscribe();
+            router.replace("/dashboard");
+          }
+        }
+      );
+
+      // 4. Timeout: if nothing works after 10s, go home
+      setTimeout(() => {
+        subscription.unsubscribe();
+        router.replace("/");
+      }, 10000);
+    }
+
+    handleAuth();
   }, [router]);
 
   return (
