@@ -11,7 +11,7 @@ const steps = [
   {
     num: 2,
     icon: ImageIcon,
-    title: "Upload Screenshots",
+    title: "Upload Submission Details",
     desc: "Add your App Store screenshots and description for analysis.",
   },
   {
@@ -20,14 +20,6 @@ const steps = [
     title: "Get Your Report",
     desc: "Receive an instant risk report with actionable fixes.",
   },
-];
-
-const checks = [
-  "Payment and subscription compliance",
-  "Screenshot guideline violations",
-  "Metadata issues",
-  "Login and account requirements",
-  "Privacy and permission disclosures",
 ];
 
 export default function Home() {
@@ -43,7 +35,7 @@ export default function Home() {
         </h1>
         <p className="mt-6 text-xl text-gray-500 max-w-2xl mx-auto leading-relaxed">
           AppCheck analyzes your App Store submission and flags potential
-          rejection risks before you wait days for review.
+          rejection risks before you go through weeks of resubmissions.
         </p>
         <div className="mt-10">
           <a href="/login" className="btn-primary gap-2.5 text-base">
@@ -69,8 +61,9 @@ export default function Home() {
           <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-900 tracking-tight">
             How It Works
           </h2>
-          <p className="mt-4 text-center text-gray-500 text-lg max-w-xl mx-auto">
-            Three simple steps to a safer submission
+          <p className="mt-4 text-center text-gray-500 text-lg max-w-2xl mx-auto">
+            AppCheck performs the same analysis as Apple, but you get the
+            results instantly.
           </p>
 
           <div className="mt-14 grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -99,29 +92,26 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── Avoid Weeks ── */}
+      {/* ── Why? ── */}
       <section className="px-6 py-20 md:py-28">
         <div className="max-w-5xl mx-auto bg-gray-100 rounded-3xl p-10 md:p-16">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight leading-tight">
-                Avoid Weeks of Trial&nbsp;and&nbsp;Error
+                Why?
               </h2>
               <p className="mt-5 text-gray-500 text-lg leading-relaxed">
-                Many developers wait days or weeks for App Store review only to
-                have their app rejected for a simple issue. AppCheck analyzes
-                your submission instantly and highlights potential guideline
-                violations before you submit.
+                Building an app is easier than ever. With modern tools and AI,
+                anyone can build and submit an app. As a result, Apple now
+                receive an enormous volume of submissions. Reviews that once
+                took a few days now take weeks. Many developers wait all that
+                time only to discover a small issue that requires a
+                resubmission and another long review cycle. AppCheck analyzes
+                your submission before review so you can avoid unnecessary
+                delays.
               </p>
-              <a
-                href="/login"
-                className="btn-primary mt-8 gap-2 text-sm"
-              >
-                Get started free
-              </a>
             </div>
 
-            {/* Illustrative graphic placeholder */}
             <div className="relative aspect-square max-w-xs mx-auto md:ml-auto md:mr-0 w-full">
               <div className="absolute inset-0 rounded-3xl gradient-bg opacity-10" />
               <div className="absolute inset-4 rounded-2xl bg-white shadow-card flex flex-col items-center justify-center gap-4">
@@ -142,47 +132,22 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── What It Checks ── */}
-      <section className="py-20 md:py-28 px-6">
-        <div className="max-w-3xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-900 tracking-tight">
-            What AppCheck Analyzes
-          </h2>
-          <p className="mt-4 text-center text-gray-500 text-lg">
-            Comprehensive coverage of the most common rejection reasons
-          </p>
-
-          <ul className="mt-12 grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {checks.map((item) => (
-              <li
-                key={item}
-                className="flex items-start gap-3 bg-white rounded-xl border border-gray-200/60 shadow-soft p-5"
-              >
-                <CheckCircle2
-                  className="text-apple-blue mt-0.5 shrink-0"
-                  size={20}
-                  strokeWidth={2}
-                />
-                <span className="text-gray-800 font-medium text-[15px]">
-                  {item}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
-
-      {/* ── About ── */}
+      {/* ── About Us ── */}
       <section className="py-20 md:py-28 px-6">
         <div className="max-w-2xl mx-auto text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">
-            About AppCheck
+            About Us
           </h2>
           <p className="mt-6 text-gray-500 text-lg leading-relaxed">
-            AppCheck helps developers identify App Store guideline risks before
-            submitting their apps for review. Our analysis engine checks your
-            submission against Apple&rsquo;s latest guidelines and flags
-            potential issues, saving you time and frustration.
+            We are an independent developer duo building software and mobile
+            apps full time. Over the past year, we&rsquo;ve seen review times
+            for apps submitted to the App Store grow longer and less
+            predictable. Waiting days&mdash;and many times&mdash;weeks only to
+            receive a rejection for a simple guideline issue became a
+            frustrating and very costly part of the development process. We
+            built AppCheck to streamline that process by identifying potential
+            guideline violations before submission, saving developers time and
+            unnecessary review cycles.
           </p>
         </div>
       </section>
@@ -190,7 +155,7 @@ export default function Home() {
       {/* ── Footer ── */}
       <footer className="border-t border-gray-200/60 bg-gray-100/60">
         <div className="max-w-6xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-gray-500">
-          <span>&copy; 2024 AppCheck. All rights reserved.</span>
+          <span>&copy; 2026 AppCheck. All rights reserved.</span>
           <div className="flex gap-6">
             <a href="#" className="hover:text-gray-900 transition-colors">
               Privacy
