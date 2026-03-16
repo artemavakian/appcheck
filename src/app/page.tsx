@@ -1,4 +1,4 @@
-import { CheckCircle2, ClipboardList, ImageIcon, FileBarChart } from "lucide-react";
+import { Clock, RotateCcw, AlertTriangle, ClipboardList, ImageIcon, FileBarChart } from "lucide-react";
 import Navbar from "@/components/Navbar";
 
 const steps = [
@@ -113,18 +113,42 @@ export default function Home() {
             </div>
 
             <div className="relative aspect-square max-w-xs mx-auto md:ml-auto md:mr-0 w-full">
-              <div className="absolute inset-0 rounded-3xl gradient-bg opacity-10" />
-              <div className="absolute inset-4 rounded-2xl bg-white shadow-card flex flex-col items-center justify-center gap-4">
-                <div className="w-14 h-14 rounded-2xl gradient-bg flex items-center justify-center">
-                  <CheckCircle2 className="text-white" size={28} />
+              <div className="absolute inset-0 rounded-3xl bg-gray-200/50" />
+              <div className="absolute inset-4 rounded-2xl bg-white shadow-card flex flex-col items-center justify-center gap-5 px-6">
+                <div className="w-14 h-14 rounded-2xl bg-orange-50 flex items-center justify-center">
+                  <Clock className="text-orange-500" size={28} strokeWidth={1.5} />
                 </div>
-                <div className="space-y-2 w-3/4">
-                  <div className="h-2.5 rounded-full bg-green-200 w-full" />
-                  <div className="h-2.5 rounded-full bg-green-200 w-4/5" />
-                  <div className="h-2.5 rounded-full bg-amber-200 w-3/5" />
+                <div className="w-full space-y-3">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-lg bg-red-50 flex items-center justify-center shrink-0">
+                      <AlertTriangle className="text-red-400" size={14} />
+                    </div>
+                    <div className="flex-1">
+                      <div className="h-2 rounded-full bg-red-100 w-full" />
+                      <div className="h-1.5 rounded-full bg-gray-100 w-3/4 mt-1.5" />
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-lg bg-orange-50 flex items-center justify-center shrink-0">
+                      <RotateCcw className="text-orange-400" size={14} />
+                    </div>
+                    <div className="flex-1">
+                      <div className="h-2 rounded-full bg-orange-100 w-full" />
+                      <div className="h-1.5 rounded-full bg-gray-100 w-2/3 mt-1.5" />
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-lg bg-orange-50 flex items-center justify-center shrink-0">
+                      <Clock className="text-orange-400" size={14} />
+                    </div>
+                    <div className="flex-1">
+                      <div className="h-2 rounded-full bg-orange-100 w-5/6" />
+                      <div className="h-1.5 rounded-full bg-gray-100 w-1/2 mt-1.5" />
+                    </div>
+                  </div>
                 </div>
                 <span className="text-xs font-medium text-gray-400 tracking-wide uppercase">
-                  Risk Report
+                  Review Cycle
                 </span>
               </div>
             </div>
@@ -142,19 +166,19 @@ export default function Home() {
             We are an independent developer duo building software and mobile
             apps full time. Over the past year, we&rsquo;ve seen review times
             for apps submitted to the App Store grow longer and less
-            predictable. Waiting days&mdash;and many times&mdash;weeks only to
+            predictable. Waiting days&mdash;and often weeks&mdash;only to
             receive a rejection for a simple guideline issue became a
             frustrating and very costly part of the development process. We
             built AppCheck to streamline that process by identifying potential
-            guideline violations before submission, saving developers time and
-            unnecessary review cycles.
+            guideline violations before submission, helping developers save
+            time and avoid unnecessary review cycles.
           </p>
         </div>
       </section>
 
       {/* ── Footer ── */}
       <footer className="border-t border-gray-200/60 bg-gray-100/60">
-        <div className="max-w-6xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-gray-500">
+        <div className="max-w-6xl mx-auto px-6 py-8 flex flex-col sm:flex-row justify-between gap-4 text-sm text-gray-500">
           <span>&copy; 2026 AppCheck. All rights reserved.</span>
           <div className="flex gap-6">
             <a href="#" className="hover:text-gray-900 transition-colors">
