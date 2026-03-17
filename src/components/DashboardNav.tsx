@@ -40,7 +40,7 @@ export default function DashboardNav({ credits }: DashboardNavProps) {
             {credits} Credit{credits !== 1 ? "s" : ""}
           </div>
 
-          <Link href="/dashboard?buy=true">
+          <Link href="/buy-credits">
             <Button variant="secondary" size="sm">
               <CreditCard size={14} />
               Buy Credits
@@ -77,7 +77,7 @@ export default function DashboardNav({ credits }: DashboardNavProps) {
           </div>
 
           <Link
-            href="/dashboard?buy=true"
+            href="/buy-credits"
             className="block"
             onClick={() => setMobileOpen(false)}
           >

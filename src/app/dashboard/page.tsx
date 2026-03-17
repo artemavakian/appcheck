@@ -6,7 +6,6 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Zap,
-  CreditCard,
   ChevronRight,
   FileText,
   Clock,
@@ -38,12 +37,6 @@ export default function DashboardPageWrapper() {
   );
 }
 
-const PRICING: { credits: number; price: number; label: string }[] = [
-  { credits: 1, price: 7, label: "1 Scan" },
-  { credits: 5, price: 25, label: "5 Scans" },
-  { credits: 15, price: 45, label: "15 Scans" },
-];
-
 function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString("en-US", {
     month: "short",
@@ -73,7 +66,6 @@ function DashboardPage() {
   const [reports, setReports] = useState<Report[]>([]);
   const [loading, setLoading] = useState(true);
   const [reportsLoading, setReportsLoading] = useState(true);
-  const [purchaseLoading, setPurchaseLoading] = useState<number | null>(null);
   const [showSuccessBanner, setShowSuccessBanner] = useState(false);
 
   const supabase = createClient();
@@ -115,8 +107,6 @@ function DashboardPage() {
     fetchReports();
   }, [fetchUserData, fetchReports]);
 
-  const [showBuyCredits, setShowBuyCredits] = useState(false);
-
   useEffect(() => {
     if (searchParams.get("payment") === "success") {
       setShowSuccessBanner(true);
@@ -124,25 +114,7 @@ function DashboardPage() {
       const timeout = setTimeout(() => setShowSuccessBanner(false), 6000);
       return () => clearTimeout(timeout);
     }
-    if (searchParams.get("buy") === "true") {
-      setShowBuyCredits(true);
-    }
   }, [searchParams, fetchUserData]);
-
-  const handlePurchase = async (credits: number) => {
-    setPurchaseLoading(credits);
-    try {
-      const res = await fetch("/api/checkout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ credits }),
-      });
-      const { url } = await res.json();
-      if (url) window.location.href = url;
-    } finally {
-      setPurchaseLoading(null);
-    }
-  };
 
   if (loading) {
     return (
@@ -227,71 +199,11 @@ function DashboardPage() {
           </Card>
         </motion.div>
 
-        {/* Purchase Credits */}
-        {(credits === 0 || showBuyCredits) && (
-          <motion.section
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.1 }}
-          >
-            <div className="flex items-center gap-2 mb-6">
-              <CreditCard size={20} className="text-gray-400" />
-              <h2 className="text-xl font-semibold text-gray-900 tracking-tight">
-                Purchase Credits
-              </h2>
-            </div>
-            <p className="text-gray-500 text-sm mb-6 -mt-3">
-              {credits === 0
-                ? "You have no credits remaining. Purchase scan credits to analyze your submissions."
-                : "Purchase additional scan credits for future analyses."}
-            </p>
-
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              {PRICING.map((tier, i) => (
-                <Card
-                  key={tier.credits}
-                  hoverable
-                  padding="lg"
-                  className={`text-center relative ${
-                    i === 1
-                      ? "ring-2 ring-apple-blue/20 border-apple-blue/30"
-                      : ""
-                  }`}
-                >
-                  {i === 1 && (
-                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 rounded-full bg-gradient-to-r from-apple-blue to-apple-cyan text-white text-xs font-medium">
-                      Most Popular
-                    </div>
-                  )}
-
-                  <p className="text-3xl font-bold text-gray-900 mt-2">
-                    ${tier.price}
-                  </p>
-                  <p className="mt-1 text-sm text-gray-500">{tier.label}</p>
-                  <p className="mt-1 text-xs text-gray-400">
-                    ${(tier.price / tier.credits).toFixed(2)} per scan
-                  </p>
-
-                  <Button
-                    variant={i === 1 ? "primary" : "secondary"}
-                    size="md"
-                    className="w-full mt-6"
-                    loading={purchaseLoading === tier.credits}
-                    onClick={() => handlePurchase(tier.credits)}
-                  >
-                    Purchase
-                  </Button>
-                </Card>
-              ))}
-            </div>
-          </motion.section>
-        )}
-
         {/* Previous Reports */}
         <motion.section
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: credits === 0 || showBuyCredits ? 0.2 : 0.1 }}
+          transition={{ duration: 0.4, delay: 0.1 }}
         >
           <div className="flex items-center gap-2 mb-6">
             <FileText size={20} className="text-gray-400" />
