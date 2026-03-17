@@ -2,14 +2,7 @@ export default function TermsPage() {
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-2xl mx-auto px-6 py-16 md:py-24">
-        <a
-          href="/"
-          className="text-sm text-gray-400 hover:text-gray-600 transition-colors"
-        >
-          &larr; Back to AppCheck
-        </a>
-
-        <h1 className="mt-8 text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">
+        <h1 className="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">
           Terms of Use
         </h1>
         <p className="mt-2 text-sm text-gray-400">Last Updated: March 2026</p>

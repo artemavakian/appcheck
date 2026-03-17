@@ -56,7 +56,7 @@ export default function Home() {
       </section>
 
       {/* ── How It Works ── */}
-      <section className="py-20 md:py-28 px-6">
+      <section id="how-it-works" className="py-20 md:py-28 px-6">
         <div className="max-w-5xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-900 tracking-tight">
             How It Works
@@ -93,14 +93,14 @@ export default function Home() {
       </section>
 
       {/* ── Why? ── */}
-      <section className="px-6 py-20 md:py-28">
+      <section id="why" className="px-6 py-20 md:py-28">
         <div className="max-w-5xl mx-auto gradient-bg rounded-3xl p-10 md:p-16">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="text-3xl md:text-4xl font-bold text-white tracking-tight leading-tight">
                 Why?
               </h2>
-              <p className="mt-5 text-white/80 text-lg leading-relaxed">
+              <p className="mt-5 text-white text-lg leading-relaxed">
                 Building an app is easier than ever. With modern tools and AI,
                 anyone can build and submit an app. As a result, Apple now
                 receive an enormous volume of submissions. Reviews that once
@@ -114,24 +114,20 @@ export default function Home() {
 
             <div className="relative aspect-square max-w-xs mx-auto md:ml-auto md:mr-0 w-full">
               <div className="absolute inset-0 rounded-3xl bg-white/10" />
-              <div className="absolute inset-4 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 flex flex-col items-center justify-center gap-5 px-6">
-                <div className="w-16 h-16 rounded-full bg-white/15 flex items-center justify-center">
-                  <XCircle className="text-white" size={36} strokeWidth={1.5} />
+              <div className="absolute inset-4 rounded-2xl bg-white shadow-lg flex flex-col items-center justify-center gap-4 px-6">
+                <div className="w-14 h-14 rounded-full bg-red-50 flex items-center justify-center">
+                  <XCircle className="text-red-500" size={32} strokeWidth={1.5} />
                 </div>
                 <div className="text-center">
-                  <p className="text-white font-semibold text-lg">Rejected</p>
-                  <p className="text-white/60 text-sm mt-1">
-                    Guideline 3.1.1
-                  </p>
+                  <p className="text-gray-900 font-semibold text-lg">Rejected</p>
+                  <p className="text-gray-400 text-sm mt-1">Guideline 3.1.1</p>
+                  <p className="text-gray-400 text-sm mt-0.5">Guideline 2.3.0</p>
                 </div>
-                <div className="w-full space-y-2.5">
-                  <div className="h-2 rounded-full bg-white/20 w-full" />
-                  <div className="h-2 rounded-full bg-white/15 w-4/5" />
-                  <div className="h-2 rounded-full bg-white/10 w-3/5" />
+                <div className="w-full space-y-2 pt-2 border-t border-gray-100">
+                  <div className="h-2 rounded-full bg-blue-100 w-full" />
+                  <div className="h-2 rounded-full bg-blue-100/70 w-4/5" />
+                  <div className="h-2 rounded-full bg-blue-100/50 w-3/5" />
                 </div>
-                <span className="text-xs font-medium text-white/40 tracking-wide uppercase">
-                  Submission Status
-                </span>
               </div>
             </div>
           </div>
@@ -139,7 +135,7 @@ export default function Home() {
       </section>
 
       {/* ── About Us ── */}
-      <section className="pt-10 md:pt-14 pb-20 md:pb-28 px-6">
+      <section id="about-us" className="pt-10 md:pt-14 pb-20 md:pb-28 px-6">
         <div className="max-w-2xl mx-auto text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">
             About Us
