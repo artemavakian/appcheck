@@ -1,4 +1,4 @@
-import { Clock, RotateCcw, AlertTriangle, ClipboardList, ImageIcon, FileBarChart } from "lucide-react";
+import { XCircle, ClipboardList, ImageIcon, FileBarChart } from "lucide-react";
 import Navbar from "@/components/Navbar";
 
 const steps = [
@@ -94,13 +94,13 @@ export default function Home() {
 
       {/* ── Why? ── */}
       <section className="px-6 py-20 md:py-28">
-        <div className="max-w-5xl mx-auto bg-gray-100 rounded-3xl p-10 md:p-16">
+        <div className="max-w-5xl mx-auto gradient-bg rounded-3xl p-10 md:p-16">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight leading-tight">
+              <h2 className="text-3xl md:text-4xl font-bold text-white tracking-tight leading-tight">
                 Why?
               </h2>
-              <p className="mt-5 text-gray-500 text-lg leading-relaxed">
+              <p className="mt-5 text-white/80 text-lg leading-relaxed">
                 Building an app is easier than ever. With modern tools and AI,
                 anyone can build and submit an app. As a result, Apple now
                 receive an enormous volume of submissions. Reviews that once
@@ -113,42 +113,24 @@ export default function Home() {
             </div>
 
             <div className="relative aspect-square max-w-xs mx-auto md:ml-auto md:mr-0 w-full">
-              <div className="absolute inset-0 rounded-3xl bg-gray-200/50" />
-              <div className="absolute inset-4 rounded-2xl bg-white shadow-card flex flex-col items-center justify-center gap-5 px-6">
-                <div className="w-14 h-14 rounded-2xl bg-orange-50 flex items-center justify-center">
-                  <Clock className="text-orange-500" size={28} strokeWidth={1.5} />
+              <div className="absolute inset-0 rounded-3xl bg-white/10" />
+              <div className="absolute inset-4 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 flex flex-col items-center justify-center gap-5 px-6">
+                <div className="w-16 h-16 rounded-full bg-white/15 flex items-center justify-center">
+                  <XCircle className="text-white" size={36} strokeWidth={1.5} />
                 </div>
-                <div className="w-full space-y-3">
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-red-50 flex items-center justify-center shrink-0">
-                      <AlertTriangle className="text-red-400" size={14} />
-                    </div>
-                    <div className="flex-1">
-                      <div className="h-2 rounded-full bg-red-100 w-full" />
-                      <div className="h-1.5 rounded-full bg-gray-100 w-3/4 mt-1.5" />
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-orange-50 flex items-center justify-center shrink-0">
-                      <RotateCcw className="text-orange-400" size={14} />
-                    </div>
-                    <div className="flex-1">
-                      <div className="h-2 rounded-full bg-orange-100 w-full" />
-                      <div className="h-1.5 rounded-full bg-gray-100 w-2/3 mt-1.5" />
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-orange-50 flex items-center justify-center shrink-0">
-                      <Clock className="text-orange-400" size={14} />
-                    </div>
-                    <div className="flex-1">
-                      <div className="h-2 rounded-full bg-orange-100 w-5/6" />
-                      <div className="h-1.5 rounded-full bg-gray-100 w-1/2 mt-1.5" />
-                    </div>
-                  </div>
+                <div className="text-center">
+                  <p className="text-white font-semibold text-lg">Rejected</p>
+                  <p className="text-white/60 text-sm mt-1">
+                    Guideline 3.1.1
+                  </p>
                 </div>
-                <span className="text-xs font-medium text-gray-400 tracking-wide uppercase">
-                  Review Cycle
+                <div className="w-full space-y-2.5">
+                  <div className="h-2 rounded-full bg-white/20 w-full" />
+                  <div className="h-2 rounded-full bg-white/15 w-4/5" />
+                  <div className="h-2 rounded-full bg-white/10 w-3/5" />
+                </div>
+                <span className="text-xs font-medium text-white/40 tracking-wide uppercase">
+                  Submission Status
                 </span>
               </div>
             </div>
@@ -157,7 +139,7 @@ export default function Home() {
       </section>
 
       {/* ── About Us ── */}
-      <section className="py-20 md:py-28 px-6">
+      <section className="pt-10 md:pt-14 pb-20 md:pb-28 px-6">
         <div className="max-w-2xl mx-auto text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">
             About Us
@@ -181,10 +163,26 @@ export default function Home() {
         <div className="max-w-6xl mx-auto px-6 py-8 flex flex-col sm:flex-row justify-between gap-4 text-sm text-gray-500">
           <span>&copy; 2026 AppCheck. All rights reserved.</span>
           <div className="flex gap-6">
-            <a href="#" className="hover:text-gray-900 transition-colors">
+            <a
+              href="mailto:support@appcheck.dev"
+              className="hover:text-gray-900 transition-colors"
+            >
+              Contact
+            </a>
+            <a
+              href="/privacy"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-gray-900 transition-colors"
+            >
               Privacy
             </a>
-            <a href="#" className="hover:text-gray-900 transition-colors">
+            <a
+              href="/terms"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-gray-900 transition-colors"
+            >
               Terms
             </a>
           </div>
