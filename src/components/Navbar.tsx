@@ -19,7 +19,7 @@ export default function Navbar() {
           AppCheck
         </a>
 
-        <div className="hidden sm:flex items-center gap-8 absolute left-1/2 -translate-x-1/2">
+        <div className="hidden sm:flex items-center gap-14 absolute left-1/2 -translate-x-1/2">
           {navLinks.map((link) => (
             <a
               key={link.href}
