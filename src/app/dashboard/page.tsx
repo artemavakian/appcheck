@@ -115,12 +115,17 @@ function DashboardPage() {
     fetchReports();
   }, [fetchUserData, fetchReports]);
 
+  const [showBuyCredits, setShowBuyCredits] = useState(false);
+
   useEffect(() => {
     if (searchParams.get("payment") === "success") {
       setShowSuccessBanner(true);
       fetchUserData();
       const timeout = setTimeout(() => setShowSuccessBanner(false), 6000);
       return () => clearTimeout(timeout);
+    }
+    if (searchParams.get("buy") === "true") {
+      setShowBuyCredits(true);
     }
   }, [searchParams, fetchUserData]);
 
@@ -223,7 +228,7 @@ function DashboardPage() {
         </motion.div>
 
         {/* Purchase Credits */}
-        {credits === 0 && (
+        {(credits === 0 || showBuyCredits) && (
           <motion.section
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
@@ -236,8 +241,9 @@ function DashboardPage() {
               </h2>
             </div>
             <p className="text-gray-500 text-sm mb-6 -mt-3">
-              You have no credits remaining. Purchase scan credits to analyze
-              your submissions.
+              {credits === 0
+                ? "You have no credits remaining. Purchase scan credits to analyze your submissions."
+                : "Purchase additional scan credits for future analyses."}
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -285,7 +291,7 @@ function DashboardPage() {
         <motion.section
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: credits === 0 ? 0.2 : 0.1 }}
+          transition={{ duration: 0.4, delay: credits === 0 || showBuyCredits ? 0.2 : 0.1 }}
         >
           <div className="flex items-center gap-2 mb-6">
             <FileText size={20} className="text-gray-400" />

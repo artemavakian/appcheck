@@ -36,7 +36,6 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen bg-white flex flex-col items-center justify-center gap-4">
       <LoadingSpinner size="lg" />
-      <p className="text-gray-400 text-sm">Redirecting to Apple&hellip;</p>
     </div>
   );
 }
