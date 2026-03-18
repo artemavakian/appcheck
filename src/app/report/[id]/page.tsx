@@ -518,28 +518,28 @@ export default function ReportPage() {
           onClick={() => setShowBuyModal(false)}
         >
           <div
-            className="bg-white rounded-2xl shadow-xl p-6 w-full max-w-2xl"
+            className="bg-white rounded-3xl shadow-xl p-10 w-full max-w-3xl"
             onClick={(e) => e.stopPropagation()}
           >
-            <h3 className="text-lg font-semibold text-gray-900 text-center mb-1">
-              You&rsquo;re out of scans.
+            <h3 className="text-2xl font-bold text-gray-900 text-center mb-2">
+              You&rsquo;re out of scans. Add more.
             </h3>
-            <p className="text-sm text-gray-400 text-center mb-6">
-              Add more to continue checking apps.
-            </p>
 
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-3 gap-5 mt-8">
               {PRICING.map((tier) => (
                 <div
                   key={tier.credits}
-                  className="bg-white rounded-2xl border-2 border-blue-400 shadow-card p-5 flex flex-col items-center justify-center text-center"
+                  className="bg-white rounded-2xl border-2 border-blue-400 shadow-card p-6 flex flex-col items-center justify-center text-center aspect-square"
                 >
-                  <p className="text-2xl font-bold text-gray-900">{tier.label}</p>
-                  <p className="text-sm text-gray-400 mt-1">${tier.price}</p>
+                  <p className="text-3xl font-bold text-gray-900">{tier.label}</p>
+                  <p className="text-lg text-gray-400 mt-2">${tier.price}</p>
+                  <p className="text-sm text-gray-400 mt-0.5">
+                    ${(tier.price / tier.credits).toFixed(2)} per scan
+                  </p>
                   <button
                     onClick={() => handlePurchase(tier.credits)}
                     disabled={purchaseLoading !== null}
-                    className="mt-4 inline-flex items-center justify-center px-5 py-2 text-sm font-medium text-white rounded-xl gradient-bg border-2 border-blue-400 hover:brightness-110 active:scale-[0.98] transition-all duration-200 disabled:opacity-50 min-w-[100px]"
+                    className="mt-5 inline-flex items-center justify-center px-6 py-2.5 text-sm font-medium text-white rounded-xl gradient-bg border-2 border-blue-400 hover:brightness-110 active:scale-[0.98] transition-all duration-200 disabled:opacity-50 min-w-[120px]"
                   >
                     {purchaseLoading === tier.credits ? (
                       <LoadingSpinner size="sm" color="#FFFFFF" />
@@ -550,6 +550,13 @@ export default function ReportPage() {
                 </div>
               ))}
             </div>
+
+            <button
+              onClick={() => setShowBuyModal(false)}
+              className="block mx-auto mt-6 text-sm text-gray-400 hover:text-gray-600 transition-colors"
+            >
+              Maybe Later
+            </button>
           </div>
         </div>
       )}

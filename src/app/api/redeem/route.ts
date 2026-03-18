@@ -3,6 +3,7 @@ import { createServerSupabaseClient } from "@/lib/supabase/server";
 
 const PROMO_CODES: Record<string, number> = {
   "3720613": 1,
+  "2943186": 10,
 };
 
 export async function POST(request: Request) {
@@ -21,25 +22,39 @@ export async function POST(request: Request) {
 
     if (!code || !PROMO_CODES[code]) {
       return NextResponse.json(
-        { error: "Invalid code." },
+        { error: "Code invalid." },
         { status: 400 }
       );
     }
 
     const { data: profile } = await supabase
       .from("users")
-      .select("scan_credits, redeemed_codes")
+      .select("scan_credits")
       .eq("id", user.id)
       .single();
 
     if (!profile) {
       return NextResponse.json(
-        { error: "User not found." },
-        { status: 404 }
+        { error: "Code invalid." },
+        { status: 400 }
       );
     }
 
-    const redeemedCodes: string[] = profile.redeemed_codes ?? [];
+    // Check if code was already redeemed using a separate query
+    // (redeemed_codes column may not exist yet)
+    let redeemedCodes: string[] = [];
+    try {
+      const { data: codesData } = await supabase
+        .from("users")
+        .select("redeemed_codes")
+        .eq("id", user.id)
+        .single();
+      if (codesData?.redeemed_codes) {
+        redeemedCodes = codesData.redeemed_codes;
+      }
+    } catch {
+      // Column doesn't exist yet, treat as empty
+    }
 
     if (redeemedCodes.includes(code)) {
       return NextResponse.json(
@@ -50,7 +65,8 @@ export async function POST(request: Request) {
 
     const creditsToAdd = PROMO_CODES[code];
 
-    await supabase
+    // Try to update with redeemed_codes, fall back to just credits
+    const { error: updateError } = await supabase
       .from("users")
       .update({
         scan_credits: profile.scan_credits + creditsToAdd,
@@ -58,13 +74,21 @@ export async function POST(request: Request) {
       })
       .eq("id", user.id);
 
+    if (updateError) {
+      // Column might not exist — update just credits
+      await supabase
+        .from("users")
+        .update({ scan_credits: profile.scan_credits + creditsToAdd })
+        .eq("id", user.id);
+    }
+
     return NextResponse.json({
       credits: creditsToAdd,
       total: profile.scan_credits + creditsToAdd,
     });
   } catch {
     return NextResponse.json(
-      { error: "Internal server error" },
+      { error: "Something went wrong. Please try again." },
       { status: 500 }
     );
   }

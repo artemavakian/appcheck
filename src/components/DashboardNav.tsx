@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Menu, X, LogOut, Ticket } from "lucide-react";
+import { Menu, X, LogOut } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 
 interface DashboardNavProps {
@@ -73,9 +73,8 @@ export default function DashboardNav({ onRedeemSuccess }: DashboardNavProps) {
           <div className="hidden sm:flex items-center gap-5">
             <button
               onClick={() => setShowRedeem(true)}
-              className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors flex items-center gap-1.5"
+              className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors"
             >
-              <Ticket size={14} />
               Use Code
             </button>
             <button

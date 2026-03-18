@@ -92,22 +92,22 @@ export default function BuyCreditsPage() {
           </div>
         )}
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 w-full max-w-3xl">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 w-full max-w-5xl">
           {PRICING.map((tier) => (
             <div
               key={tier.credits}
-              className="bg-white rounded-2xl border-2 border-blue-400 shadow-card p-8 flex flex-col items-center justify-center text-center aspect-square"
+              className="bg-white rounded-3xl border-2 border-blue-400 shadow-card p-10 flex flex-col items-center justify-center text-center aspect-square"
             >
-              <p className="text-4xl font-bold text-gray-900">{tier.label}</p>
-              <p className="text-lg text-gray-400 mt-2">${tier.price}</p>
-              <p className="text-sm text-gray-400 mt-0.5">
+              <p className="text-5xl font-bold text-gray-900">{tier.label}</p>
+              <p className="text-2xl text-gray-400 mt-3">${tier.price}</p>
+              <p className="text-base text-gray-400 mt-1">
                 ${(tier.price / tier.credits).toFixed(2)} per scan
               </p>
 
               <button
                 onClick={() => handlePurchase(tier.credits)}
                 disabled={purchaseLoading !== null}
-                className="mt-6 inline-flex items-center justify-center gap-2 px-8 py-3 text-base font-medium text-white rounded-xl gradient-bg border-2 border-blue-400 shadow-md hover:shadow-lg hover:brightness-110 active:scale-[0.98] transition-all duration-200 disabled:opacity-50 disabled:pointer-events-none min-w-[140px]"
+                className="mt-8 inline-flex items-center justify-center gap-2 px-10 py-4 text-lg font-medium text-white rounded-xl gradient-bg border-2 border-blue-400 shadow-md hover:shadow-lg hover:brightness-110 active:scale-[0.98] transition-all duration-200 disabled:opacity-50 disabled:pointer-events-none min-w-[160px]"
               >
                 {purchaseLoading === tier.credits ? (
                   <LoadingSpinner size="sm" color="#FFFFFF" />
