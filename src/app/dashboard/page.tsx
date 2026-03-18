@@ -5,16 +5,14 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  Zap,
+  ArrowRight,
   ChevronRight,
   FileText,
   Clock,
-  Shield,
   CheckCircle2,
   X,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
-import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 import DashboardNav from "@/components/DashboardNav";
@@ -129,9 +127,17 @@ function DashboardPage() {
 
   const credits = user?.scan_credits ?? 0;
 
+  const handleRunCheck = () => {
+    if (credits === 0) {
+      router.push("/buy-credits");
+    } else {
+      router.push("/check");
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50/50">
-      <DashboardNav credits={credits} />
+      <DashboardNav credits={credits} onRedeemSuccess={fetchUserData} />
 
       {/* Success banner */}
       <AnimatePresence>
@@ -165,34 +171,34 @@ function DashboardPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
         >
-          <Card padding="none" className="overflow-hidden">
-            <div className="relative bg-gradient-to-br from-apple-blue to-apple-cyan p-8 md:p-12">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2" />
-              <div className="absolute bottom-0 left-0 w-40 h-40 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/2" />
+          <Card padding="lg">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+              <div
+                onClick={handleRunCheck}
+                className="bg-white border border-gray-200 rounded-2xl p-8 sm:p-10 cursor-pointer hover:-translate-y-0.5 hover:shadow-lg transition-all duration-200 shrink-0"
+              >
+                <span className="text-lg font-semibold text-gray-900 block">
+                  Run App Check
+                </span>
+                <ArrowRight
+                  size={24}
+                  className="text-gray-400 mt-2"
+                  strokeWidth={1.5}
+                />
+              </div>
 
-              <div className="relative z-10 max-w-xl">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 text-white/90 text-xs font-medium mb-6">
-                  <Shield size={12} />
-                  App Store Review Intelligence
-                </div>
-
-                <h1 className="text-3xl md:text-4xl font-bold text-white tracking-tight leading-tight">
-                  Run New App Check
-                </h1>
-                <p className="mt-3 text-white/80 text-lg leading-relaxed max-w-md">
-                  Analyze your App Store submission for potential rejection risks
-                  before you wait days for review.
+              <div className="text-right sm:ml-auto">
+                <p className="text-sm font-medium text-gray-400">
+                  Available Checks:
                 </p>
-
-                <Link href="/check" className="inline-block mt-8">
-                  <Button
-                    size="lg"
-                    className="!bg-white !text-apple-blue hover:!bg-gray-50 shadow-lg"
-                  >
-                    <Zap size={18} />
-                    Analyze Submission
-                    <ChevronRight size={16} />
-                  </Button>
+                <p className="text-4xl font-bold text-gray-900 mt-1">
+                  {credits}
+                </p>
+                <Link
+                  href="/buy-credits"
+                  className="inline-flex items-center justify-center mt-4 px-5 py-2.5 text-sm font-medium text-white rounded-xl gradient-bg hover:brightness-110 active:scale-[0.98] transition-all duration-200"
+                >
+                  Get More
                 </Link>
               </div>
             </div>
@@ -258,20 +264,28 @@ function DashboardPage() {
 
                         <div className="flex items-center gap-3 ml-4">
                           <div className="text-right">
-                            <span
-                              className={`inline-flex items-center px-2.5 py-1 rounded-lg text-sm font-semibold ${scoreColor(
-                                report.approval_score
-                              )}`}
-                            >
-                              {report.approval_score}%
-                            </span>
-                            <p
-                              className={`text-xs mt-1 font-medium ${categoryColor(
-                                report.approval_category
-                              )}`}
-                            >
-                              {report.approval_category}
-                            </p>
+                            {report.results_json?.hardFails?.length > 0 ? (
+                              <span className="inline-flex items-center px-2.5 py-1 rounded-lg text-sm font-semibold text-red-600 bg-red-50">
+                                Likely Rejected
+                              </span>
+                            ) : (
+                              <>
+                                <span
+                                  className={`inline-flex items-center px-2.5 py-1 rounded-lg text-sm font-semibold ${scoreColor(
+                                    report.approval_score
+                                  )}`}
+                                >
+                                  {report.approval_score}%
+                                </span>
+                                <p
+                                  className={`text-xs mt-1 font-medium ${categoryColor(
+                                    report.approval_category
+                                  )}`}
+                                >
+                                  {report.approval_category}
+                                </p>
+                              </>
+                            )}
                           </div>
 
                           <ChevronRight

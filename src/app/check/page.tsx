@@ -35,6 +35,7 @@ const defaultWizardData: WizardData = {
   requiresAccount: false,
   canDeleteAccount: false,
   loginMethods: [],
+  hasDemoCredentials: false,
   chargesForDigital: false,
   hasSubscriptions: false,
   usesIAP: false,
@@ -45,13 +46,18 @@ const defaultWizardData: WizardData = {
   hasBlocking: false,
   hasModeration: false,
   permissions: [],
+  permissionsExplained: true,
   hasPrivacyPolicy: false,
   hasAIContent: false,
   involvesFinance: false,
   involvesGambling: false,
+  hasGamblingLicense: false,
   providesHealthAdvice: false,
+  hasMedicalDisclaimer: false,
+  isWebviewOnly: false,
   descriptionMentionsPricing: false,
   descriptionMentionsExternalSubs: false,
+  screenshotsMatchFeatures: true,
   appDescription: "",
   screenshots: [],
 };
@@ -335,7 +341,7 @@ export default function CheckPage() {
     <div className="min-h-screen bg-white">
       <div className="max-w-2xl mx-auto px-4 py-8 sm:py-12">
         {/* Header */}
-        <div className="flex items-center justify-between mb-8">
+        <div className="mb-8 space-y-4">
           <Link
             href="/dashboard"
             className="inline-flex items-center gap-1.5 text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors"
@@ -548,14 +554,26 @@ function StepAccountsLogin({ data, update }: StepProps) {
         </div>
 
         <ConditionalReveal show={data.requiresAccount}>
-          <div>
-            <FieldLabel>
-              Can users delete their account inside the app?
-            </FieldLabel>
-            <ToggleButtons
-              value={data.canDeleteAccount}
-              onChange={(v) => update("canDeleteAccount", v)}
-            />
+          <div className="space-y-5">
+            <div>
+              <FieldLabel>
+                Can users delete their account inside the app?
+              </FieldLabel>
+              <ToggleButtons
+                value={data.canDeleteAccount}
+                onChange={(v) => update("canDeleteAccount", v)}
+              />
+            </div>
+
+            <div>
+              <FieldLabel>
+                Have you provided demo/test credentials for App Review?
+              </FieldLabel>
+              <ToggleButtons
+                value={data.hasDemoCredentials}
+                onChange={(v) => update("hasDemoCredentials", v)}
+              />
+            </div>
           </div>
         </ConditionalReveal>
 
@@ -720,6 +738,18 @@ function StepPrivacy({ data, update }: StepProps) {
           />
         </div>
 
+        <ConditionalReveal show={data.permissions.length > 0}>
+          <div>
+            <FieldLabel>
+              Do all permission prompts clearly explain how the data is used?
+            </FieldLabel>
+            <ToggleButtons
+              value={data.permissionsExplained}
+              onChange={(v) => update("permissionsExplained", v)}
+            />
+          </div>
+        </ConditionalReveal>
+
         <div>
           <FieldLabel>Is a privacy policy accessible in the app?</FieldLabel>
           <ToggleButtons
@@ -773,11 +803,45 @@ function StepSensitive({ data, update }: StepProps) {
           />
         </div>
 
+        <ConditionalReveal show={data.involvesGambling}>
+          <div>
+            <FieldLabel>
+              Do you have proper gambling licensing?
+            </FieldLabel>
+            <ToggleButtons
+              value={data.hasGamblingLicense}
+              onChange={(v) => update("hasGamblingLicense", v)}
+            />
+          </div>
+        </ConditionalReveal>
+
         <div>
           <FieldLabel>Does it provide health advice?</FieldLabel>
           <ToggleButtons
             value={data.providesHealthAdvice}
             onChange={(v) => update("providesHealthAdvice", v)}
+          />
+        </div>
+
+        <ConditionalReveal show={data.providesHealthAdvice}>
+          <div>
+            <FieldLabel>
+              Is there a medical disclaimer in the app?
+            </FieldLabel>
+            <ToggleButtons
+              value={data.hasMedicalDisclaimer}
+              onChange={(v) => update("hasMedicalDisclaimer", v)}
+            />
+          </div>
+        </ConditionalReveal>
+
+        <div>
+          <FieldLabel>
+            Is the app primarily a webview without added functionality?
+          </FieldLabel>
+          <ToggleButtons
+            value={data.isWebviewOnly}
+            onChange={(v) => update("isWebviewOnly", v)}
           />
         </div>
       </div>
@@ -811,6 +875,16 @@ function StepMetadata({ data, update }: StepProps) {
           <ToggleButtons
             value={data.descriptionMentionsExternalSubs}
             onChange={(v) => update("descriptionMentionsExternalSubs", v)}
+          />
+        </div>
+
+        <div>
+          <FieldLabel>
+            Do screenshots or description show features that are not implemented?
+          </FieldLabel>
+          <ToggleButtons
+            value={!data.screenshotsMatchFeatures}
+            onChange={(v) => update("screenshotsMatchFeatures", !v)}
           />
         </div>
       </div>

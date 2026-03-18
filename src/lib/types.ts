@@ -3,6 +3,7 @@ export interface User {
   email: string;
   apple_id: string | null;
   scan_credits: number;
+  redeemed_codes: string[];
   created_at: string;
 }
 
@@ -16,10 +17,18 @@ export interface Report {
   created_at: string;
 }
 
+export interface HardFail {
+  title: string;
+  explanation: string;
+  guideline: string;
+  fix: string;
+}
+
 export interface ReportResults {
   riskScore: number;
   approvalProbability: number;
   approvalCategory: string;
+  hardFails: HardFail[];
   issues: Issue[];
   suggestedFixes: string[];
   ocrDetectedWords: string[];
@@ -43,6 +52,7 @@ export interface WizardData {
   requiresAccount: boolean;
   canDeleteAccount: boolean;
   loginMethods: string[];
+  hasDemoCredentials: boolean;
   chargesForDigital: boolean;
   hasSubscriptions: boolean;
   usesIAP: boolean;
@@ -53,13 +63,18 @@ export interface WizardData {
   hasBlocking: boolean;
   hasModeration: boolean;
   permissions: string[];
+  permissionsExplained: boolean;
   hasPrivacyPolicy: boolean;
   hasAIContent: boolean;
   involvesFinance: boolean;
   involvesGambling: boolean;
+  hasGamblingLicense: boolean;
   providesHealthAdvice: boolean;
+  hasMedicalDisclaimer: boolean;
+  isWebviewOnly: boolean;
   descriptionMentionsPricing: boolean;
   descriptionMentionsExternalSubs: boolean;
+  screenshotsMatchFeatures: boolean;
   appDescription: string;
   screenshots: string[];
 }

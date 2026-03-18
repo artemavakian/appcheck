@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { motion, useMotionValue, useTransform, animate } from "framer-motion";
 import {
@@ -11,14 +11,21 @@ import {
   FileText,
   Calendar,
   Lightbulb,
-  ExternalLink,
+  XCircle,
 } from "lucide-react";
 
 import { Card } from "@/components/ui/Card";
 import { ProgressBar } from "@/components/ui/ProgressBar";
 import { Button } from "@/components/ui/Button";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
-import type { Report, ReportResults, Issue } from "@/lib/types";
+import { createClient } from "@/lib/supabase/client";
+import type { Report, ReportResults, Issue, HardFail } from "@/lib/types";
+
+const PRICING = [
+  { credits: 1, price: 7, label: "1 Scan" },
+  { credits: 5, price: 25, label: "5 Scans" },
+  { credits: 15, price: 45, label: "15 Scans" },
+];
 
 function scoreColor(score: number): string {
   if (score >= 80) return "#34C759";
@@ -67,6 +74,24 @@ export default function ReportPage() {
   const [report, setReport] = useState<Report | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [showBuyModal, setShowBuyModal] = useState(false);
+  const [purchaseLoading, setPurchaseLoading] = useState<number | null>(null);
+  const [credits, setCredits] = useState<number | null>(null);
+
+  const fetchCredits = useCallback(async () => {
+    const supabase = createClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (user) {
+      const { data } = await supabase
+        .from("users")
+        .select("scan_credits")
+        .eq("id", user.id)
+        .single();
+      if (data) setCredits(data.scan_credits);
+    }
+  }, []);
 
   useEffect(() => {
     if (!id) return;
@@ -85,7 +110,33 @@ export default function ReportPage() {
     }
 
     fetchReport();
-  }, [id]);
+    fetchCredits();
+  }, [id, fetchCredits]);
+
+  const handleRunAnother = () => {
+    if (credits !== null && credits <= 0) {
+      setShowBuyModal(true);
+    } else {
+      router.push("/check");
+    }
+  };
+
+  const handlePurchase = async (creditCount: number) => {
+    setPurchaseLoading(creditCount);
+    try {
+      const res = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ credits: creditCount }),
+      });
+      const data = await res.json();
+      if (data.url) window.location.href = data.url;
+    } catch {
+      /* silent */
+    } finally {
+      setPurchaseLoading(null);
+    }
+  };
 
   if (loading) {
     return (
@@ -111,6 +162,8 @@ export default function ReportPage() {
   }
 
   const results: ReportResults = report.results_json;
+  const hardFails: HardFail[] = results.hardFails ?? [];
+  const hasHardFails = hardFails.length > 0;
   const score = results.approvalProbability;
   const color = scoreColor(score);
   const formattedDate = new Date(report.created_at).toLocaleDateString("en-US", {
@@ -147,14 +200,101 @@ export default function ReportPage() {
           </div>
         </motion.div>
 
+        {/* Hard Fail Banner */}
+        {hasHardFails && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="mt-10"
+          >
+            <div className="bg-red-50 border-2 border-red-200 rounded-2xl p-8 text-center">
+              <XCircle className="w-12 h-12 text-red-500 mx-auto mb-3" />
+              <h2 className="text-2xl font-bold text-red-700">
+                Will Likely Be Rejected
+              </h2>
+              <p className="text-red-600/80 mt-2 text-sm max-w-md mx-auto">
+                Critical issues were detected that almost always result in rejection.
+                Fix these before submitting.
+              </p>
+            </div>
+          </motion.div>
+        )}
+
+        {/* Hard Fail Issues */}
+        {hasHardFails && (
+          <motion.section
+            initial="hidden"
+            animate="visible"
+            variants={fadeUp}
+            transition={{ duration: 0.4, delay: 0.2 }}
+            className="mt-10"
+          >
+            <div className="flex items-center gap-3 mb-6">
+              <h2 className="text-xl font-semibold text-red-700">Critical Issues</h2>
+              <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-red-100 text-red-700 tabular-nums">
+                {hardFails.length}
+              </span>
+            </div>
+
+            <motion.div
+              variants={staggerContainer}
+              initial="hidden"
+              animate="visible"
+              className="space-y-4"
+            >
+              {hardFails.map((fail, i) => (
+                <motion.div key={i} variants={fadeUp} transition={{ duration: 0.35 }}>
+                  <Card padding="md" className="border-red-200 bg-red-50/30">
+                    <div className="flex items-start gap-3 mb-3">
+                      <div className="w-8 h-8 rounded-lg bg-red-100 flex items-center justify-center shrink-0 mt-0.5">
+                        <XCircle className="w-4 h-4 text-red-600" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-semibold text-gray-900">{fail.title}</h3>
+                        <p className="text-gray-600 text-sm mt-1.5 leading-relaxed">
+                          {fail.explanation}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="mt-4 space-y-3">
+                      <div>
+                        <span className="text-xs font-medium text-blue-600 uppercase tracking-wide">
+                          Relevant Guideline
+                        </span>
+                        <div className="bg-blue-50 rounded-lg p-3 mt-1.5">
+                          <p className="text-sm text-blue-900 leading-relaxed">
+                            {fail.guideline}
+                          </p>
+                        </div>
+                      </div>
+                      <div>
+                        <span className="text-xs font-medium text-green-600 uppercase tracking-wide">
+                          Suggested Fix
+                        </span>
+                        <div className="bg-green-50 rounded-lg p-3 mt-1.5">
+                          <p className="text-sm text-green-900 leading-relaxed">
+                            {fail.fix}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </Card>
+                </motion.div>
+              ))}
+            </motion.div>
+          </motion.section>
+        )}
+
         {/* Approval Score Card */}
         <motion.div
           initial={{ opacity: 0, scale: 0.96 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5, delay: 0.15 }}
+          transition={{ duration: 0.5, delay: hasHardFails ? 0.35 : 0.15 }}
           className="mt-10"
         >
-          <Card padding="lg" className="text-center">
+          <Card padding="lg" className={`text-center ${hasHardFails ? "opacity-60" : ""}`}>
             <div className="flex items-center justify-center gap-2 mb-2">
               <Shield className="w-5 h-5 text-gray-400" />
               <span className="text-sm font-medium text-gray-500 uppercase tracking-wide">
@@ -187,7 +327,7 @@ export default function ReportPage() {
           initial="hidden"
           animate="visible"
           variants={fadeUp}
-          transition={{ duration: 0.4, delay: 0.3 }}
+          transition={{ duration: 0.4, delay: hasHardFails ? 0.45 : 0.3 }}
           className="mt-14"
         >
           <div className="flex items-center gap-3 mb-6">
@@ -204,7 +344,7 @@ export default function ReportPage() {
                   <CheckCircle2 className="w-6 h-6 text-green-500" />
                 </div>
                 <p className="text-gray-600">
-                  No issues detected! Your app looks ready for submission.
+                  No additional issues detected.
                 </p>
               </div>
             </Card>
@@ -361,16 +501,58 @@ export default function ReportPage() {
           transition={{ duration: 0.4, delay: 0.75 }}
           className="mt-16 mb-8 flex flex-col sm:flex-row items-center justify-center gap-3"
         >
-          <Button onClick={() => router.push("/check")}>
-            <ExternalLink className="w-4 h-4" />
-            Run Another Check
-          </Button>
           <Button variant="secondary" onClick={() => router.push("/dashboard")}>
             <ArrowLeft className="w-4 h-4" />
             Back to Dashboard
           </Button>
+          <Button onClick={handleRunAnother}>
+            Run Another Check
+          </Button>
         </motion.div>
       </div>
+
+      {/* Buy Credits Modal */}
+      {showBuyModal && (
+        <div
+          className="fixed inset-0 z-[100] bg-black/40 flex items-center justify-center px-4"
+          onClick={() => setShowBuyModal(false)}
+        >
+          <div
+            className="bg-white rounded-2xl shadow-xl p-6 w-full max-w-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h3 className="text-lg font-semibold text-gray-900 text-center mb-1">
+              You&rsquo;re out of scans.
+            </h3>
+            <p className="text-sm text-gray-400 text-center mb-6">
+              Add more to continue checking apps.
+            </p>
+
+            <div className="grid grid-cols-3 gap-4">
+              {PRICING.map((tier) => (
+                <div
+                  key={tier.credits}
+                  className="bg-white rounded-2xl border-2 border-blue-400 shadow-card p-5 flex flex-col items-center justify-center text-center"
+                >
+                  <p className="text-2xl font-bold text-gray-900">{tier.label}</p>
+                  <p className="text-sm text-gray-400 mt-1">${tier.price}</p>
+                  <button
+                    onClick={() => handlePurchase(tier.credits)}
+                    disabled={purchaseLoading !== null}
+                    className="mt-4 inline-flex items-center justify-center px-5 py-2 text-sm font-medium text-white rounded-xl gradient-bg border-2 border-blue-400 hover:brightness-110 active:scale-[0.98] transition-all duration-200 disabled:opacity-50 min-w-[100px]"
+                  >
+                    {purchaseLoading === tier.credits ? (
+                      <LoadingSpinner size="sm" color="#FFFFFF" />
+                    ) : (
+                      "Purchase"
+                    )}
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

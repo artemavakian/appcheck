@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, Zap } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 
@@ -72,8 +72,8 @@ export default function BuyCreditsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50/50">
-      <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-gray-200/60">
+    <div className="h-screen flex flex-col bg-gray-50/50 overflow-hidden">
+      <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-gray-200/60 shrink-0">
         <div className="max-w-6xl mx-auto px-6 h-16 flex items-center">
           <button
             onClick={() => router.push("/dashboard")}
@@ -85,56 +85,41 @@ export default function BuyCreditsPage() {
         </div>
       </nav>
 
-      <main className="max-w-xl mx-auto px-6 py-16 md:py-24">
-        <div className="text-center mb-12">
-          <div className="w-14 h-14 rounded-2xl gradient-bg flex items-center justify-center mx-auto mb-5">
-            <Zap size={24} className="text-white" />
-          </div>
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">
-            Buy Scan Credits
-          </h1>
-          <p className="mt-3 text-gray-500 text-lg">
-            Each credit lets you run one full App Store submission analysis.
-          </p>
-        </div>
-
+      <main className="flex-1 flex flex-col items-center justify-center px-6">
         {error && (
-          <div className="mb-8 p-4 rounded-xl bg-red-50 border border-red-200 text-red-700 text-sm text-center">
+          <div className="mb-6 p-4 rounded-xl bg-red-50 border border-red-200 text-red-700 text-sm text-center max-w-3xl w-full">
             {error}
           </div>
         )}
 
-        <div className="space-y-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 w-full max-w-3xl">
           {PRICING.map((tier) => (
             <div
               key={tier.credits}
-              className="bg-white rounded-2xl border-2 border-blue-400 shadow-card p-6 flex items-center justify-between"
+              className="bg-white rounded-2xl border-2 border-blue-400 shadow-card p-8 flex flex-col items-center justify-center text-center aspect-square"
             >
-              <div>
-                <p className="text-xl font-bold text-gray-900">
-                  {tier.label}
-                </p>
-                <p className="text-sm text-gray-400 mt-0.5">
-                  ${(tier.price / tier.credits).toFixed(2)} per scan
-                </p>
-              </div>
+              <p className="text-4xl font-bold text-gray-900">{tier.label}</p>
+              <p className="text-lg text-gray-400 mt-2">${tier.price}</p>
+              <p className="text-sm text-gray-400 mt-0.5">
+                ${(tier.price / tier.credits).toFixed(2)} per scan
+              </p>
 
               <button
                 onClick={() => handlePurchase(tier.credits)}
                 disabled={purchaseLoading !== null}
-                className="relative inline-flex items-center justify-center gap-2 px-6 py-3 text-base font-medium text-white rounded-xl gradient-bg border-2 border-blue-400 shadow-md hover:shadow-lg hover:brightness-110 active:scale-[0.98] transition-all duration-200 disabled:opacity-50 disabled:pointer-events-none min-w-[120px]"
+                className="mt-6 inline-flex items-center justify-center gap-2 px-8 py-3 text-base font-medium text-white rounded-xl gradient-bg border-2 border-blue-400 shadow-md hover:shadow-lg hover:brightness-110 active:scale-[0.98] transition-all duration-200 disabled:opacity-50 disabled:pointer-events-none min-w-[140px]"
               >
                 {purchaseLoading === tier.credits ? (
                   <LoadingSpinner size="sm" color="#FFFFFF" />
                 ) : (
-                  <>${tier.price}</>
+                  "Purchase"
                 )}
               </button>
             </div>
           ))}
         </div>
 
-        <p className="mt-8 text-center text-xs text-gray-400">
+        <p className="mt-6 text-center text-xs text-gray-400">
           Payments are processed securely by Stripe. Credits are added
           instantly after purchase.
         </p>
