@@ -10,7 +10,7 @@ import {
   Clock,
   CheckCircle2,
   X,
-  Trash2,
+  Trash,
   FileText,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
@@ -42,19 +42,6 @@ function formatDate(iso: string) {
     day: "numeric",
     year: "numeric",
   });
-}
-
-function scoreColor(score: number) {
-  if (score >= 80) return "text-green-600 bg-green-50";
-  if (score >= 50) return "text-amber-600 bg-amber-50";
-  return "text-red-600 bg-red-50";
-}
-
-function categoryColor(cat: string) {
-  const lower = cat.toLowerCase();
-  if (lower.includes("low")) return "text-green-600";
-  if (lower.includes("moderate")) return "text-amber-600";
-  return "text-red-600";
 }
 
 function DashboardPage() {
@@ -191,11 +178,11 @@ function DashboardPage() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
-          className="grid grid-cols-1 md:grid-cols-2 gap-4"
+          className="grid grid-cols-2 gap-4 max-w-xl"
         >
           <div
             onClick={handleRunCheck}
-            className="bg-white rounded-2xl border border-gray-200 shadow-card p-6 cursor-pointer hover:-translate-y-0.5 hover:shadow-lg transition-all duration-200 flex flex-col items-center justify-center text-center"
+            className="bg-white rounded-2xl border border-gray-200 shadow-card aspect-square cursor-pointer hover:-translate-y-0.5 hover:shadow-lg transition-all duration-200 flex flex-col items-center justify-center text-center p-4"
           >
             <span className="text-lg font-semibold text-gray-900">
               Run App Check
@@ -207,12 +194,9 @@ function DashboardPage() {
             />
           </div>
 
-          <div className="bg-white rounded-2xl border border-gray-200 shadow-card p-6 flex flex-col items-center justify-center text-center">
-            <p className="text-sm font-medium text-gray-400">
-              Available Checks
-            </p>
-            <p className="text-4xl font-bold text-gray-900 mt-1">
-              {credits}
+          <div className="bg-white rounded-2xl border border-gray-200 shadow-card aspect-square flex flex-col items-center justify-center text-center p-4">
+            <p className="text-lg font-semibold text-gray-900">
+              {credits} Remaining {credits === 1 ? "Check" : "Checks"}
             </p>
             <Link
               href="/buy-credits"
@@ -261,25 +245,20 @@ function DashboardPage() {
                   initial={{ opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3, delay: i * 0.05 }}
+                  className="flex items-center gap-3"
                 >
-                  <Card padding="md" className="group">
-                    <div className="flex items-start">
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setDeleteTarget(report);
-                        }}
-                        className="shrink-0 mr-3 mt-0.5 text-gray-400 hover:text-red-500 transition-colors"
-                        aria-label="Delete report"
-                      >
-                        <Trash2 size={16} />
-                      </button>
+                  <button
+                    onClick={() => setDeleteTarget(report)}
+                    className="shrink-0 text-gray-400 hover:text-red-500 transition-colors"
+                    aria-label="Delete report"
+                  >
+                    <Trash size={16} />
+                  </button>
 
-                      <Link
-                        href={`/report/${report.id}`}
-                        className="flex-1 min-w-0 flex items-start justify-between"
-                      >
-                        <div className="flex-1 min-w-0">
+                  <Link href={`/report/${report.id}`} className="flex-1 min-w-0">
+                    <Card hoverable padding="md" className="group">
+                      <div className="flex items-center justify-between">
+                        <div className="min-w-0">
                           <h3 className="font-semibold text-gray-900 truncate">
                             {report.app_name}
                           </h3>
@@ -291,40 +270,13 @@ function DashboardPage() {
                           </div>
                         </div>
 
-                        <div className="flex items-center gap-3 ml-4">
-                          <div className="text-right">
-                            {report.results_json?.hardFails?.length > 0 ? (
-                              <span className="inline-flex items-center px-2.5 py-1 rounded-lg text-sm font-semibold text-red-600 bg-red-50">
-                                Likely Rejected
-                              </span>
-                            ) : (
-                              <>
-                                <span
-                                  className={`inline-flex items-center px-2.5 py-1 rounded-lg text-sm font-semibold ${scoreColor(
-                                    report.approval_score
-                                  )}`}
-                                >
-                                  {report.approval_score}%
-                                </span>
-                                <p
-                                  className={`text-xs mt-1 font-medium ${categoryColor(
-                                    report.approval_category
-                                  )}`}
-                                >
-                                  {report.approval_category}
-                                </p>
-                              </>
-                            )}
-                          </div>
-
-                          <ChevronRight
-                            size={16}
-                            className="text-gray-300 group-hover:text-gray-500 transition-colors"
-                          />
-                        </div>
-                      </Link>
-                    </div>
-                  </Card>
+                        <ChevronRight
+                          size={16}
+                          className="text-gray-300 group-hover:text-gray-500 transition-colors shrink-0 ml-4"
+                        />
+                      </div>
+                    </Card>
+                  </Link>
                 </motion.div>
               ))}
             </div>

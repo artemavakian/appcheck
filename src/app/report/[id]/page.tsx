@@ -209,9 +209,8 @@ export default function ReportPage() {
             className="mt-10"
           >
             <div className="bg-red-50 border-2 border-red-200 rounded-2xl p-8 text-center">
-              <XCircle className="w-12 h-12 text-red-500 mx-auto mb-3" />
               <h2 className="text-2xl font-bold text-red-700">
-                Will Likely Be Rejected
+                ❌ Will Likely Be Rejected
               </h2>
               <p className="text-red-600/80 mt-2 text-sm max-w-md mx-auto">
                 Critical issues were detected that almost always result in rejection.

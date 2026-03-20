@@ -7,9 +7,9 @@ import { createClient } from "@/lib/supabase/client";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 
 const PRICING = [
-  { credits: 1, price: 7, label: "1 Scan" },
-  { credits: 5, price: 25, label: "5 Scans" },
-  { credits: 15, price: 45, label: "15 Scans" },
+  { credits: 1, price: 7, label: "1 Scan", perScan: "$7.00" },
+  { credits: 5, price: 25, label: "5 Scans", perScan: "$5.00" },
+  { credits: 15, price: 45, label: "15 Scans", perScan: "$3.00" },
 ];
 
 export default function BuyCreditsPage() {
@@ -72,7 +72,7 @@ export default function BuyCreditsPage() {
   }
 
   return (
-    <div className="h-screen flex flex-col bg-gray-50/50 overflow-hidden">
+    <div className="h-screen flex flex-col bg-white overflow-hidden">
       <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-gray-200/60 shrink-0">
         <div className="max-w-6xl mx-auto px-6 h-16 flex items-center">
           <button
@@ -87,30 +87,44 @@ export default function BuyCreditsPage() {
 
       <main className="flex-1 flex flex-col items-center justify-center px-6">
         {error && (
-          <div className="mb-6 p-4 rounded-xl bg-red-50 border border-red-200 text-red-700 text-sm text-center max-w-3xl w-full">
+          <div className="mb-6 p-4 rounded-xl bg-red-50 border border-red-200 text-red-700 text-sm text-center max-w-4xl w-full">
             {error}
           </div>
         )}
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 w-full max-w-5xl">
-          {PRICING.map((tier) => (
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 w-full max-w-5xl">
+          {PRICING.map((tier, i) => (
             <div
               key={tier.credits}
-              className="bg-white rounded-3xl border-2 border-blue-400 shadow-card p-10 flex flex-col items-center justify-center text-center aspect-square"
+              className={`rounded-3xl aspect-square flex flex-col items-center justify-center text-center p-8 transition-all duration-200 hover:-translate-y-1 hover:shadow-xl ${
+                i === 1
+                  ? "bg-gray-900 text-white shadow-lg"
+                  : "bg-gray-50 border border-gray-200 shadow-card"
+              }`}
             >
-              <p className="text-5xl font-bold text-gray-900">{tier.label}</p>
-              <p className="text-2xl text-gray-400 mt-3">${tier.price}</p>
-              <p className="text-base text-gray-400 mt-1">
-                ${(tier.price / tier.credits).toFixed(2)} per scan
+              <p className={`text-5xl font-bold ${i === 1 ? "text-white" : "text-gray-900"}`}>
+                {tier.label}
+              </p>
+              <div className="mt-4">
+                <span className={`text-3xl font-bold ${i === 1 ? "text-white" : "text-gray-900"}`}>
+                  ${tier.price}
+                </span>
+              </div>
+              <p className={`text-sm mt-1 ${i === 1 ? "text-gray-400" : "text-gray-400"}`}>
+                {tier.perScan} per scan
               </p>
 
               <button
                 onClick={() => handlePurchase(tier.credits)}
                 disabled={purchaseLoading !== null}
-                className="mt-8 inline-flex items-center justify-center gap-2 px-10 py-4 text-lg font-medium text-white rounded-xl gradient-bg border-2 border-blue-400 shadow-md hover:shadow-lg hover:brightness-110 active:scale-[0.98] transition-all duration-200 disabled:opacity-50 disabled:pointer-events-none min-w-[160px]"
+                className={`mt-8 inline-flex items-center justify-center px-10 py-4 text-lg font-medium rounded-xl shadow-md hover:shadow-lg active:scale-[0.98] transition-all duration-200 disabled:opacity-50 disabled:pointer-events-none min-w-[160px] ${
+                  i === 1
+                    ? "bg-white text-gray-900 hover:bg-gray-100"
+                    : "text-white gradient-bg hover:brightness-110"
+                }`}
               >
                 {purchaseLoading === tier.credits ? (
-                  <LoadingSpinner size="sm" color="#FFFFFF" />
+                  <LoadingSpinner size="sm" color={i === 1 ? "#111" : "#FFF"} />
                 ) : (
                   "Purchase"
                 )}
@@ -119,7 +133,7 @@ export default function BuyCreditsPage() {
           ))}
         </div>
 
-        <p className="mt-6 text-center text-xs text-gray-400">
+        <p className="mt-8 text-center text-xs text-gray-400">
           Payments are processed securely by Stripe. Credits are added
           instantly after purchase.
         </p>

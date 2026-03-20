@@ -76,6 +76,7 @@ export interface WizardData {
   descriptionMentionsExternalSubs: boolean;
   screenshotsMatchFeatures: boolean;
   appDescription: string;
+  appKeywords: string;
   screenshots: string[];
 }
 

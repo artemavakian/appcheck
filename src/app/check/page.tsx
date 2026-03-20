@@ -59,6 +59,7 @@ const defaultWizardData: WizardData = {
   descriptionMentionsExternalSubs: false,
   screenshotsMatchFeatures: true,
   appDescription: "",
+  appKeywords: "",
   screenshots: [],
 };
 
@@ -227,6 +228,7 @@ export default function CheckPage() {
   const [screenshotFiles, setScreenshotFiles] = useState<File[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [showIncompleteWarning, setShowIncompleteWarning] = useState(false);
 
   const update = useCallback(
     <K extends keyof WizardData>(key: K, value: WizardData[K]) => {
@@ -257,7 +259,25 @@ export default function CheckPage() {
       reader.readAsDataURL(file);
     });
 
+  const getIncompleteFields = (): string[] => {
+    const missing: string[] = [];
+    if (!data.appDescription.trim()) missing.push("App Description");
+    if (screenshotFiles.length === 0) missing.push("Screenshots");
+    if (!data.appKeywords.trim()) missing.push("Keywords");
+    return missing;
+  };
+
+  const handleAnalyzeClick = () => {
+    const incomplete = getIncompleteFields();
+    if (incomplete.length > 0) {
+      setShowIncompleteWarning(true);
+    } else {
+      handleSubmit();
+    }
+  };
+
   const handleSubmit = async () => {
+    setShowIncompleteWarning(false);
     setIsSubmitting(true);
     setError(null);
 
@@ -267,7 +287,10 @@ export default function CheckPage() {
       );
 
       const ocrDetectedWords = await processScreenshots(screenshotDataUrls);
-      const descriptionFlags = scanForTriggerWords(data.appDescription);
+      const descriptionFlags = [
+        ...scanForTriggerWords(data.appDescription),
+        ...scanForTriggerWords(data.appKeywords),
+      ].filter((v, i, a) => a.indexOf(v) === i);
 
       const finalData = { ...data, screenshots: screenshotDataUrls };
 
@@ -429,13 +452,59 @@ export default function CheckPage() {
               <ChevronRight size={16} />
             </Button>
           ) : (
-            <Button onClick={handleSubmit} disabled={!canProceed()} className="gap-2">
+            <Button onClick={handleAnalyzeClick} disabled={!canProceed()} className="gap-2">
               <Sparkles size={16} />
               Analyze Submission
             </Button>
           )}
         </div>
       </div>
+
+      {/* Incomplete fields warning */}
+      {showIncompleteWarning && (
+        <div
+          className="fixed inset-0 z-[100] bg-black/40 flex items-center justify-center px-4"
+          onClick={() => setShowIncompleteWarning(false)}
+        >
+          <div
+            className="bg-white rounded-2xl shadow-xl p-8 w-full max-w-md"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h3 className="text-lg font-semibold text-gray-900">
+              Some fields are incomplete
+            </h3>
+            <p className="mt-3 text-sm text-gray-500 leading-relaxed">
+              Leaving certain sections unanswered may reduce the accuracy of
+              your AppCheck results. For the most reliable review, we recommend
+              completing all sections before analyzing your submission.
+            </p>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {getIncompleteFields().map((field) => (
+                <span
+                  key={field}
+                  className="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-medium bg-amber-50 text-amber-700 border border-amber-200"
+                >
+                  {field}
+                </span>
+              ))}
+            </div>
+            <div className="flex gap-3 mt-6">
+              <button
+                onClick={() => setShowIncompleteWarning(false)}
+                className="flex-1 px-4 py-2.5 rounded-xl text-sm font-medium bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors"
+              >
+                Go Back
+              </button>
+              <button
+                onClick={handleSubmit}
+                className="flex-1 px-4 py-2.5 rounded-xl text-sm font-medium text-white gradient-bg hover:brightness-110 transition-all"
+              >
+                Analyze
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -899,22 +968,25 @@ function StepDescription({ data, update }: StepProps) {
     <div className="space-y-6">
       <div>
         <h2 className="text-xl font-semibold text-gray-900">
-          App Description
+          App Description &amp; Keywords
         </h2>
         <p className="text-sm text-gray-500 mt-1">
-          Paste your App Store description for analysis
+          Paste your App Store description and keywords for analysis
         </p>
       </div>
 
       <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1.5">
+          Description
+        </label>
         <textarea
           value={data.appDescription}
           onChange={(e) => update("appDescription", e.target.value)}
-          rows={8}
+          rows={7}
           placeholder="Paste your full App Store description here..."
           className="input-field resize-none"
         />
-        <div className="flex justify-end mt-2">
+        <div className="flex justify-end mt-1">
           <span
             className={`text-xs font-medium ${
               charCount > 4000 ? "text-red-500" : "text-gray-400"
@@ -923,6 +995,22 @@ function StepDescription({ data, update }: StepProps) {
             {charCount.toLocaleString()} characters
           </span>
         </div>
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1.5">
+          Keywords
+        </label>
+        <textarea
+          value={data.appKeywords}
+          onChange={(e) => update("appKeywords", e.target.value)}
+          rows={3}
+          placeholder="Paste your App Store keywords here (comma-separated)..."
+          className="input-field resize-none"
+        />
+        <p className="text-xs text-gray-400 mt-1">
+          These will be scanned for potential guideline flags, just like your description.
+        </p>
       </div>
     </div>
   );

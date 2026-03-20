@@ -142,7 +142,9 @@ export default function Home() {
           </h2>
           <p className="mt-6 text-gray-500 text-lg leading-relaxed">
             We are an independent developer duo building software and mobile
-            apps full time. Over the past year, we&rsquo;ve seen review times
+            apps full time. We&rsquo;ve had apps rejected for the most
+            minuscule, obscure details imaginable. Over the past year,
+            we&rsquo;ve seen review times
             for apps submitted to the App Store grow longer and less
             predictable. Waiting days&mdash;and often weeks&mdash;only to
             receive a rejection for a simple guideline issue became a

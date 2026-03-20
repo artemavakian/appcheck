@@ -19,7 +19,7 @@ export default function Navbar() {
           AppCheck
         </a>
 
-        <div className="hidden sm:flex items-center gap-14 absolute left-1/2 -translate-x-1/2">
+        <div className="hidden sm:flex items-center gap-8">
           {navLinks.map((link) => (
             <a
               key={link.href}
@@ -29,14 +29,13 @@ export default function Navbar() {
               {link.label}
             </a>
           ))}
+          <a
+            href="/login"
+            className="text-sm text-gray-400 hover:text-gray-600 transition-colors"
+          >
+            Sign In
+          </a>
         </div>
-
-        <a
-          href="/login"
-          className="hidden sm:inline-flex text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors shrink-0"
-        >
-          Sign In
-        </a>
 
         <button
           onClick={() => setMobileOpen(!mobileOpen)}
@@ -61,7 +60,7 @@ export default function Navbar() {
           ))}
           <a
             href="/login"
-            className="block text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors"
+            className="block text-sm text-gray-400 hover:text-gray-600 transition-colors"
             onClick={() => setMobileOpen(false)}
           >
             Sign In
