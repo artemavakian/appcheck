@@ -183,7 +183,8 @@ function DashboardPage() {
         >
           <div
             onClick={handleRunCheck}
-            className="bg-white rounded-2xl border border-gray-200 shadow-card aspect-square cursor-pointer hover:-translate-y-0.5 hover:shadow-lg transition-all duration-200 flex flex-col items-center justify-center text-center p-4"
+            className="bg-white border border-gray-200 shadow-card aspect-square cursor-pointer hover:-translate-y-0.5 hover:shadow-lg transition-all duration-200 flex flex-col items-center justify-center text-center p-4"
+            style={{ borderRadius: "22.5%" }}
           >
             <span className="text-lg font-semibold text-gray-900">
               Run App Check
@@ -224,7 +225,7 @@ function DashboardPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.1 }}
         >
-          <h2 className="text-xl font-semibold text-gray-900 tracking-tight mb-6">
+          <h2 className="text-lg font-medium text-gray-400 tracking-tight mb-6">
             Previous Reports
           </h2>
 
