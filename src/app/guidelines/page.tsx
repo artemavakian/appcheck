@@ -147,8 +147,8 @@ function HomeView({
       </div>
 
       {/* Search + Most Common side by side */}
-      <div className="grid grid-cols-2 gap-3 mb-8">
-        <div className="relative">
+      <div className="flex items-center gap-3 mb-8">
+        <div className="relative flex-1">
           <Search
             size={18}
             className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 z-10"
@@ -158,7 +158,7 @@ function HomeView({
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search guidelines…"
-            className="w-full h-full pl-11 pr-4 py-4 rounded-2xl border border-gray-200 bg-white text-gray-900 placeholder-gray-400 shadow-card focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20 outline-none transition-all"
+            className="w-full pl-11 pr-4 py-3 rounded-full border border-gray-200 bg-white text-gray-900 placeholder-gray-400 shadow-sm focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20 outline-none transition-all text-sm"
           />
 
           {search.trim() && (
@@ -188,12 +188,12 @@ function HomeView({
 
         <button
           onClick={() => onSelectSection(MOST_COMMON_SECTION)}
-          className="gradient-bg rounded-2xl shadow-card p-5 hover:-translate-y-0.5 hover:shadow-lg transition-all duration-200 flex items-center justify-center gap-2"
+          className="shrink-0 gradient-bg rounded-xl shadow-card px-4 py-3 hover:-translate-y-0.5 hover:shadow-lg transition-all duration-200 flex items-center gap-1.5"
         >
-          <span className="text-base font-semibold text-white">
+          <span className="text-sm font-semibold text-white whitespace-nowrap">
             Most Common Rejections
           </span>
-          <ArrowUpRight size={18} className="text-white/80" />
+          <ArrowUpRight size={16} className="text-white/80" />
         </button>
       </div>
 

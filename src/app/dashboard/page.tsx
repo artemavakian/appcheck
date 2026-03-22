@@ -179,19 +179,19 @@ function DashboardPage() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
-          className="grid grid-cols-3 gap-4 max-w-3xl"
+          className="grid grid-cols-[2fr_1fr_1fr] gap-4 max-w-4xl"
         >
           <div
             onClick={handleRunCheck}
-            className="bg-white border border-gray-200 shadow-card aspect-square cursor-pointer hover:-translate-y-0.5 hover:shadow-lg transition-all duration-200 flex flex-col items-center justify-center text-center p-4"
-            style={{ borderRadius: "22.5%" }}
+            className="bg-white border border-gray-200 shadow-card aspect-square cursor-pointer hover:-translate-y-1 hover:shadow-lg transition-all duration-200 flex flex-col items-center justify-center text-center p-6"
+            style={{ borderRadius: "15.5%" }}
           >
-            <span className="text-lg font-semibold text-gray-900">
+            <span className="text-2xl font-semibold text-gray-900">
               Run App Check
             </span>
             <ArrowRight
-              size={24}
-              className="text-gray-400 mt-3"
+              size={28}
+              className="text-gray-400 mt-4"
               strokeWidth={1.5}
             />
           </div>
