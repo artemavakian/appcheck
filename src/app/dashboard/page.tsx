@@ -174,17 +174,17 @@ function DashboardPage() {
       </AnimatePresence>
 
       <main className="max-w-6xl mx-auto px-6 py-10 space-y-10">
-        {/* Action squares */}
+        {/* Action tiles */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
-          className="grid grid-cols-[2fr_1fr_1fr] gap-4 max-w-4xl"
+          className="flex gap-4 max-w-2xl"
         >
           <div
             onClick={handleRunCheck}
-            className="bg-white border border-gray-200 shadow-card aspect-square cursor-pointer hover:-translate-y-1 hover:shadow-lg transition-all duration-200 flex flex-col items-center justify-center text-center p-6"
-            style={{ borderRadius: "15.5%" }}
+            className="bg-white border border-gray-200 shadow-card aspect-square cursor-pointer hover:-translate-y-1 hover:shadow-lg transition-all duration-200 flex flex-col items-center justify-center text-center p-6 shrink-0"
+            style={{ borderRadius: "15.5%", width: "calc(50% - 8px)" }}
           >
             <span className="text-2xl font-semibold text-gray-900">
               Run App Check
@@ -196,27 +196,33 @@ function DashboardPage() {
             />
           </div>
 
-          <div className="bg-white rounded-2xl border border-gray-200 shadow-card aspect-square flex flex-col items-center justify-center text-center p-4">
-            <p className="text-lg font-semibold text-gray-900">
-              {credits} Remaining {credits === 1 ? "Check" : "Checks"}
-            </p>
-            <Link
-              href="/buy-credits"
-              className="inline-flex items-center justify-center mt-4 px-5 py-2.5 text-sm font-medium text-white rounded-xl gradient-bg hover:brightness-110 active:scale-[0.98] transition-all duration-200"
+          <div className="flex flex-col gap-4 flex-1">
+            <div
+              className="bg-white border border-gray-200 shadow-card flex-1 flex flex-col items-center justify-center text-center p-4"
+              style={{ borderRadius: "15.5%" }}
             >
-              Get More
+              <p className="text-lg font-semibold text-gray-900">
+                {credits} Remaining {credits === 1 ? "Check" : "Checks"}
+              </p>
+              <Link
+                href="/buy-credits"
+                className="inline-flex items-center justify-center mt-3 px-5 py-2 text-sm font-medium text-white rounded-xl gradient-bg hover:brightness-110 active:scale-[0.98] transition-all duration-200"
+              >
+                Get More
+              </Link>
+            </div>
+
+            <Link
+              href="/guidelines"
+              className="bg-white border border-gray-200 shadow-card flex-1 flex flex-col items-center justify-center text-center p-4 hover:-translate-y-0.5 hover:shadow-lg transition-all duration-200"
+              style={{ borderRadius: "15.5%" }}
+            >
+              <BookOpen size={22} className="text-gray-400 mb-2" strokeWidth={1.5} />
+              <span className="text-base font-semibold text-gray-900">
+                Guideline Library
+              </span>
             </Link>
           </div>
-
-          <Link
-            href="/guidelines"
-            className="bg-white rounded-2xl border border-gray-200 shadow-card aspect-square cursor-pointer hover:-translate-y-0.5 hover:shadow-lg transition-all duration-200 flex flex-col items-center justify-center text-center p-4"
-          >
-            <BookOpen size={24} className="text-gray-400 mb-3" strokeWidth={1.5} />
-            <span className="text-lg font-semibold text-gray-900">
-              Guideline Library
-            </span>
-          </Link>
         </motion.div>
 
         {/* Previous Reports */}

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, ArrowUpRight, Search, ChevronDown } from "lucide-react";
+import { ArrowLeft, BookOpen, Search, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { createClient } from "@/lib/supabase/client";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
@@ -193,7 +193,7 @@ function HomeView({
           <span className="text-sm font-semibold text-white whitespace-nowrap">
             Most Common Rejections
           </span>
-          <ArrowUpRight size={16} className="text-white/80" />
+          <BookOpen size={16} className="text-white/80" />
         </button>
       </div>
 
@@ -211,7 +211,7 @@ function HomeView({
             className="w-full text-left bg-white rounded-2xl border border-gray-200 shadow-card p-5 hover:-translate-y-0.5 hover:shadow-lg transition-all duration-200 flex items-center justify-between"
           >
             <span className="text-base font-semibold text-gray-900">
-              {cat.id}. {cat.name} Guidelines
+              {cat.id}. {cat.name}
             </span>
             <span className="text-xs text-gray-400">
               {cat.guidelines.length} guidelines
