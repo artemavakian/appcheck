@@ -76,7 +76,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           />
         )}
         {variant === "apple" && !loading && <AppleLogo />}
-        <span className={clsx(loading && "opacity-70")}>{children}</span>
+        <span className={clsx("inline-flex items-center gap-[inherit]", loading && "opacity-70")}>{children}</span>
       </button>
     );
   }

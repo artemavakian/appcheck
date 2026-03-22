@@ -35,6 +35,12 @@ body {
   .gradient-bg-hover {
     background: linear-gradient(135deg, #0977E5, #4AB8E8);
   }
+  .text-emboss {
+    text-shadow:
+      0 1px 0 rgba(255,255,255,0.4),
+      0 2px 4px rgba(0,0,0,0.08),
+      0 4px 8px rgba(0,0,0,0.04);
+  }
 }
 
 @layer components {

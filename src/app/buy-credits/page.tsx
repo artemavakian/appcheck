@@ -72,7 +72,7 @@ export default function BuyCreditsPage() {
   }
 
   return (
-    <div className="h-screen flex flex-col bg-white overflow-hidden">
+    <div className="h-screen flex flex-col bg-gray-50/50 overflow-hidden">
       <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-gray-200/60 shrink-0">
         <div className="max-w-6xl mx-auto px-6 h-16 flex items-center">
           <button
@@ -93,38 +93,28 @@ export default function BuyCreditsPage() {
         )}
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 w-full max-w-5xl">
-          {PRICING.map((tier, i) => (
+          {PRICING.map((tier) => (
             <div
               key={tier.credits}
-              className={`rounded-3xl aspect-square flex flex-col items-center justify-center text-center p-8 transition-all duration-200 hover:-translate-y-1 hover:shadow-xl ${
-                i === 1
-                  ? "bg-gray-900 text-white shadow-lg"
-                  : "bg-gray-50 border border-gray-200 shadow-card"
-              }`}
+              className="bg-white rounded-3xl border border-gray-200 shadow-card aspect-square flex flex-col items-center justify-center text-center p-8 transition-all duration-200 hover:-translate-y-1 hover:shadow-xl"
             >
-              <p className={`text-5xl font-bold ${i === 1 ? "text-white" : "text-gray-900"}`}>
+              <p className="text-5xl font-bold text-gray-900 text-emboss">
                 {tier.label}
               </p>
-              <div className="mt-4">
-                <span className={`text-3xl font-bold ${i === 1 ? "text-white" : "text-gray-900"}`}>
-                  ${tier.price}
-                </span>
-              </div>
-              <p className={`text-sm mt-1 ${i === 1 ? "text-gray-400" : "text-gray-400"}`}>
+              <p className="text-3xl font-bold text-gray-900 mt-4 text-emboss">
+                ${tier.price}
+              </p>
+              <p className="text-sm text-gray-400 mt-1">
                 {tier.perScan} per scan
               </p>
 
               <button
                 onClick={() => handlePurchase(tier.credits)}
                 disabled={purchaseLoading !== null}
-                className={`mt-8 inline-flex items-center justify-center px-10 py-4 text-lg font-medium rounded-xl shadow-md hover:shadow-lg active:scale-[0.98] transition-all duration-200 disabled:opacity-50 disabled:pointer-events-none min-w-[160px] ${
-                  i === 1
-                    ? "bg-white text-gray-900 hover:bg-gray-100"
-                    : "text-white gradient-bg hover:brightness-110"
-                }`}
+                className="mt-8 inline-flex items-center justify-center px-10 py-4 text-lg font-medium text-white rounded-xl gradient-bg shadow-md hover:shadow-lg hover:brightness-110 active:scale-[0.98] transition-all duration-200 disabled:opacity-50 disabled:pointer-events-none min-w-[160px]"
               >
                 {purchaseLoading === tier.credits ? (
-                  <LoadingSpinner size="sm" color={i === 1 ? "#111" : "#FFF"} />
+                  <LoadingSpinner size="sm" color="#FFF" />
                 ) : (
                   "Purchase"
                 )}

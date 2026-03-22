@@ -12,6 +12,7 @@ import {
   X,
   Trash,
   FileText,
+  BookOpen,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { Card } from "@/components/ui/Card";
@@ -173,12 +174,12 @@ function DashboardPage() {
       </AnimatePresence>
 
       <main className="max-w-6xl mx-auto px-6 py-10 space-y-10">
-        {/* Two action squares */}
+        {/* Action squares */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
-          className="grid grid-cols-2 gap-4 max-w-xl"
+          className="grid grid-cols-3 gap-4 max-w-3xl"
         >
           <div
             onClick={handleRunCheck}
@@ -205,6 +206,16 @@ function DashboardPage() {
               Get More
             </Link>
           </div>
+
+          <Link
+            href="/guidelines"
+            className="bg-white rounded-2xl border border-gray-200 shadow-card aspect-square cursor-pointer hover:-translate-y-0.5 hover:shadow-lg transition-all duration-200 flex flex-col items-center justify-center text-center p-4"
+          >
+            <BookOpen size={24} className="text-gray-400 mb-3" strokeWidth={1.5} />
+            <span className="text-lg font-semibold text-gray-900">
+              Guideline Library
+            </span>
+          </Link>
         </motion.div>
 
         {/* Previous Reports */}

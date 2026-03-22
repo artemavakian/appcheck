@@ -533,7 +533,7 @@ function StepAppBasics({ data, update }: StepProps) {
             type="text"
             value={data.appName}
             onChange={(e) => update("appName", e.target.value)}
-            placeholder="My Awesome App"
+            placeholder="My App"
             className="input-field"
           />
         </div>

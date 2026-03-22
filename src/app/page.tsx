@@ -148,10 +148,11 @@ export default function Home() {
             for apps submitted to the App Store grow longer and less
             predictable. Waiting days&mdash;and often weeks&mdash;only to
             receive a rejection for a simple guideline issue became a
-            frustrating and very costly part of the development process. We
-            built AppCheck to streamline that process by identifying potential
-            guideline violations before submission, helping developers save
-            time and avoid unnecessary review cycles.
+            frustrating and very costly part of the development process. With
+            AppCheck we were able to streamline that process by catching
+            potential guideline violations before submission and cut our review
+            times substantially. We&rsquo;re confident it can do the same for
+            you.
           </p>
         </div>
       </section>
