@@ -7,9 +7,9 @@ import { createClient } from "@/lib/supabase/client";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 
 const PRICING = [
-  { credits: 1, price: 7, label: "1 Scan", perScan: "$7.00" },
-  { credits: 5, price: 25, label: "5 Scans", perScan: "$5.00" },
-  { credits: 15, price: 45, label: "15 Scans", perScan: "$3.00" },
+  { credits: 1, price: 7, label: "1 App Check", perScan: "$7.00" },
+  { credits: 5, price: 25, label: "5 App Checks", perScan: "$5.00" },
+  { credits: 15, price: 45, label: "15 App Checks", perScan: "$3.00" },
 ];
 
 export default function BuyCreditsPage() {
@@ -105,7 +105,7 @@ export default function BuyCreditsPage() {
                 ${tier.price}
               </p>
               <p className="text-sm text-gray-400 mt-1">
-                {tier.perScan} per scan
+                {tier.perScan} per check
               </p>
 
               <button

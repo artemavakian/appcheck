@@ -22,9 +22,9 @@ import { createClient } from "@/lib/supabase/client";
 import type { Report, ReportResults, Issue, HardFail } from "@/lib/types";
 
 const PRICING = [
-  { credits: 1, price: 7, label: "1 Scan" },
-  { credits: 5, price: 25, label: "5 Scans" },
-  { credits: 15, price: 45, label: "15 Scans" },
+  { credits: 1, price: 7, label: "1 App Check" },
+  { credits: 5, price: 25, label: "5 App Checks" },
+  { credits: 15, price: 45, label: "15 App Checks" },
 ];
 
 function scoreColor(score: number): string {
@@ -533,7 +533,7 @@ export default function ReportPage() {
                   <p className="text-3xl font-bold text-gray-900">{tier.label}</p>
                   <p className="text-lg text-gray-400 mt-2">${tier.price}</p>
                   <p className="text-sm text-gray-400 mt-0.5">
-                    ${(tier.price / tier.credits).toFixed(2)} per scan
+                    ${(tier.price / tier.credits).toFixed(2)} per check
                   </p>
                   <button
                     onClick={() => handlePurchase(tier.credits)}
