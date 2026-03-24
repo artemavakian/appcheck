@@ -2,8 +2,9 @@ import { NextResponse } from "next/server";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 
 const PROMO_CODES: Record<string, number> = {
-  "3720613": 1,
-  "2943186": 10,
+  "4831926": 1,
+  "7290534": 5,
+  "6152847": 15,
 };
 
 export async function POST(request: Request) {

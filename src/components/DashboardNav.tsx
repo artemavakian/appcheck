@@ -61,11 +61,11 @@ export default function DashboardNav({ onRedeemSuccess }: DashboardNavProps) {
 
   return (
     <>
-      <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-gray-200/60">
-        <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+      <nav className="sticky top-0 z-50 bg-[#0a0a0a]/80 backdrop-blur-xl border-b border-white/[0.06]">
+        <div className="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
           <Link
             href="/dashboard"
-            className="text-xl font-bold tracking-tight text-gray-900"
+            className="text-lg font-bold tracking-tight text-white"
           >
             AppCheck
           </Link>
@@ -73,23 +73,23 @@ export default function DashboardNav({ onRedeemSuccess }: DashboardNavProps) {
           <div className="hidden sm:flex items-center gap-5">
             <button
               onClick={() => setShowRedeem(true)}
-              className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors"
+              className="text-sm font-medium text-white/40 hover:text-white/80 transition-colors"
             >
               Use Code
             </button>
             <button
               onClick={handleSignOut}
               disabled={signingOut}
-              className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors flex items-center gap-1.5 disabled:opacity-50"
+              className="text-sm font-medium text-white/40 hover:text-white/80 transition-colors flex items-center gap-1.5 disabled:opacity-50"
             >
               Sign Out
-              <LogOut size={14} />
+              <LogOut size={13} />
             </button>
           </div>
 
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="sm:hidden p-2 -mr-2 text-gray-600 hover:text-gray-900 transition-colors"
+            className="sm:hidden p-2 -mr-2 text-white/60 hover:text-white transition-colors"
             aria-label="Toggle menu"
           >
             {mobileOpen ? <X size={22} /> : <Menu size={22} />}
@@ -97,20 +97,20 @@ export default function DashboardNav({ onRedeemSuccess }: DashboardNavProps) {
         </div>
 
         {mobileOpen && (
-          <div className="sm:hidden border-t border-gray-200/60 bg-white/95 backdrop-blur-xl px-6 py-4 space-y-3">
+          <div className="sm:hidden border-t border-white/[0.06] bg-[#0a0a0a]/95 backdrop-blur-xl px-6 py-4 space-y-3">
             <button
               onClick={() => {
                 setShowRedeem(true);
                 setMobileOpen(false);
               }}
-              className="block text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors"
+              className="block text-sm font-medium text-white/50 hover:text-white transition-colors"
             >
               Use Code
             </button>
             <button
               onClick={handleSignOut}
               disabled={signingOut}
-              className="block text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors disabled:opacity-50"
+              className="block text-sm font-medium text-white/50 hover:text-white transition-colors disabled:opacity-50"
             >
               Sign Out
             </button>
@@ -120,7 +120,7 @@ export default function DashboardNav({ onRedeemSuccess }: DashboardNavProps) {
 
       {showRedeem && (
         <div
-          className="fixed inset-0 z-[100] bg-black/40 flex items-center justify-center px-4"
+          className="fixed inset-0 z-[100] bg-black/60 flex items-center justify-center px-4"
           onClick={() => {
             setShowRedeem(false);
             setRedeemError(null);
@@ -128,14 +128,14 @@ export default function DashboardNav({ onRedeemSuccess }: DashboardNavProps) {
           }}
         >
           <div
-            className="bg-white rounded-2xl shadow-xl p-6 w-full max-w-sm"
+            className="bg-[#1a1a1a] border border-white/10 rounded-2xl shadow-xl p-6 w-full max-w-sm"
             onClick={(e) => e.stopPropagation()}
           >
-            <h3 className="text-lg font-semibold text-gray-900 mb-1">
+            <h3 className="text-lg font-semibold text-white mb-1">
               Enter Code
             </h3>
-            <p className="text-sm text-gray-400 mb-4">
-              Redeem a promo code for scan credits.
+            <p className="text-sm text-white/40 mb-4">
+              Redeem a promo code for app checks.
             </p>
 
             <input
@@ -143,15 +143,15 @@ export default function DashboardNav({ onRedeemSuccess }: DashboardNavProps) {
               value={code}
               onChange={(e) => setCode(e.target.value)}
               placeholder="Enter code"
-              className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400/40 focus:border-blue-400"
+              className="w-full px-4 py-3 rounded-xl border border-white/10 bg-white/5 text-white text-sm placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-blue-400/40 focus:border-blue-400"
               onKeyDown={(e) => e.key === "Enter" && handleRedeem()}
             />
 
             {redeemError && (
-              <p className="mt-2 text-sm text-red-600">{redeemError}</p>
+              <p className="mt-2 text-sm text-red-400">{redeemError}</p>
             )}
             {redeemSuccess && (
-              <p className="mt-2 text-sm text-green-600">{redeemSuccess}</p>
+              <p className="mt-2 text-sm text-emerald-400">{redeemSuccess}</p>
             )}
 
             <div className="flex gap-3 mt-4">
@@ -161,7 +161,7 @@ export default function DashboardNav({ onRedeemSuccess }: DashboardNavProps) {
                   setRedeemError(null);
                   setRedeemSuccess(null);
                 }}
-                className="flex-1 px-4 py-2.5 rounded-xl text-sm font-medium bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors"
+                className="flex-1 px-4 py-2.5 rounded-xl text-sm font-medium bg-white/5 text-white/60 hover:bg-white/10 transition-colors"
               >
                 Cancel
               </button>

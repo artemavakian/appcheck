@@ -11,11 +11,10 @@ import {
   CheckCircle2,
   X,
   Trash,
-  FileText,
   BookOpen,
+  Plus,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
-import { Card } from "@/components/ui/Card";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 import DashboardNav from "@/components/DashboardNav";
 import type { User, Report } from "@/lib/types";
@@ -24,11 +23,8 @@ export default function DashboardPageWrapper() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen bg-white flex items-center justify-center">
-          <div className="flex flex-col items-center gap-4">
-            <LoadingSpinner size="lg" />
-            <p className="text-gray-400 text-sm">Loading dashboard…</p>
-          </div>
+        <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center">
+          <LoadingSpinner size="lg" />
         </div>
       }
     >
@@ -125,11 +121,8 @@ function DashboardPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
-        <div className="flex flex-col items-center gap-4">
-          <LoadingSpinner size="lg" />
-          <p className="text-gray-400 text-sm">Loading dashboard…</p>
-        </div>
+      <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center">
+        <LoadingSpinner size="lg" />
       </div>
     );
   }
@@ -145,7 +138,7 @@ function DashboardPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50/50">
+    <div className="min-h-screen bg-[#0a0a0a] text-white">
       <DashboardNav credits={credits} onRedeemSuccess={fetchUserData} />
 
       {/* Success banner */}
@@ -155,16 +148,16 @@ function DashboardPage() {
             initial={{ opacity: 0, y: -12 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
-            className="bg-green-50 border-b border-green-200"
+            className="bg-emerald-500/10 border-b border-emerald-500/20"
           >
             <div className="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between">
-              <div className="flex items-center gap-2 text-green-700 text-sm font-medium">
+              <div className="flex items-center gap-2 text-emerald-400 text-sm font-medium">
                 <CheckCircle2 size={16} />
                 Payment successful! Your credits have been added.
               </div>
               <button
                 onClick={() => setShowSuccessBanner(false)}
-                className="text-green-600 hover:text-green-800 transition-colors"
+                className="text-emerald-400/60 hover:text-emerald-400 transition-colors"
               >
                 <X size={16} />
               </button>
@@ -173,127 +166,148 @@ function DashboardPage() {
         )}
       </AnimatePresence>
 
-      <main className="max-w-6xl mx-auto px-6 py-10 space-y-10">
-        {/* Action tiles */}
+      <main className="max-w-5xl mx-auto px-6 py-8">
+        {/* Hero grid — takes up most of the viewport */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
-          className="flex gap-4 max-w-2xl"
+          transition={{ duration: 0.5 }}
+          className="grid grid-cols-3 grid-rows-2 gap-3"
+          style={{ height: "calc(100vh - 220px)", minHeight: "420px", maxHeight: "600px" }}
         >
-          <div
+          {/* Run App Check — spans 2 cols, 2 rows (biggest) */}
+          <motion.div
+            whileHover={{ scale: 1.01 }}
+            whileTap={{ scale: 0.99 }}
             onClick={handleRunCheck}
-            className="bg-white border border-gray-200 shadow-card aspect-square cursor-pointer hover:-translate-y-1 hover:shadow-lg transition-all duration-200 flex flex-col items-center justify-center text-center p-6 shrink-0"
-            style={{ borderRadius: "15.5%", width: "calc(50% - 8px)" }}
+            className="col-span-2 row-span-2 relative overflow-hidden rounded-3xl cursor-pointer group"
+            style={{
+              background: "linear-gradient(135deg, #0A84FF 0%, #5AC8FA 100%)",
+            }}
           >
-            <span className="text-2xl font-semibold text-gray-900">
-              Run App Check
-            </span>
-            <ArrowRight
-              size={28}
-              className="text-gray-400 mt-4"
-              strokeWidth={1.5}
-            />
-          </div>
-
-          <div className="flex flex-col gap-4 flex-1">
-            <div
-              className="bg-white border border-gray-200 shadow-card flex-1 flex flex-col items-center justify-center text-center p-4"
-              style={{ borderRadius: "15.5%" }}
-            >
-              <p className="text-lg font-semibold text-gray-900">
-                {credits} Remaining {credits === 1 ? "Check" : "Checks"}
-              </p>
-              <Link
-                href="/buy-credits"
-                className="inline-flex items-center justify-center mt-3 px-5 py-2 text-sm font-medium text-white rounded-xl gradient-bg hover:brightness-110 active:scale-[0.98] transition-all duration-200"
-              >
-                Get More
-              </Link>
+            <div className="absolute inset-0 bg-white/0 group-hover:bg-white/5 transition-colors duration-300" />
+            <div className="relative h-full flex flex-col justify-between p-8 md:p-10">
+              <div>
+                <p className="text-white/60 text-sm font-medium tracking-wide uppercase">
+                  Start Analysis
+                </p>
+                <h2 className="text-4xl md:text-5xl font-bold text-white mt-2 tracking-tight">
+                  Run App<br />Check
+                </h2>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center group-hover:bg-white/30 transition-colors">
+                  <ArrowRight size={24} className="text-white" />
+                </div>
+                <span className="text-white/50 text-sm">
+                  {credits > 0
+                    ? `${credits} ${credits === 1 ? "check" : "checks"} available`
+                    : "Purchase checks to begin"}
+                </span>
+              </div>
             </div>
+          </motion.div>
 
+          {/* Available Checks — top right */}
+          <motion.div
+            whileHover={{ scale: 1.02 }}
+            className="col-span-1 row-span-1 rounded-3xl bg-[#141414] border border-white/[0.06] flex flex-col items-center justify-center text-center p-5 relative overflow-hidden"
+          >
+            <p className="text-white/40 text-xs font-medium tracking-wide uppercase">
+              Available
+            </p>
+            <p className="text-5xl font-bold text-white mt-1 tabular-nums">
+              {credits}
+            </p>
+            <p className="text-white/30 text-xs mt-1">
+              {credits === 1 ? "Check" : "Checks"}
+            </p>
             <Link
-              href="/guidelines"
-              className="bg-white border border-gray-200 shadow-card flex-1 flex flex-col items-center justify-center text-center p-4 hover:-translate-y-0.5 hover:shadow-lg transition-all duration-200"
-              style={{ borderRadius: "15.5%" }}
+              href="/buy-credits"
+              className="mt-3 inline-flex items-center gap-1.5 px-4 py-2 text-xs font-medium text-white/70 rounded-full border border-white/10 hover:bg-white/5 hover:text-white transition-all"
             >
-              <BookOpen size={22} className="text-gray-400 mb-2" strokeWidth={1.5} />
-              <span className="text-base font-semibold text-gray-900">
-                Guideline Library
-              </span>
+              <Plus size={12} />
+              Get More
             </Link>
-          </div>
+          </motion.div>
+
+          {/* Guideline Library — bottom right */}
+          <Link href="/guidelines" className="col-span-1 row-span-1">
+            <motion.div
+              whileHover={{ scale: 1.02 }}
+              className="h-full rounded-3xl bg-[#141414] border border-white/[0.06] flex flex-col items-center justify-center text-center p-5 cursor-pointer hover:border-white/10 transition-all"
+            >
+              <div className="w-11 h-11 rounded-2xl bg-white/[0.06] flex items-center justify-center mb-3">
+                <BookOpen size={20} className="text-white/50" />
+              </div>
+              <p className="text-sm font-semibold text-white/80">
+                Guideline Library
+              </p>
+              <p className="text-xs text-white/30 mt-1">
+                Browse all rules
+              </p>
+            </motion.div>
+          </Link>
         </motion.div>
 
         {/* Previous Reports */}
         <motion.section
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.1 }}
+          transition={{ duration: 0.4, delay: 0.15 }}
+          className="mt-8"
         >
-          <h2 className="text-lg font-medium text-gray-400 tracking-tight mb-6">
+          <h2 className="text-sm font-medium text-white/30 tracking-wide uppercase mb-4">
             Previous Reports
           </h2>
 
           {reportsLoading ? (
-            <Card padding="lg">
-              <div className="flex items-center justify-center py-8">
-                <LoadingSpinner />
-              </div>
-            </Card>
+            <div className="flex items-center justify-center py-8">
+              <LoadingSpinner />
+            </div>
           ) : reports.length === 0 ? (
-            <Card padding="lg">
-              <div className="text-center py-12">
-                <div className="w-14 h-14 rounded-2xl bg-gray-100 flex items-center justify-center mx-auto">
-                  <FileText size={24} className="text-gray-400" />
-                </div>
-                <p className="mt-4 text-gray-500 font-medium">
-                  No reports yet
-                </p>
-                <p className="mt-1 text-sm text-gray-400">
-                  Run your first app check to get started.
-                </p>
-              </div>
-            </Card>
+            <div className="rounded-2xl border border-white/[0.06] bg-[#141414] py-12 text-center">
+              <p className="text-white/30 text-sm">
+                No reports yet. Run your first app check to get started.
+              </p>
+            </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-2">
               {reports.map((report, i) => (
                 <motion.div
                   key={report.id}
-                  initial={{ opacity: 0, y: 12 }}
+                  initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3, delay: i * 0.05 }}
+                  transition={{ duration: 0.25, delay: 0.2 + i * 0.04 }}
                   className="flex items-center gap-3"
                 >
                   <button
                     onClick={() => setDeleteTarget(report)}
-                    className="shrink-0 text-gray-400 hover:text-red-500 transition-colors"
+                    className="shrink-0 text-white/20 hover:text-red-400 transition-colors"
                     aria-label="Delete report"
                   >
-                    <Trash size={16} />
+                    <Trash size={14} />
                   </button>
 
-                  <Link href={`/report/${report.id}`} className="flex-1 min-w-0">
-                    <Card hoverable padding="md" className="group">
-                      <div className="flex items-center justify-between">
-                        <div className="min-w-0">
-                          <h3 className="font-semibold text-gray-900 truncate">
-                            {report.app_name}
-                          </h3>
-                          <div className="flex items-center gap-2 mt-1.5">
-                            <Clock size={12} className="text-gray-400" />
-                            <span className="text-xs text-gray-400">
-                              {formatDate(report.created_at)}
-                            </span>
-                          </div>
-                        </div>
-
-                        <ChevronRight
-                          size={16}
-                          className="text-gray-300 group-hover:text-gray-500 transition-colors shrink-0 ml-4"
-                        />
+                  <Link
+                    href={`/report/${report.id}`}
+                    className="flex-1 min-w-0 group rounded-xl border border-white/[0.06] bg-[#141414] hover:bg-[#1a1a1a] hover:border-white/10 transition-all px-5 py-3.5 flex items-center justify-between"
+                  >
+                    <div className="min-w-0">
+                      <h3 className="font-medium text-white/80 text-sm truncate group-hover:text-white transition-colors">
+                        {report.app_name}
+                      </h3>
+                      <div className="flex items-center gap-1.5 mt-1">
+                        <Clock size={10} className="text-white/20" />
+                        <span className="text-xs text-white/20">
+                          {formatDate(report.created_at)}
+                        </span>
                       </div>
-                    </Card>
+                    </div>
+                    <ChevronRight
+                      size={14}
+                      className="text-white/15 group-hover:text-white/40 transition-colors shrink-0 ml-4"
+                    />
                   </Link>
                 </motion.div>
               ))}
@@ -305,30 +319,29 @@ function DashboardPage() {
       {/* Delete confirmation modal */}
       {deleteTarget && (
         <div
-          className="fixed inset-0 z-[100] bg-black/40 flex items-center justify-center px-4"
+          className="fixed inset-0 z-[100] bg-black/60 flex items-center justify-center px-4"
           onClick={() => setDeleteTarget(null)}
         >
           <div
-            className="bg-white rounded-2xl shadow-xl p-6 w-full max-w-sm"
+            className="bg-[#1a1a1a] border border-white/10 rounded-2xl shadow-xl p-6 w-full max-w-sm"
             onClick={(e) => e.stopPropagation()}
           >
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">
-              Are you sure you want to delete the{" "}
-              <span className="text-red-600">{deleteTarget.app_name}</span>{" "}
-              report?
+            <h3 className="text-lg font-semibold text-white mb-2">
+              Delete{" "}
+              <span className="text-red-400">{deleteTarget.app_name}</span>?
             </h3>
 
             <div className="flex gap-3 mt-5">
               <button
                 onClick={() => setDeleteTarget(null)}
-                className="flex-1 px-4 py-2.5 rounded-xl text-sm font-medium bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors"
+                className="flex-1 px-4 py-2.5 rounded-xl text-sm font-medium bg-white/5 text-white/60 hover:bg-white/10 transition-colors"
               >
                 Cancel
               </button>
               <button
                 onClick={handleDelete}
                 disabled={deleting}
-                className="flex-1 px-4 py-2.5 rounded-xl text-sm font-medium text-white bg-red-500 hover:bg-red-600 transition-colors disabled:opacity-50"
+                className="flex-1 px-4 py-2.5 rounded-xl text-sm font-medium text-white bg-red-500/80 hover:bg-red-500 transition-colors disabled:opacity-50"
               >
                 {deleting ? "Deleting..." : "Delete"}
               </button>
