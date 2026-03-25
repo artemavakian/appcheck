@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, BookOpen, Search, ChevronDown } from "lucide-react";
+import { ArrowLeft, BookOpen, Search, ChevronDown, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { createClient } from "@/lib/supabase/client";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
@@ -63,20 +63,20 @@ export default function GuidelinesPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
+      <div className="min-h-screen gradient-bg flex items-center justify-center">
         <LoadingSpinner size="lg" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50/50">
-      <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-gray-200/60">
-        <div className="max-w-4xl mx-auto px-6 h-16 flex items-center">
+    <div className="min-h-screen" style={{ background: "linear-gradient(135deg, #0A84FF 0%, #5AC8FA 100%)" }}>
+      <nav className="sticky top-0 z-50 bg-black/10 backdrop-blur-xl border-b border-white/10">
+        <div className="max-w-4xl mx-auto px-6 h-14 flex items-center">
           {activeSection ? (
             <button
               onClick={() => setActiveSection(null)}
-              className="flex items-center gap-2 text-sm text-gray-500 hover:text-gray-900 transition-colors"
+              className="flex items-center gap-2 text-sm text-white/70 hover:text-white transition-colors"
             >
               <ArrowLeft size={16} />
               Back
@@ -84,7 +84,7 @@ export default function GuidelinesPage() {
           ) : (
             <button
               onClick={() => router.push("/dashboard")}
-              className="flex items-center gap-2 text-sm text-gray-500 hover:text-gray-900 transition-colors"
+              className="flex items-center gap-2 text-sm text-white/70 hover:text-white transition-colors"
             >
               <ArrowLeft size={16} />
               Dashboard
@@ -137,12 +137,12 @@ function HomeView({
     >
       {/* Header */}
       <div className="mb-10">
-        <h1 className="text-3xl font-bold text-gray-900 tracking-tight">
+        <h1 className="text-3xl font-bold text-white tracking-tight">
           App Store Guideline Library
         </h1>
-        <p className="mt-2 text-gray-500 text-lg">
-          A developer-friendly breakdown of App Store review guidelines and
-          common rejection reasons.
+        <p className="mt-2 text-white/60 text-lg">
+          A clear, easy-to-understand breakdown of App Store review guidelines
+          and common rejection reasons.
         </p>
       </div>
 
@@ -151,14 +151,14 @@ function HomeView({
         <div className="relative flex-1">
           <Search
             size={18}
-            className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 z-10"
+            className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40 z-10"
           />
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search guidelines…"
-            className="w-full pl-11 pr-4 py-3 rounded-full border border-gray-200 bg-white text-gray-900 placeholder-gray-400 shadow-sm focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20 outline-none transition-all text-sm"
+            className="w-full pl-11 pr-4 py-3 rounded-full border border-white/20 bg-white/10 backdrop-blur-sm text-white placeholder-white/40 shadow-sm focus:border-white/40 focus:ring-2 focus:ring-white/20 outline-none transition-all text-sm"
           />
 
           {search.trim() && (
@@ -188,17 +188,17 @@ function HomeView({
 
         <button
           onClick={() => onSelectSection(MOST_COMMON_SECTION)}
-          className="shrink-0 gradient-bg rounded-xl shadow-card px-4 py-3 hover:-translate-y-0.5 hover:shadow-lg transition-all duration-200 flex items-center gap-1.5"
+          className="shrink-0 bg-black rounded-xl shadow-lg px-4 py-3 hover:-translate-y-0.5 hover:shadow-xl transition-all duration-200 flex items-center gap-1.5"
         >
           <span className="text-sm font-semibold text-white whitespace-nowrap">
             Most Common Rejections
           </span>
-          <BookOpen size={16} className="text-white/80" />
+          <BookOpen size={16} className="text-white/60" />
         </button>
       </div>
 
       {/* All Guidelines label */}
-      <h2 className="text-lg font-semibold text-gray-900 tracking-tight mb-3">
+      <h2 className="text-lg font-semibold text-white tracking-tight mb-3">
         All Guidelines
       </h2>
 
@@ -208,12 +208,12 @@ function HomeView({
           <button
             key={cat.id}
             onClick={() => onSelectSection(cat)}
-            className="w-full text-left bg-white rounded-2xl border border-gray-200 shadow-card p-5 hover:-translate-y-0.5 hover:shadow-lg transition-all duration-200 flex items-center justify-between"
+            className="w-full text-left bg-white/10 backdrop-blur-sm rounded-2xl border border-white/15 shadow-sm p-5 hover:-translate-y-0.5 hover:bg-white/15 hover:shadow-lg transition-all duration-200 flex items-center justify-between"
           >
-            <span className="text-base font-semibold text-gray-900">
+            <span className="text-base font-semibold text-white">
               {cat.id}. {cat.name}
             </span>
-            <span className="text-xs text-gray-400">
+            <span className="text-xs text-white/40">
               {cat.guidelines.length} guidelines
             </span>
           </button>
@@ -253,7 +253,7 @@ function SectionView({
       transition={{ duration: 0.2 }}
     >
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-gray-900 tracking-tight">
+        <h1 className="text-2xl font-bold text-white tracking-tight">
           {isCommon
             ? "Most Common Rejections"
             : `${section.id}. ${section.name} Guidelines`}
@@ -267,16 +267,16 @@ function SectionView({
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.2, delay: i * 0.03 }}
-            className="bg-white rounded-xl border border-gray-200 shadow-card overflow-hidden"
+            className="bg-white/10 backdrop-blur-sm rounded-xl border border-white/15 overflow-hidden"
           >
             <button
               onClick={() => toggle(g.id)}
-              className="w-full text-left px-5 py-4 flex items-center justify-between hover:bg-gray-50 transition-colors"
+              className="w-full text-left px-5 py-4 flex items-center justify-between hover:bg-white/5 transition-colors"
             >
-              <p className="text-sm font-medium text-gray-900">{g.title}</p>
+              <p className="text-sm font-medium text-white">{g.title}</p>
               <ChevronDown
                 size={16}
-                className={`text-gray-400 shrink-0 ml-3 transition-transform duration-200 ${
+                className={`text-white/40 shrink-0 ml-3 transition-transform duration-200 ${
                   expandedId === g.id ? "rotate-180" : ""
                 }`}
               />
@@ -291,27 +291,27 @@ function SectionView({
                   transition={{ duration: 0.25, ease: "easeInOut" }}
                   className="overflow-hidden"
                 >
-                  <div className="px-5 pb-5 pt-1 border-t border-gray-100 space-y-4">
+                  <div className="px-5 pb-5 pt-1 border-t border-white/10 space-y-4">
                     <div>
-                      <h4 className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-1.5">
+                      <h4 className="text-xs font-semibold uppercase tracking-wider text-white/40 mb-1.5">
                         What it means
                       </h4>
-                      <p className="text-sm text-gray-600 leading-relaxed">
+                      <p className="text-sm text-white/70 leading-relaxed">
                         {g.whatItMeans}
                       </p>
                     </div>
 
                     <div>
-                      <h4 className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-1.5">
+                      <h4 className="text-xs font-semibold uppercase tracking-wider text-white/40 mb-1.5">
                         Common rejection reasons
                       </h4>
                       <ul className="space-y-1.5">
                         {g.commonRejections.map((r, j) => (
                           <li
                             key={j}
-                            className="text-sm text-gray-600 flex items-start gap-2"
+                            className="text-sm text-white/70 flex items-start gap-2"
                           >
-                            <span className="text-gray-300 mt-1 shrink-0">•</span>
+                            <span className="text-white/30 mt-1 shrink-0">•</span>
                             {r}
                           </li>
                         ))}
@@ -319,16 +319,16 @@ function SectionView({
                     </div>
 
                     <div>
-                      <h4 className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-1.5">
+                      <h4 className="text-xs font-semibold uppercase tracking-wider text-white/40 mb-1.5">
                         How to fix
                       </h4>
                       <ul className="space-y-1.5">
                         {g.howToFix.map((f, j) => (
                           <li
                             key={j}
-                            className="text-sm text-gray-600 flex items-start gap-2"
+                            className="text-sm text-white/70 flex items-start gap-2"
                           >
-                            <span className="text-blue-400 mt-1 shrink-0">•</span>
+                            <span className="text-white/50 mt-1 shrink-0">•</span>
                             {f}
                           </li>
                         ))}
@@ -377,7 +377,7 @@ function GuidelineDetailModal({
             onClick={onClose}
             className="shrink-0 p-1 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors"
           >
-            ✕
+            <X size={18} />
           </button>
         </div>
 
