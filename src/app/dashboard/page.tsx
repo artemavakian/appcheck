@@ -10,6 +10,7 @@ import {
   X,
   Library,
   Plus,
+  ListX,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
@@ -172,23 +173,28 @@ function DashboardPage() {
           className="grid grid-cols-3 grid-rows-2 gap-3"
           style={{ height: "calc(100vh - 220px)", minHeight: "420px", maxHeight: "600px" }}
         >
-          {/* Run App Check — spans 2 cols, 2 rows (biggest) */}
+          {/* Run Analysis — spans 2 cols, 2 rows (biggest) */}
           <motion.div
             whileHover={{ scale: 1.01 }}
             whileTap={{ scale: 0.99 }}
             onClick={handleRunCheck}
-            className="col-span-2 row-span-2 relative overflow-hidden rounded-3xl cursor-pointer group"
+            className="run-tile col-span-2 row-span-2 relative overflow-hidden rounded-3xl cursor-pointer transition-all duration-300 hover:shadow-[0_0_40px_rgba(10,132,255,0.35)]"
             style={{
               background: "linear-gradient(135deg, #0A84FF 0%, #5AC8FA 100%)",
             }}
           >
-            <div className="absolute inset-0 bg-white/0 group-hover:bg-white/5 transition-colors duration-300" />
-            <div className="relative h-full flex flex-col items-center justify-center p-8 md:p-10">
-              <h2 className="text-6xl md:text-8xl font-black text-white tracking-tight text-center leading-none">
-                Run<br />App<br />Check
-              </h2>
-              <div className="mt-8 w-14 h-14 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center group-hover:bg-white/30 transition-colors">
-                <ArrowRight size={28} className="text-white" />
+            <div className="absolute inset-0 bg-transparent hover-overlay transition-colors duration-300" />
+            <div className="relative h-full flex flex-col justify-between p-8 md:p-10">
+              <div className="flex items-start justify-between">
+                <h2 className="text-6xl md:text-7xl font-semibold tracking-tight leading-[0.95] run-tile-text">
+                  Run<br />Analysis
+                </h2>
+                <ListX size={48} className="run-tile-icon mt-2" />
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="run-tile-arrow-bg w-12 h-12 rounded-2xl backdrop-blur-sm flex items-center justify-center transition-all duration-300">
+                  <ArrowRight size={24} className="run-tile-arrow transition-colors duration-300" />
+                </div>
               </div>
             </div>
           </motion.div>
@@ -198,26 +204,23 @@ function DashboardPage() {
             whileHover={{ scale: 1.02 }}
             className="col-span-1 row-span-1 rounded-3xl bg-[#141414] border border-white/[0.06] flex flex-col items-center justify-center text-center p-5 relative overflow-hidden"
           >
+            <p className="font-medium tabular-nums whitespace-nowrap text-white/70" style={{ fontSize: "clamp(1.1rem, 3vw, 1.5rem)" }}>
+              {credits} {credits === 1 ? "Check" : "Checks"} Available
+            </p>
             <Link
               href="/buy-credits"
-              className="inline-flex items-center gap-1.5 px-5 py-2.5 text-sm font-semibold text-white rounded-full gradient-bg hover:brightness-110 active:scale-[0.98] transition-all"
+              className="mt-3 inline-flex items-center gap-1.5 px-5 py-2.5 text-sm font-semibold text-white rounded-full gradient-bg hover:brightness-110 active:scale-[0.98] transition-all"
             >
               <Plus size={14} />
               Get More
             </Link>
-            <p className="mt-4 font-bold tabular-nums whitespace-nowrap" style={{ fontSize: "clamp(1.25rem, 3.5vw, 2rem)" }}>
-              <span className="gradient-text">{credits}</span>
-              <span className="text-white">
-                {" "}{credits === 1 ? "Check" : "Checks"} Available
-              </span>
-            </p>
           </motion.div>
 
           {/* Guideline Library — bottom right */}
           <Link href="/guidelines" className="col-span-1 row-span-1">
             <motion.div
               whileHover={{ scale: 1.02 }}
-              className="h-full rounded-3xl bg-[#141414] border border-white/[0.06] flex flex-col items-center justify-center text-center p-5 cursor-pointer hover:border-white/10 transition-all"
+              className="h-full rounded-3xl bg-[#141414] border border-white/[0.06] flex flex-col items-center justify-center text-center p-5 cursor-pointer hover:border-white/10 transition-all duration-300 hover:shadow-[0_0_30px_rgba(10,132,255,0.2)]"
             >
               <div className="w-11 h-11 rounded-2xl bg-white/[0.06] flex items-center justify-center mb-3">
                 <Library size={20} className="text-white/50" />
@@ -293,6 +296,37 @@ function DashboardPage() {
           )}
         </motion.section>
       </main>
+
+      {/* Footer */}
+      <footer className="border-t border-white/[0.06] mt-12">
+        <div className="max-w-5xl mx-auto px-6 py-8 flex flex-col sm:flex-row justify-between gap-4 text-sm text-white/30">
+          <span>&copy; 2026 AppCheck. All rights reserved.</span>
+          <div className="flex gap-6">
+            <a
+              href="mailto:support@appcheck.dev"
+              className="hover:text-white/60 transition-colors"
+            >
+              Contact
+            </a>
+            <a
+              href="/privacy"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-white/60 transition-colors"
+            >
+              Privacy
+            </a>
+            <a
+              href="/terms"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-white/60 transition-colors"
+            >
+              Terms
+            </a>
+          </div>
+        </div>
+      </footer>
 
       {/* Delete confirmation modal */}
       {deleteTarget && (

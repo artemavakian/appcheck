@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ListChecks } from "lucide-react";
 
 const navLinks = [
   { label: "How It Works", href: "#how-it-works" },
@@ -15,8 +15,11 @@ export default function Navbar() {
   return (
     <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-gray-200/60">
       <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-        <a href="/" className="text-xl font-bold tracking-tight text-gray-900 shrink-0">
-          AppCheck
+        <a href="/" className="flex items-center gap-2.5 shrink-0">
+          <div className="w-8 h-8 flex items-center justify-center gradient-bg" style={{ borderRadius: "22.5%" }}>
+            <ListChecks size={17} className="text-white" strokeWidth={2.5} />
+          </div>
+          <span className="text-xl font-bold tracking-tight text-gray-900">AppCheck</span>
         </a>
 
         <div className="hidden sm:flex items-center gap-8">

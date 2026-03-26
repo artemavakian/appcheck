@@ -111,6 +111,37 @@ export default function GuidelinesPage() {
           )}
         </AnimatePresence>
       </main>
+
+      {/* Footer */}
+      <footer className="border-t border-white/10 mt-12">
+        <div className="max-w-4xl mx-auto px-6 py-8 flex flex-col sm:flex-row justify-between gap-4 text-sm text-white/40">
+          <span>&copy; 2026 AppCheck. All rights reserved.</span>
+          <div className="flex gap-6">
+            <a
+              href="mailto:support@appcheck.dev"
+              className="hover:text-white/70 transition-colors"
+            >
+              Contact
+            </a>
+            <a
+              href="/privacy"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-white/70 transition-colors"
+            >
+              Privacy
+            </a>
+            <a
+              href="/terms"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-white/70 transition-colors"
+            >
+              Terms
+            </a>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
@@ -188,12 +219,12 @@ function HomeView({
 
         <button
           onClick={() => onSelectSection(MOST_COMMON_SECTION)}
-          className="shrink-0 bg-black rounded-xl shadow-lg px-4 py-3 hover:-translate-y-0.5 hover:shadow-xl transition-all duration-200 flex items-center gap-1.5"
+          className="shrink-0 bg-white rounded-xl shadow-lg px-4 py-3 hover:-translate-y-0.5 hover:shadow-xl transition-all duration-200 flex items-center gap-1.5"
         >
-          <span className="text-sm font-semibold text-white whitespace-nowrap">
+          <span className="text-sm font-semibold gradient-text whitespace-nowrap">
             Most Common Rejections
           </span>
-          <BookOpen size={16} className="text-white/60" />
+          <BookOpen size={16} className="text-[#0A84FF]" />
         </button>
       </div>
 

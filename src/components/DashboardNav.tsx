@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Menu, X, LogOut } from "lucide-react";
+import { Menu, X, LogOut, ListChecks } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 
 interface DashboardNavProps {
@@ -65,9 +65,12 @@ export default function DashboardNav({ onRedeemSuccess }: DashboardNavProps) {
         <div className="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
           <Link
             href="/dashboard"
-            className="text-lg font-bold tracking-tight text-white"
+            className="flex items-center gap-2.5"
           >
-            AppCheck
+            <div className="w-8 h-8 flex items-center justify-center gradient-bg" style={{ borderRadius: "22.5%" }}>
+              <ListChecks size={17} className="text-white" strokeWidth={2.5} />
+            </div>
+            <span className="text-lg font-bold tracking-tight text-white">AppCheck</span>
           </Link>
 
           <div className="hidden sm:flex items-center gap-5">
