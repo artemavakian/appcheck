@@ -10,7 +10,7 @@ import {
   X,
   Library,
   Plus,
-  ListX,
+  ListCheck,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
@@ -178,23 +178,21 @@ function DashboardPage() {
             whileHover={{ scale: 1.01 }}
             whileTap={{ scale: 0.99 }}
             onClick={handleRunCheck}
-            className="run-tile col-span-2 row-span-2 relative overflow-hidden rounded-3xl cursor-pointer transition-all duration-300 hover:shadow-[0_0_40px_rgba(10,132,255,0.35)]"
+            className="run-tile col-span-2 row-span-2 relative overflow-hidden rounded-3xl cursor-pointer transition-all duration-300 hover:shadow-[0_0_60px_rgba(10,132,255,0.5),0_0_120px_rgba(90,200,250,0.2)]"
             style={{
               background: "linear-gradient(135deg, #0A84FF 0%, #5AC8FA 100%)",
             }}
           >
             <div className="absolute inset-0 bg-transparent hover-overlay transition-colors duration-300" />
-            <div className="relative h-full flex flex-col justify-between p-8 md:p-10">
-              <div className="flex items-start justify-between">
-                <h2 className="text-6xl md:text-7xl font-semibold tracking-tight leading-[0.95] run-tile-text">
+            <div className="relative h-full flex flex-col items-center justify-center p-8 md:p-10">
+              <div className="flex items-end gap-5">
+                <h2 className="text-6xl md:text-8xl font-black tracking-tight leading-[0.9] run-tile-text">
                   Run<br />Analysis
                 </h2>
-                <ListX size={48} className="run-tile-icon mt-2" />
+                <ListCheck size={64} className="run-tile-icon mb-1" />
               </div>
-              <div className="flex items-center gap-3">
-                <div className="run-tile-arrow-bg w-12 h-12 rounded-2xl backdrop-blur-sm flex items-center justify-center transition-all duration-300">
-                  <ArrowRight size={24} className="run-tile-arrow transition-colors duration-300" />
-                </div>
+              <div className="mt-8 run-tile-arrow-bg w-14 h-14 rounded-2xl backdrop-blur-sm flex items-center justify-center transition-all duration-300">
+                <ArrowRight size={28} className="run-tile-arrow transition-colors duration-300" />
               </div>
             </div>
           </motion.div>
@@ -204,7 +202,13 @@ function DashboardPage() {
             whileHover={{ scale: 1.02 }}
             className="col-span-1 row-span-1 rounded-3xl bg-[#141414] border border-white/[0.06] flex flex-col items-center justify-center text-center p-5 relative overflow-hidden"
           >
-            <p className="font-medium tabular-nums whitespace-nowrap text-white/70" style={{ fontSize: "clamp(1.1rem, 3vw, 1.5rem)" }}>
+            <p
+              className="font-medium tabular-nums whitespace-nowrap text-white"
+              style={{
+                fontSize: "clamp(1.1rem, 3vw, 1.5rem)",
+                textShadow: "0 0 12px rgba(10,132,255,0.6), 0 0 30px rgba(90,200,250,0.3)",
+              }}
+            >
               {credits} {credits === 1 ? "Check" : "Checks"} Available
             </p>
             <Link
@@ -220,7 +224,7 @@ function DashboardPage() {
           <Link href="/guidelines" className="col-span-1 row-span-1">
             <motion.div
               whileHover={{ scale: 1.02 }}
-              className="h-full rounded-3xl bg-[#141414] border border-white/[0.06] flex flex-col items-center justify-center text-center p-5 cursor-pointer hover:border-white/10 transition-all duration-300 hover:shadow-[0_0_30px_rgba(10,132,255,0.2)]"
+              className="h-full rounded-3xl bg-[#141414] border border-white/[0.06] flex flex-col items-center justify-center text-center p-5 cursor-pointer hover:border-white/10 transition-all duration-300 hover:shadow-[0_0_50px_rgba(10,132,255,0.45),0_0_100px_rgba(90,200,250,0.15)]"
             >
               <div className="w-11 h-11 rounded-2xl bg-white/[0.06] flex items-center justify-center mb-3">
                 <Library size={20} className="text-white/50" />
@@ -282,11 +286,11 @@ function DashboardPage() {
                       className="w-20 h-20 bg-[#141414] border border-white/[0.06] hover:border-white/10 transition-all flex items-center justify-center"
                       style={{ borderRadius: "22.5%" }}
                     >
-                      <span className="text-[10px] font-medium text-white/60 text-center leading-tight px-1.5 truncate group-hover/link:text-white/90 transition-colors">
+                      <span className="text-[10px] font-medium text-white/80 text-center leading-tight px-1.5 truncate group-hover/link:text-white transition-colors">
                         {report.app_name}
                       </span>
                     </div>
-                    <p className="text-[9px] text-white/25 text-center mt-1.5 truncate">
+                    <p className="text-[9px] text-white/40 text-center mt-1.5 truncate">
                       {formatDate(report.created_at)}
                     </p>
                   </Link>

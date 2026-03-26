@@ -60,11 +60,11 @@ body {
     -webkit-text-fill-color: transparent;
   }
   .run-tile-icon {
-    color: rgba(255,255,255,0.3);
+    color: rgba(255,255,255,0.4);
     transition: color 0.3s ease;
   }
   .run-tile:hover .run-tile-icon {
-    color: rgba(10,132,255,0.25);
+    color: rgba(10,132,255,0.3);
   }
   .run-tile-arrow-bg {
     background: rgba(255,255,255,0.2);
