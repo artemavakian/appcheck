@@ -134,15 +134,14 @@ function DashboardPage() {
             whileHover={{ scale: iconDriving ? 1 : 1.01 }}
             whileTap={{ scale: 0.99 }}
             onClick={handleRunCheck}
-            className="run-tile col-span-1 row-span-1 relative overflow-hidden rounded-3xl cursor-pointer"
+            className="col-span-1 row-span-1 relative overflow-hidden rounded-3xl cursor-pointer"
             style={{
               background: "linear-gradient(135deg, #0A84FF 0%, #5AC8FA 100%)",
             }}
           >
-            <div className="run-tile-overlay absolute inset-0" />
             <div className="relative h-full flex flex-col justify-end p-7 md:p-8">
               <div className="flex items-center">
-                <h2 className="run-tile-text font-semibold tracking-tight leading-[0.9] shrink-0" style={{ fontSize: "clamp(3.78rem, 7.65vw, 4.86rem)" }}>
+                <h2 className="font-semibold text-white tracking-tight leading-[0.9] shrink-0" style={{ fontSize: "clamp(3.78rem, 7.65vw, 4.86rem)" }}>
                   Run<br />Analysis
                 </h2>
                 <div className="flex-1 flex items-center justify-center">
@@ -150,22 +149,7 @@ function DashboardPage() {
                     animate={iconDriving ? { x: "calc(50vw)", opacity: 0 } : { x: 0, opacity: 1 }}
                     transition={{ duration: 0.4, ease: "easeIn" }}
                   >
-                    <span className="run-tile-icon-wrap" style={{ width: "clamp(4.86rem, 8.1vw, 5.94rem)", height: "clamp(4.86rem, 8.1vw, 5.94rem)" }}>
-                      <CircleArrowRight className="icon-white text-white" style={{ width: "100%", height: "100%" }} />
-                      <span className="icon-gradient">
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: "100%", height: "100%" }}>
-                          <defs>
-                            <linearGradient id="icon-grad" x1="0" y1="0" x2="1" y2="1">
-                              <stop offset="0%" stopColor="#0A84FF" />
-                              <stop offset="100%" stopColor="#5AC8FA" />
-                            </linearGradient>
-                          </defs>
-                          <circle cx="12" cy="12" r="10" stroke="url(#icon-grad)" strokeWidth="2" />
-                          <path d="M12 8l4 4-4 4" stroke="url(#icon-grad)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                          <path d="M8 12h8" stroke="url(#icon-grad)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
-                      </span>
-                    </span>
+                    <CircleArrowRight className="text-white" style={{ width: "clamp(4.86rem, 8.1vw, 5.94rem)", height: "clamp(4.86rem, 8.1vw, 5.94rem)" }} />
                   </motion.div>
                 </div>
               </div>
