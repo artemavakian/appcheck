@@ -10,7 +10,6 @@ import {
   Library,
   Plus,
   CircleArrowRight,
-  FileText,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
@@ -140,11 +139,13 @@ function DashboardPage() {
               background: "linear-gradient(135deg, #0A84FF 0%, #5AC8FA 100%)",
             }}
           >
-            <div className="relative h-full flex items-end justify-between p-7 md:p-8">
-              <h2 className="font-semibold text-white tracking-tight leading-[0.9]" style={{ fontSize: "clamp(3.5rem, 7vw, 4.5rem)" }}>
+            <div className="relative h-full flex items-center p-7 md:p-8">
+              <h2 className="font-semibold text-white tracking-tight leading-[0.9]" style={{ fontSize: "clamp(4.2rem, 8.5vw, 5.4rem)" }}>
                 Run<br />Analysis
               </h2>
-              <CircleArrowRight className="text-white shrink-0 mb-1" style={{ width: "clamp(4.5rem, 7.5vw, 5.5rem)", height: "clamp(4.5rem, 7.5vw, 5.5rem)" }} />
+              <div className="flex-1 flex items-center justify-center">
+                <CircleArrowRight className="text-white" style={{ width: "clamp(5.4rem, 9vw, 6.6rem)", height: "clamp(5.4rem, 9vw, 6.6rem)" }} />
+              </div>
             </div>
           </motion.div>
 
@@ -170,23 +171,11 @@ function DashboardPage() {
 
           {/* Previous Reports — bottom left */}
           <Link href="/reports" className="col-span-1 row-span-1">
-            <motion.div
-              whileHover={{ scale: 1.01 }}
-              whileTap={{ scale: 0.99 }}
-              className="h-full rounded-3xl bg-white cursor-pointer relative overflow-hidden"
-            >
-              <div className="relative h-full flex items-end justify-between p-7 md:p-8">
-                <div>
-                  <p className="text-gray-400 text-xs font-medium tracking-wide uppercase mb-1">
-                    View All
-                  </p>
-                  <h2 className="text-3xl md:text-4xl font-semibold text-gray-900 tracking-tight leading-[0.95]">
-                    Previous<br />Reports
-                  </h2>
-                </div>
-                <FileText size={40} className="text-gray-300 shrink-0 mb-1" />
-              </div>
-            </motion.div>
+            <div className="h-full rounded-3xl bg-[#141414] border border-white/[0.06] hover:border-[#0A84FF]/50 flex items-center justify-center cursor-pointer transition-all duration-300">
+              <p className="text-lg font-semibold text-white/80">
+                Previous Reports
+              </p>
+            </div>
           </Link>
 
           {/* Guideline Library — bottom right */}

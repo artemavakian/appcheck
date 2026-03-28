@@ -153,37 +153,6 @@ export default function ReportsPage() {
         </motion.div>
       </main>
 
-      {/* Footer */}
-      <footer className="border-t border-white/[0.06] mt-12">
-        <div className="max-w-4xl mx-auto px-6 py-8 flex flex-col sm:flex-row justify-between gap-4 text-sm text-white/30">
-          <span>&copy; 2026 AppCheck. All rights reserved.</span>
-          <div className="flex gap-6">
-            <a
-              href="mailto:support@appcheck.dev"
-              className="hover:text-white/60 transition-colors"
-            >
-              Contact
-            </a>
-            <a
-              href="/privacy"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-white/60 transition-colors"
-            >
-              Privacy
-            </a>
-            <a
-              href="/terms"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-white/60 transition-colors"
-            >
-              Terms
-            </a>
-          </div>
-        </div>
-      </footer>
-
       {/* Delete confirmation modal */}
       <AnimatePresence>
         {deleteTarget && (
