@@ -38,6 +38,7 @@ function DashboardPage() {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [showSuccessBanner, setShowSuccessBanner] = useState(false);
+  const [iconDriving, setIconDriving] = useState(false);
 
   const supabase = createClient();
 
@@ -85,11 +86,9 @@ function DashboardPage() {
   const credits = user?.scan_credits ?? 0;
 
   const handleRunCheck = () => {
-    if (credits === 0) {
-      router.push("/buy-credits");
-    } else {
-      router.push("/check");
-    }
+    setIconDriving(true);
+    const dest = credits === 0 ? "/buy-credits" : "/check";
+    setTimeout(() => router.push(dest), 400);
   };
 
   return (
@@ -132,7 +131,7 @@ function DashboardPage() {
         >
           {/* Run Analysis — top left */}
           <motion.div
-            whileHover={{ scale: 1.01 }}
+            whileHover={{ scale: iconDriving ? 1 : 1.01 }}
             whileTap={{ scale: 0.99 }}
             onClick={handleRunCheck}
             className="col-span-1 row-span-1 relative overflow-hidden rounded-3xl cursor-pointer"
@@ -140,12 +139,19 @@ function DashboardPage() {
               background: "linear-gradient(135deg, #0A84FF 0%, #5AC8FA 100%)",
             }}
           >
-            <div className="relative h-full flex items-end p-7 md:p-8">
-              <h2 className="font-semibold text-white tracking-tight leading-[0.9]" style={{ fontSize: "clamp(3.78rem, 7.65vw, 4.86rem)" }}>
-                Run<br />Analysis
-              </h2>
-              <div className="flex-1 flex items-center justify-center">
-                <CircleArrowRight className="text-white" style={{ width: "clamp(4.86rem, 8.1vw, 5.94rem)", height: "clamp(4.86rem, 8.1vw, 5.94rem)" }} />
+            <div className="relative h-full flex flex-col justify-end p-7 md:p-8">
+              <div className="flex items-center">
+                <h2 className="font-semibold text-white tracking-tight leading-[0.9] shrink-0" style={{ fontSize: "clamp(3.78rem, 7.65vw, 4.86rem)" }}>
+                  Run<br />Analysis
+                </h2>
+                <div className="flex-1 flex items-center justify-center">
+                  <motion.div
+                    animate={iconDriving ? { x: "calc(50vw)", opacity: 0 } : { x: 0, opacity: 1 }}
+                    transition={{ duration: 0.4, ease: "easeIn" }}
+                  >
+                    <CircleArrowRight className="text-white" style={{ width: "clamp(4.86rem, 8.1vw, 5.94rem)", height: "clamp(4.86rem, 8.1vw, 5.94rem)" }} />
+                  </motion.div>
+                </div>
               </div>
             </div>
           </motion.div>
@@ -173,13 +179,13 @@ function DashboardPage() {
           {/* Previous Reports — bottom left */}
           <Link href="/reports" className="col-span-1 row-span-1">
             <div className="h-full rounded-3xl bg-[#141414] border border-white/[0.06] hover:border-[#0A84FF]/50 flex flex-col justify-end p-7 md:p-8 cursor-pointer transition-all duration-300">
-              <div className="flex items-center gap-1.5 mb-1.5">
-                <span className="text-white/40 text-xs font-medium tracking-wide uppercase">
+              <div className="flex items-center gap-2 mb-1.5">
+                <span className="text-white/40 text-sm font-medium tracking-wide uppercase">
                   View All
                 </span>
-                <FolderClock size={14} className="text-white/40" />
+                <FolderClock size={18} className="text-white/40" />
               </div>
-              <p className="font-semibold text-white/80 tracking-tight leading-[0.95]" style={{ fontSize: "clamp(3rem, 6vw, 3.84rem)" }}>
+              <p className="font-semibold text-white/80 tracking-tight leading-[0.95]" style={{ fontSize: "clamp(3.78rem, 7.65vw, 4.86rem)" }}>
                 Previous Reports
               </p>
             </div>
@@ -188,13 +194,13 @@ function DashboardPage() {
           {/* Guideline Library — bottom right */}
           <Link href="/guidelines" className="col-span-1 row-span-1">
             <div className="h-full rounded-3xl bg-[#141414] border border-white/[0.06] hover:border-[#0A84FF]/50 flex flex-col items-center justify-center text-center p-5 cursor-pointer transition-all duration-300">
-              <div className="w-11 h-11 rounded-2xl bg-white/[0.06] flex items-center justify-center mb-3">
-                <Library size={20} className="text-white/50" />
+              <div className="w-14 h-14 rounded-2xl bg-white/[0.06] flex items-center justify-center mb-3">
+                <Library size={26} className="text-white/50" />
               </div>
-              <p className="text-sm font-semibold text-white/80">
+              <p className="font-semibold text-white/80" style={{ fontSize: "clamp(1.1rem, 3vw, 1.5rem)" }}>
                 Guideline Library
               </p>
-              <p className="text-xs text-white/30 mt-1">
+              <p className="text-sm text-white/30 mt-1">
                 Browse all rules
               </p>
             </div>
