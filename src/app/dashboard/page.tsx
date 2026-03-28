@@ -150,7 +150,22 @@ function DashboardPage() {
                     animate={iconDriving ? { x: "calc(50vw)", opacity: 0 } : { x: 0, opacity: 1 }}
                     transition={{ duration: 0.4, ease: "easeIn" }}
                   >
-                    <CircleArrowRight className="run-tile-icon" style={{ width: "clamp(4.86rem, 8.1vw, 5.94rem)", height: "clamp(4.86rem, 8.1vw, 5.94rem)" }} />
+                    <span className="run-tile-icon-wrap" style={{ width: "clamp(4.86rem, 8.1vw, 5.94rem)", height: "clamp(4.86rem, 8.1vw, 5.94rem)" }}>
+                      <CircleArrowRight className="icon-white text-white" style={{ width: "100%", height: "100%" }} />
+                      <span className="icon-gradient">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: "100%", height: "100%" }}>
+                          <defs>
+                            <linearGradient id="icon-grad" x1="0" y1="0" x2="1" y2="1">
+                              <stop offset="0%" stopColor="#0A84FF" />
+                              <stop offset="100%" stopColor="#5AC8FA" />
+                            </linearGradient>
+                          </defs>
+                          <circle cx="12" cy="12" r="10" stroke="url(#icon-grad)" strokeWidth="2" />
+                          <path d="M12 8l4 4-4 4" stroke="url(#icon-grad)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                          <path d="M8 12h8" stroke="url(#icon-grad)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                      </span>
+                    </span>
                   </motion.div>
                 </div>
               </div>

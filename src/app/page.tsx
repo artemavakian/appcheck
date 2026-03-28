@@ -28,16 +28,16 @@ export default function Home() {
       <Navbar />
 
       {/* ── Hero ── */}
-      <section className="py-24 md:py-32 px-6 text-center">
+      <section className="py-32 md:py-44 px-6 text-center">
         <h1 className="text-5xl md:text-6xl font-bold tracking-tight text-gray-900 max-w-3xl mx-auto leading-[1.08]">
           Check Your App{" "}
           <span className="gradient-text">Before Apple Does</span>
         </h1>
-        <p className="mt-6 text-xl text-gray-500 max-w-2xl mx-auto leading-relaxed">
+        <p className="mt-8 text-xl text-gray-500 max-w-2xl mx-auto leading-relaxed">
           AppCheck analyzes your App Store submission and flags potential
           rejection risks before you go through weeks of resubmissions.
         </p>
-        <div className="mt-10">
+        <div className="mt-12">
           <a href="/login" className="btn-primary gap-2.5 text-base">
             <svg
               width="18"
@@ -50,7 +50,7 @@ export default function Home() {
             Continue with Apple
           </a>
         </div>
-        <p className="mt-6 text-sm text-gray-400">
+        <p className="mt-8 text-sm text-gray-400">
           Join developers who ship with confidence
         </p>
       </section>

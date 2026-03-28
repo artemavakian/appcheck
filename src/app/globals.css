@@ -59,12 +59,24 @@ body {
     background-clip: text;
     -webkit-text-fill-color: transparent;
   }
-  .run-tile-icon {
-    color: white;
-    transition: color 0.3s ease;
+  .run-tile-icon-wrap {
+    position: relative;
+    transition: all 0.3s ease;
   }
-  .run-tile:hover .run-tile-icon {
-    color: #0A84FF;
+  .run-tile-icon-wrap .icon-white {
+    transition: opacity 0.3s ease;
+  }
+  .run-tile-icon-wrap .icon-gradient {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .run-tile:hover .run-tile-icon-wrap .icon-white {
+    opacity: 0;
+  }
+  .run-tile:hover .run-tile-icon-wrap .icon-gradient {
+    opacity: 1;
   }
 }
 
