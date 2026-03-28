@@ -10,6 +10,7 @@ import {
   Library,
   Plus,
   CircleArrowRight,
+  FolderClock,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
@@ -139,12 +140,12 @@ function DashboardPage() {
               background: "linear-gradient(135deg, #0A84FF 0%, #5AC8FA 100%)",
             }}
           >
-            <div className="relative h-full flex items-center p-7 md:p-8">
-              <h2 className="font-semibold text-white tracking-tight leading-[0.9]" style={{ fontSize: "clamp(4.2rem, 8.5vw, 5.4rem)" }}>
+            <div className="relative h-full flex items-end p-7 md:p-8">
+              <h2 className="font-semibold text-white tracking-tight leading-[0.9]" style={{ fontSize: "clamp(3.78rem, 7.65vw, 4.86rem)" }}>
                 Run<br />Analysis
               </h2>
               <div className="flex-1 flex items-center justify-center">
-                <CircleArrowRight className="text-white" style={{ width: "clamp(5.4rem, 9vw, 6.6rem)", height: "clamp(5.4rem, 9vw, 6.6rem)" }} />
+                <CircleArrowRight className="text-white" style={{ width: "clamp(4.86rem, 8.1vw, 5.94rem)", height: "clamp(4.86rem, 8.1vw, 5.94rem)" }} />
               </div>
             </div>
           </motion.div>
@@ -171,8 +172,14 @@ function DashboardPage() {
 
           {/* Previous Reports — bottom left */}
           <Link href="/reports" className="col-span-1 row-span-1">
-            <div className="h-full rounded-3xl bg-[#141414] border border-white/[0.06] hover:border-[#0A84FF]/50 flex items-center justify-center cursor-pointer transition-all duration-300">
-              <p className="text-lg font-semibold text-white/80">
+            <div className="h-full rounded-3xl bg-[#141414] border border-white/[0.06] hover:border-[#0A84FF]/50 flex flex-col justify-end p-7 md:p-8 cursor-pointer transition-all duration-300">
+              <div className="flex items-center gap-1.5 mb-1.5">
+                <span className="text-white/40 text-xs font-medium tracking-wide uppercase">
+                  View All
+                </span>
+                <FolderClock size={14} className="text-white/40" />
+              </div>
+              <p className="font-semibold text-white/80 tracking-tight leading-[0.95]" style={{ fontSize: "clamp(3rem, 6vw, 3.84rem)" }}>
                 Previous Reports
               </p>
             </div>
