@@ -10,7 +10,11 @@ import {
   X,
   Library,
   Plus,
-  ListCheck,
+  SquarePen,
+  ScanText,
+  ClipboardCheck,
+  ImagePlus,
+  ShieldAlert,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
@@ -178,54 +182,69 @@ function DashboardPage() {
             whileHover={{ scale: 1.01 }}
             whileTap={{ scale: 0.99 }}
             onClick={handleRunCheck}
-            className="run-tile col-span-2 row-span-2 relative overflow-hidden rounded-3xl cursor-pointer transition-all duration-300 hover:shadow-[0_0_60px_rgba(10,132,255,0.5),0_0_120px_rgba(90,200,250,0.2)]"
+            className="col-span-2 row-span-2 relative overflow-hidden rounded-3xl cursor-pointer group"
             style={{
               background: "linear-gradient(135deg, #0A84FF 0%, #5AC8FA 100%)",
             }}
           >
-            <div className="absolute inset-0 bg-transparent hover-overlay transition-colors duration-300" />
-            <div className="relative h-full flex flex-col items-center justify-center p-8 md:p-10">
-              <div className="flex items-end gap-5">
-                <h2 className="text-6xl md:text-8xl font-black tracking-tight leading-[0.9] run-tile-text">
+            <div className="absolute inset-0 bg-white/0 group-hover:bg-white/5 transition-colors duration-300" />
+            <div className="relative h-full flex flex-col p-8 md:p-10">
+              {/* Top: text + arrow */}
+              <div className="flex items-start justify-between">
+                <h2 className="text-6xl md:text-7xl font-semibold text-white tracking-tight leading-[0.9]">
                   Run<br />Analysis
                 </h2>
-                <ListCheck size={64} className="run-tile-icon mb-1" />
+                <div className="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center group-hover:bg-white/30 transition-colors mt-1">
+                  <ArrowRight size={28} className="text-white" />
+                </div>
               </div>
-              <div className="mt-8 run-tile-arrow-bg w-14 h-14 rounded-2xl backdrop-blur-sm flex items-center justify-center transition-all duration-300">
-                <ArrowRight size={28} className="run-tile-arrow transition-colors duration-300" />
+
+              {/* Bottom: revolving icons */}
+              <div className="flex-1 flex items-end justify-center pb-2">
+                <div className="relative w-24 h-24">
+                  <div className="revolve-icon">
+                    <SquarePen size={72} className="text-white/30" />
+                  </div>
+                  <div className="revolve-icon">
+                    <ScanText size={72} className="text-white/30" />
+                  </div>
+                  <div className="revolve-icon">
+                    <ClipboardCheck size={72} className="text-white/30" />
+                  </div>
+                  <div className="revolve-icon">
+                    <ImagePlus size={72} className="text-white/30" />
+                  </div>
+                  <div className="revolve-icon">
+                    <ShieldAlert size={72} className="text-white/30" />
+                  </div>
+                </div>
               </div>
             </div>
           </motion.div>
 
           {/* Available Checks — top right */}
-          <motion.div
-            whileHover={{ scale: 1.02 }}
-            className="col-span-1 row-span-1 rounded-3xl bg-[#141414] border border-white/[0.06] flex flex-col items-center justify-center text-center p-5 relative overflow-hidden"
-          >
+          <div className="col-span-1 row-span-1 rounded-3xl bg-[#141414] border border-white/[0.06] hover:border-[#5AC8FA]/40 flex flex-col items-center justify-center text-center p-5 relative overflow-hidden transition-all duration-300">
             <p
-              className="font-medium tabular-nums whitespace-nowrap text-white"
+              className="font-semibold tabular-nums whitespace-nowrap text-white"
               style={{
                 fontSize: "clamp(1.1rem, 3vw, 1.5rem)",
-                textShadow: "0 0 12px rgba(10,132,255,0.6), 0 0 30px rgba(90,200,250,0.3)",
+                textShadow: "0 0 8px rgba(10,132,255,0.35), 0 0 20px rgba(90,200,250,0.15)",
               }}
             >
               {credits} {credits === 1 ? "Check" : "Checks"} Available
             </p>
             <Link
               href="/buy-credits"
-              className="mt-3 inline-flex items-center gap-1.5 px-5 py-2.5 text-sm font-semibold text-white rounded-full gradient-bg hover:brightness-110 active:scale-[0.98] transition-all"
+              className="mt-3 inline-flex items-center gap-1.5 px-5 py-2.5 text-sm font-semibold text-white rounded-full gradient-bg hover:brightness-110 hover:scale-105 active:scale-[0.98] transition-all duration-200"
             >
               <Plus size={14} />
               Get More
             </Link>
-          </motion.div>
+          </div>
 
           {/* Guideline Library — bottom right */}
           <Link href="/guidelines" className="col-span-1 row-span-1">
-            <motion.div
-              whileHover={{ scale: 1.02 }}
-              className="h-full rounded-3xl bg-[#141414] border border-white/[0.06] flex flex-col items-center justify-center text-center p-5 cursor-pointer hover:border-white/10 transition-all duration-300 hover:shadow-[0_0_50px_rgba(10,132,255,0.45),0_0_100px_rgba(90,200,250,0.15)]"
-            >
+            <div className="h-full rounded-3xl bg-[#141414] border border-white/[0.06] hover:border-[#5AC8FA]/40 flex flex-col items-center justify-center text-center p-5 cursor-pointer transition-all duration-300">
               <div className="w-11 h-11 rounded-2xl bg-white/[0.06] flex items-center justify-center mb-3">
                 <Library size={20} className="text-white/50" />
               </div>
@@ -235,7 +254,7 @@ function DashboardPage() {
               <p className="text-xs text-white/30 mt-1">
                 Browse all rules
               </p>
-            </motion.div>
+            </div>
           </Link>
         </motion.div>
 
