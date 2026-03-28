@@ -41,6 +41,31 @@ body {
       0 2px 4px rgba(0,0,0,0.08),
       0 4px 8px rgba(0,0,0,0.04);
   }
+  .run-tile-overlay {
+    background: transparent;
+    transition: background 0.3s ease;
+  }
+  .run-tile:hover .run-tile-overlay {
+    background: white;
+  }
+  .run-tile-text {
+    color: white;
+    -webkit-text-fill-color: white;
+    transition: all 0.3s ease;
+  }
+  .run-tile:hover .run-tile-text {
+    background-image: linear-gradient(135deg, #0A84FF, #5AC8FA);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .run-tile-icon {
+    color: white;
+    transition: color 0.3s ease;
+  }
+  .run-tile:hover .run-tile-icon {
+    color: #0A84FF;
+  }
 }
 
 @layer components {
