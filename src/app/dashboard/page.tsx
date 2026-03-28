@@ -5,16 +5,11 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  ArrowRight,
   CheckCircle2,
   X,
   Library,
   Plus,
-  SquarePen,
-  ScanText,
-  ClipboardCheck,
-  ImagePlus,
-  ShieldAlert,
+  CircleArrowRight,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
@@ -182,48 +177,31 @@ function DashboardPage() {
             whileHover={{ scale: 1.01 }}
             whileTap={{ scale: 0.99 }}
             onClick={handleRunCheck}
-            className="col-span-2 row-span-2 relative overflow-hidden rounded-3xl cursor-pointer group"
+            className="col-span-2 row-span-2 relative overflow-hidden rounded-3xl cursor-pointer"
             style={{
               background: "linear-gradient(135deg, #0A84FF 0%, #5AC8FA 100%)",
             }}
           >
-            <div className="absolute inset-0 bg-white/0 group-hover:bg-white/5 transition-colors duration-300" />
-            <div className="relative h-full flex flex-col p-8 md:p-10">
-              {/* Top: text + arrow */}
-              <div className="flex items-start justify-between">
-                <h2 className="text-6xl md:text-7xl font-semibold text-white tracking-tight leading-[0.9]">
+            {/* Top half: animated floating orbs */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+              <div className="run-orb run-orb-1" />
+              <div className="run-orb run-orb-2" />
+              <div className="run-orb run-orb-3" />
+            </div>
+
+            {/* Bottom: text + icon */}
+            <div className="relative h-full flex flex-col justify-end p-8 md:p-10">
+              <div className="flex items-center gap-5">
+                <h2 className="font-semibold text-white tracking-tight leading-[0.9]" style={{ fontSize: "clamp(4.5rem, 8vw, 5.5rem)" }}>
                   Run<br />Analysis
                 </h2>
-                <div className="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center group-hover:bg-white/30 transition-colors mt-1">
-                  <ArrowRight size={28} className="text-white" />
-                </div>
-              </div>
-
-              {/* Bottom: revolving icons */}
-              <div className="flex-1 flex items-end justify-center pb-2">
-                <div className="relative w-24 h-24">
-                  <div className="revolve-icon">
-                    <SquarePen size={72} className="text-white/30" />
-                  </div>
-                  <div className="revolve-icon">
-                    <ScanText size={72} className="text-white/30" />
-                  </div>
-                  <div className="revolve-icon">
-                    <ClipboardCheck size={72} className="text-white/30" />
-                  </div>
-                  <div className="revolve-icon">
-                    <ImagePlus size={72} className="text-white/30" />
-                  </div>
-                  <div className="revolve-icon">
-                    <ShieldAlert size={72} className="text-white/30" />
-                  </div>
-                </div>
+                <CircleArrowRight className="text-white shrink-0" style={{ width: "clamp(5.5rem, 9vw, 6.5rem)", height: "clamp(5.5rem, 9vw, 6.5rem)" }} />
               </div>
             </div>
           </motion.div>
 
           {/* Available Checks — top right */}
-          <div className="col-span-1 row-span-1 rounded-3xl bg-[#141414] border border-white/[0.06] hover:border-[#5AC8FA]/40 flex flex-col items-center justify-center text-center p-5 relative overflow-hidden transition-all duration-300">
+          <div className="col-span-1 row-span-1 rounded-3xl bg-[#141414] border border-white/[0.06] hover:border-[#0A84FF] flex flex-col items-center justify-center text-center p-5 relative overflow-hidden transition-all duration-300">
             <p
               className="font-semibold tabular-nums whitespace-nowrap text-white"
               style={{
@@ -244,7 +222,7 @@ function DashboardPage() {
 
           {/* Guideline Library — bottom right */}
           <Link href="/guidelines" className="col-span-1 row-span-1">
-            <div className="h-full rounded-3xl bg-[#141414] border border-white/[0.06] hover:border-[#5AC8FA]/40 flex flex-col items-center justify-center text-center p-5 cursor-pointer transition-all duration-300">
+            <div className="h-full rounded-3xl bg-[#141414] border border-white/[0.06] hover:border-[#0A84FF] flex flex-col items-center justify-center text-center p-5 cursor-pointer transition-all duration-300">
               <div className="w-11 h-11 rounded-2xl bg-white/[0.06] flex items-center justify-center mb-3">
                 <Library size={20} className="text-white/50" />
               </div>
