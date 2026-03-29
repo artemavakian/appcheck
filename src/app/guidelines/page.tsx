@@ -322,27 +322,27 @@ function SectionView({
                   transition={{ duration: 0.25, ease: "easeInOut" }}
                   className="overflow-hidden"
                 >
-                  <div className="px-5 pb-5 pt-1 border-t border-white/10 space-y-4">
+                  <div className="px-5 pb-5 pt-3 bg-white rounded-b-xl space-y-4">
                     <div>
-                      <h4 className="text-xs font-semibold uppercase tracking-wider text-white/60 mb-1.5">
+                      <h4 className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-1.5">
                         What it means
                       </h4>
-                      <p className="text-sm text-white/90 leading-relaxed">
+                      <p className="text-sm text-gray-700 leading-relaxed">
                         {g.whatItMeans}
                       </p>
                     </div>
 
                     <div>
-                      <h4 className="text-xs font-semibold uppercase tracking-wider text-white/60 mb-1.5">
+                      <h4 className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-1.5">
                         Common rejection reasons
                       </h4>
                       <ul className="space-y-1.5">
                         {g.commonRejections.map((r, j) => (
                           <li
                             key={j}
-                            className="text-sm text-white/90 flex items-start gap-2"
+                            className="text-sm text-gray-700 flex items-start gap-2"
                           >
-                            <span className="text-white/40 mt-1 shrink-0">•</span>
+                            <span className="text-gray-400 mt-1 shrink-0">•</span>
                             {r}
                           </li>
                         ))}
@@ -350,16 +350,16 @@ function SectionView({
                     </div>
 
                     <div>
-                      <h4 className="text-xs font-semibold uppercase tracking-wider text-white/60 mb-1.5">
+                      <h4 className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-1.5">
                         How to fix
                       </h4>
                       <ul className="space-y-1.5">
                         {g.howToFix.map((f, j) => (
                           <li
                             key={j}
-                            className="text-sm text-white/90 flex items-start gap-2"
+                            className="text-sm text-gray-700 flex items-start gap-2"
                           >
-                            <span className="text-white/60 mt-1 shrink-0">•</span>
+                            <span className="text-gray-400 mt-1 shrink-0">•</span>
                             {f}
                           </li>
                         ))}

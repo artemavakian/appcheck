@@ -11,6 +11,7 @@ import {
   Plus,
   CircleArrowRight,
   ClipboardList,
+  NotebookPen,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
@@ -176,20 +177,32 @@ function DashboardPage() {
             </Link>
           </div>
 
-          {/* Previous Reports — bottom left */}
-          <Link href="/reports" className="col-span-1 row-span-1">
-            <div className="h-full rounded-3xl bg-[#141414] border border-white/[0.06] hover:border-[#0A84FF]/50 flex flex-col justify-end p-7 md:p-8 cursor-pointer transition-all duration-300">
-              <div className="flex items-center gap-2 mb-1.5">
-                <span className="text-white/40 text-sm font-medium tracking-wide uppercase">
-                  View All
-                </span>
-                <ClipboardList size={18} className="text-white/40" />
+          {/* Bottom left — two stacked buttons */}
+          <div className="col-span-1 row-span-1 flex flex-col gap-3">
+            {/* Previous Reports */}
+            <Link href="/reports" className="flex-1">
+              <div className="h-full rounded-3xl bg-[#141414] border border-white/[0.06] hover:border-[#0A84FF]/50 flex items-center justify-between px-7 cursor-pointer transition-all duration-300">
+                <div className="flex items-center gap-3">
+                  <ClipboardList size={20} className="text-white/40 shrink-0" />
+                  <p className="font-semibold text-white/50 tracking-tight" style={{ fontSize: "clamp(1.4rem, 3vw, 1.8rem)" }}>
+                    Previous Reports
+                  </p>
+                </div>
               </div>
-              <p className="font-semibold text-white/50 tracking-tight leading-[0.95]" style={{ fontSize: "clamp(3.4rem, 6.9vw, 4.37rem)" }}>
-                Previous Reports
-              </p>
-            </div>
-          </Link>
+            </Link>
+
+            {/* Review Notes Generator */}
+            <Link href="/review-notes" className="flex-1">
+              <div className="h-full rounded-3xl bg-[#141414] border border-white/[0.06] hover:border-[#0A84FF]/50 flex items-center justify-between px-7 cursor-pointer transition-all duration-300">
+                <div className="flex items-center gap-3">
+                  <NotebookPen size={20} className="text-white/40 shrink-0" />
+                  <p className="font-semibold text-white/50 tracking-tight" style={{ fontSize: "clamp(1.4rem, 3vw, 1.8rem)" }}>
+                    Review Notes Generator
+                  </p>
+                </div>
+              </div>
+            </Link>
+          </div>
 
           {/* Guideline Library — bottom right */}
           <Link href="/guidelines" className="col-span-1 row-span-1">
