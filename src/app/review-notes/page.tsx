@@ -218,10 +218,10 @@ export default function ReviewNotesPage() {
           transition={{ duration: 0.4 }}
         >
           <h1 className="text-2xl font-bold text-white tracking-tight">
-            Review Notes Generator
+            Submission Notes Generator
           </h1>
           <p className="mt-2 text-white/40 text-sm">
-            Generate professional App Store review notes for your submission.
+            Generate professional App Store submission notes for your review.
           </p>
 
           {/* Report selection or manual entry */}

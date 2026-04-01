@@ -158,7 +158,7 @@ function DashboardPage() {
           </motion.div>
 
           {/* Available Checks — top right */}
-          <div className="col-span-1 row-span-1 rounded-3xl bg-[#141414] border border-white/[0.06] hover:border-[#0A84FF]/50 flex flex-col items-center justify-center text-center p-5 relative overflow-hidden transition-all duration-300">
+          <div className="col-span-1 row-span-1 rounded-3xl bg-[#141414] border border-white/[0.06] flex flex-col items-center justify-center text-center p-5 relative overflow-hidden transition-all duration-300">
             <p
               className="font-semibold tabular-nums whitespace-nowrap text-white"
               style={{
@@ -197,7 +197,7 @@ function DashboardPage() {
                 <div className="flex items-center gap-3">
                   <NotebookPen size={20} className="text-white/40 shrink-0" />
                   <p className="font-semibold text-white/50 tracking-tight" style={{ fontSize: "clamp(1.4rem, 3vw, 1.8rem)" }}>
-                    Review Notes Generator
+                    Submission Notes Generator
                   </p>
                 </div>
               </div>

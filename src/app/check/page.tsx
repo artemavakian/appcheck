@@ -2,9 +2,8 @@
 
 import { useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, ChevronRight, ChevronLeft, ScanText, Info } from "lucide-react";
+import { ChevronRight, ChevronLeft, ScanText, Info } from "lucide-react";
 
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
@@ -222,9 +221,9 @@ function ConditionalReveal({
 
 function Tooltip({ text }: { text: string }) {
   return (
-    <span className="relative inline-flex items-center ml-1 group">
+    <span className="relative inline-flex items-center ml-1 group" style={{ zIndex: 9999 }}>
       <Info size={14} className="text-gray-400 cursor-help" />
-      <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 rounded-lg bg-gray-900 text-white text-xs leading-relaxed w-56 text-center opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity duration-200 z-50 shadow-lg">
+      <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 rounded-lg bg-gray-900 text-white text-xs leading-relaxed w-56 text-center opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity duration-200 shadow-lg" style={{ zIndex: 9999 }}>
         {text}
       </span>
     </span>
@@ -372,24 +371,15 @@ export default function CheckPage() {
 
   /* ─── App Name Entry Screen (Step 0) ─── */
   if (!nameEntered) {
+    const hasName = data.appName.trim().length > 0;
     return (
       <div className="min-h-screen bg-white flex flex-col">
-        <div className="px-4 pt-8 sm:pt-12">
-          <Link
-            href="/dashboard"
-            className="inline-flex items-center gap-1.5 text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors max-w-2xl mx-auto w-full"
-          >
-            <ArrowLeft size={16} />
-            Dashboard
-          </Link>
-        </div>
-
-        <div className="flex-1 flex flex-col items-center justify-center px-4 -mt-16">
+        <div className="flex-1 flex flex-col items-center justify-center px-4">
           <motion.div
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
-            className="w-full max-w-xl text-center"
+            className="w-full max-w-2xl text-center"
           >
             <input
               type="text"
@@ -398,31 +388,31 @@ export default function CheckPage() {
               placeholder="App Name"
               autoFocus
               onKeyDown={(e) => {
-                if (e.key === "Enter" && data.appName.trim()) setNameEntered(true);
+                if (e.key === "Enter" && hasName) setNameEntered(true);
               }}
-              className="w-full text-center text-4xl sm:text-5xl font-bold tracking-tight text-gray-900 placeholder-gray-300 bg-transparent outline-none border-none caret-blue-500"
+              className="w-full text-center font-bold tracking-tight text-gray-900 placeholder-gray-200 bg-transparent outline-none border-none caret-blue-500"
+              style={{ fontSize: "clamp(4rem, 10vw, 7.5rem)" }}
             />
-
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: data.appName.trim() ? 1 : 0 }}
-              transition={{ duration: 0.2 }}
-              className="mt-10"
-            >
-              <button
-                onClick={() => {
-                  if (data.appName.trim()) setNameEntered(true);
-                }}
-                className="px-8 py-3 rounded-xl text-sm font-semibold text-white gradient-bg hover:brightness-110 active:scale-[0.98] transition-all"
-              >
-                Begin
-              </button>
-            </motion.div>
           </motion.div>
 
-          <p className="absolute bottom-8 text-xs text-gray-400 text-center max-w-sm px-4">
-            All app details are processed securely and are never used beyond generating your report.
-          </p>
+          <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: hasName ? 1 : 0, y: hasName ? 0 : 8 }}
+            transition={{ duration: 0.25 }}
+            className="absolute bottom-10 flex flex-col items-center gap-4 pointer-events-none"
+          >
+            <button
+              onClick={() => {
+                if (hasName) setNameEntered(true);
+              }}
+              className="px-8 py-3 rounded-xl text-sm font-semibold text-white gradient-bg hover:brightness-110 active:scale-[0.98] transition-all pointer-events-auto"
+            >
+              Begin
+            </button>
+            <p className="text-xs text-gray-400 text-center max-w-sm px-4">
+              All app details are processed securely and are never used beyond generating your report.
+            </p>
+          </motion.div>
         </div>
       </div>
     );
@@ -432,14 +422,7 @@ export default function CheckPage() {
     <div className="min-h-screen bg-white">
       <div className="max-w-2xl mx-auto px-4 py-8 sm:py-12">
         {/* Header */}
-        <div className="mb-8 space-y-4">
-          <Link
-            href="/dashboard"
-            className="inline-flex items-center gap-1.5 text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors"
-          >
-            <ArrowLeft size={16} />
-            Dashboard
-          </Link>
+        <div className="mb-8">
           <StepIndicator currentStep={step} totalSteps={TOTAL_STEPS} />
         </div>
 
