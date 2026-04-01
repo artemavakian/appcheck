@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Menu, X, LogOut } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
@@ -26,12 +25,9 @@ export default function DashboardNav({}: DashboardNavProps) {
   return (
     <nav className="sticky top-0 z-50 bg-[#0a0a0a]/80 backdrop-blur-xl border-b border-white/[0.06]">
       <div className="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
-        <Link
-          href="/dashboard"
-          className="text-lg font-bold tracking-tight text-white"
-        >
+        <span className="text-lg font-bold tracking-tight text-white">
           AppCheck
-        </Link>
+        </span>
 
         <div className="hidden sm:flex items-center gap-5">
           <button

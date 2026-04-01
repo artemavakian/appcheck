@@ -58,13 +58,6 @@ export default function Navbar() {
               {link.label}
             </a>
           ))}
-          <a
-            href="/login"
-            className="block text-sm text-gray-400 hover:text-gray-600 transition-colors"
-            onClick={() => setMobileOpen(false)}
-          >
-            Sign In
-          </a>
         </div>
       )}
     </nav>

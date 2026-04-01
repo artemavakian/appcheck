@@ -4,7 +4,7 @@ import { useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, ChevronRight, ChevronLeft, Sparkles } from "lucide-react";
+import { ArrowLeft, ChevronRight, ChevronLeft, ScanText, Info } from "lucide-react";
 
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
@@ -15,7 +15,7 @@ import { createClient } from "@/lib/supabase/client";
 import { processScreenshots, scanForTriggerWords } from "@/lib/ocr";
 import type { WizardData } from "@/lib/types";
 
-const TOTAL_STEPS = 9;
+const TOTAL_STEPS = 10;
 
 const LOGIN_METHODS = ["Email/password", "Google", "Facebook", "Apple"];
 const PERMISSIONS_LIST = [
@@ -220,8 +220,20 @@ function ConditionalReveal({
   );
 }
 
+function Tooltip({ text }: { text: string }) {
+  return (
+    <span className="relative inline-flex items-center ml-1 group">
+      <Info size={14} className="text-gray-400 cursor-help" />
+      <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 rounded-lg bg-gray-900 text-white text-xs leading-relaxed w-56 text-center opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity duration-200 z-50 shadow-lg">
+        {text}
+      </span>
+    </span>
+  );
+}
+
 export default function CheckPage() {
   const router = useRouter();
+  const [nameEntered, setNameEntered] = useState(false);
   const [step, setStep] = useState(1);
   const [direction, setDirection] = useState(1);
   const [data, setData] = useState<WizardData>(defaultWizardData);
@@ -329,8 +341,6 @@ export default function CheckPage() {
 
   const canProceed = (): boolean => {
     switch (step) {
-      case 1:
-        return data.appName.trim().length > 0;
       case 8:
         return data.appDescription.trim().length > 0;
       default:
@@ -356,6 +366,64 @@ export default function CheckPage() {
             </p>
           </div>
         </motion.div>
+      </div>
+    );
+  }
+
+  /* ─── App Name Entry Screen (Step 0) ─── */
+  if (!nameEntered) {
+    return (
+      <div className="min-h-screen bg-white flex flex-col">
+        <div className="px-4 pt-8 sm:pt-12">
+          <Link
+            href="/dashboard"
+            className="inline-flex items-center gap-1.5 text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors max-w-2xl mx-auto w-full"
+          >
+            <ArrowLeft size={16} />
+            Dashboard
+          </Link>
+        </div>
+
+        <div className="flex-1 flex flex-col items-center justify-center px-4 -mt-16">
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+            className="w-full max-w-xl text-center"
+          >
+            <input
+              type="text"
+              value={data.appName}
+              onChange={(e) => update("appName", e.target.value)}
+              placeholder="App Name"
+              autoFocus
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && data.appName.trim()) setNameEntered(true);
+              }}
+              className="w-full text-center text-4xl sm:text-5xl font-bold tracking-tight text-gray-900 placeholder-gray-300 bg-transparent outline-none border-none caret-blue-500"
+            />
+
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: data.appName.trim() ? 1 : 0 }}
+              transition={{ duration: 0.2 }}
+              className="mt-10"
+            >
+              <button
+                onClick={() => {
+                  if (data.appName.trim()) setNameEntered(true);
+                }}
+                className="px-8 py-3 rounded-xl text-sm font-semibold text-white gradient-bg hover:brightness-110 active:scale-[0.98] transition-all"
+              >
+                Begin
+              </button>
+            </motion.div>
+          </motion.div>
+
+          <p className="absolute bottom-8 text-xs text-gray-400 text-center max-w-sm px-4">
+            All app details are processed securely and are never used beyond generating your report.
+          </p>
+        </div>
       </div>
     );
   }
@@ -418,6 +486,9 @@ export default function CheckPage() {
                     onChange={setScreenshotFiles}
                   />
                 )}
+                {step === 10 && (
+                  <StepOverview data={data} update={update} />
+                )}
               </Card>
             </motion.div>
           </AnimatePresence>
@@ -453,7 +524,7 @@ export default function CheckPage() {
             </Button>
           ) : (
             <Button onClick={handleAnalyzeClick} disabled={!canProceed()} className="gap-2">
-              <Sparkles size={16} />
+              <ScanText size={16} />
               Analyze Submission
             </Button>
           )}
@@ -478,7 +549,10 @@ export default function CheckPage() {
               your AppCheck results. For the most reliable review, we recommend
               completing all sections before analyzing your submission.
             </p>
-            <div className="mt-3 flex flex-wrap gap-2">
+            <p className="mt-4 text-xs font-semibold uppercase tracking-wider text-gray-400">
+              Incomplete Fields:
+            </p>
+            <div className="mt-2 flex flex-wrap gap-2">
               {getIncompleteFields().map((field) => (
                 <span
                   key={field}
@@ -527,17 +601,6 @@ function StepAppBasics({ data, update }: StepProps) {
       </div>
 
       <div className="space-y-5">
-        <div>
-          <FieldLabel>App Name</FieldLabel>
-          <input
-            type="text"
-            value={data.appName}
-            onChange={(e) => update("appName", e.target.value)}
-            placeholder="My App"
-            className="input-field"
-          />
-        </div>
-
         <div>
           <FieldLabel>Platform</FieldLabel>
           <div className="flex gap-3">
@@ -590,7 +653,10 @@ function StepAppBasics({ data, update }: StepProps) {
         </div>
 
         <div>
-          <FieldLabel>Does the app contain placeholder content?</FieldLabel>
+          <FieldLabel>
+            Does the app contain placeholder content?
+            <Tooltip text="This includes lorem ipsum text, empty screens, broken images, or any unfinished content visible to the user." />
+          </FieldLabel>
           <ToggleButtons
             value={data.hasPlaceholderContent}
             onChange={(v) => update("hasPlaceholderContent", v)}
@@ -637,6 +703,7 @@ function StepAccountsLogin({ data, update }: StepProps) {
             <div>
               <FieldLabel>
                 Have you provided demo/test credentials for App Review?
+                <Tooltip text="Apple reviewers need to test your app. If login is required, you must provide a working demo account with full access to all features." />
               </FieldLabel>
               <ToggleButtons
                 value={data.hasDemoCredentials}
@@ -673,6 +740,7 @@ function StepPayments({ data, update }: StepProps) {
         <div>
           <FieldLabel>
             Does your app charge users for digital features?
+            <Tooltip text="Digital features include subscriptions, premium content, virtual currency, ad removal, or any in-app functionality unlocked by payment." />
           </FieldLabel>
           <ToggleButtons
             value={data.chargesForDigital}
@@ -772,7 +840,10 @@ function StepUserContent({ data, update }: StepProps) {
             </div>
 
             <div>
-              <FieldLabel>Is moderation implemented?</FieldLabel>
+              <FieldLabel>
+                Is moderation implemented?
+                <Tooltip text="This includes automated content filters, human review, or any system that prevents inappropriate content from being shown to other users." />
+              </FieldLabel>
               <ToggleButtons
                 value={data.hasModeration}
                 onChange={(v) => update("hasModeration", v)}
@@ -811,6 +882,7 @@ function StepPrivacy({ data, update }: StepProps) {
           <div>
             <FieldLabel>
               Do all permission prompts clearly explain how the data is used?
+              <Tooltip text="Each system permission prompt (camera, location, etc.) must include a clear, specific description of why the app needs access — not just a generic message." />
             </FieldLabel>
             <ToggleButtons
               value={data.permissionsExplained}
@@ -820,7 +892,7 @@ function StepPrivacy({ data, update }: StepProps) {
         </ConditionalReveal>
 
         <div>
-          <FieldLabel>Is a privacy policy accessible in the app?</FieldLabel>
+          <FieldLabel>Is the privacy policy accessible from within the app?</FieldLabel>
           <ToggleButtons
             value={data.hasPrivacyPolicy}
             onChange={(v) => update("hasPrivacyPolicy", v)}
@@ -907,6 +979,7 @@ function StepSensitive({ data, update }: StepProps) {
         <div>
           <FieldLabel>
             Is the app primarily a webview without added functionality?
+            <Tooltip text="A webview-only app loads a website inside the app without adding native features like push notifications, offline support, or device integrations." />
           </FieldLabel>
           <ToggleButtons
             value={data.isWebviewOnly}
@@ -940,6 +1013,7 @@ function StepMetadata({ data, update }: StepProps) {
         <div>
           <FieldLabel>
             Does it mention external subscriptions?
+            <Tooltip text="This refers to any mention of subscriptions or payments that are handled outside the app, such as on a website. Apple restricts directing users to external payment methods." />
           </FieldLabel>
           <ToggleButtons
             value={data.descriptionMentionsExternalSubs}
@@ -968,7 +1042,7 @@ function StepDescription({ data, update }: StepProps) {
     <div className="space-y-6">
       <div>
         <h2 className="text-xl font-semibold text-gray-900">
-          App Description &amp; Keywords
+          App Store Description &amp; Keywords
         </h2>
         <p className="text-sm text-gray-500 mt-1">
           Paste your App Store description and keywords for analysis
@@ -1041,6 +1115,35 @@ function StepScreenshots({
           {files.length} screenshot{files.length !== 1 && "s"} selected
         </p>
       )}
+    </div>
+  );
+}
+
+function StepOverview({}: StepProps) {
+  const [overview, setOverview] = useState("");
+
+  return (
+    <div className="space-y-6">
+      <div>
+        <h2 className="text-xl font-semibold text-gray-900">
+          Overview Analysis
+        </h2>
+        <p className="text-sm text-gray-500 mt-1">
+          Describe your app&rsquo;s purpose, key features, and how users interact
+          with it. This AI analysis helps identify potential App Store review
+          issues that may not be captured in the questionnaire.
+        </p>
+      </div>
+
+      <div>
+        <textarea
+          value={overview}
+          onChange={(e) => setOverview(e.target.value)}
+          rows={8}
+          placeholder="Describe what your app does, its main features, and how users interact with it..."
+          className="input-field resize-none"
+        />
+      </div>
     </div>
   );
 }

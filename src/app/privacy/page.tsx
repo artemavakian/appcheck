@@ -88,13 +88,24 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-gray-900">9. Changes to this Privacy Policy</h2>
+            <h2 className="text-lg font-semibold text-gray-900">9. User-Submitted App Information</h2>
+            <p>We understand that the information you provide about your app may be sensitive.</p>
+            <p>AppCheck does not use your submitted content (including app descriptions, screenshots, or other materials) for any purpose other than generating your analysis report.</p>
+            <p>We do not sell, share, or reuse this information for training, marketing, or any external purposes.</p>
+            <p>Your submissions are processed automatically and are not reviewed by humans.</p>
+            <p>We do not retain your app content longer than necessary to generate your report and provide access to your results.</p>
+            <p>We take reasonable measures to ensure that your app information remains private and secure.</p>
+            <p>We do not use your app ideas, features, or content for any product development, competitive analysis, or internal use.</p>
+          </section>
+
+          <section>
+            <h2 className="text-lg font-semibold text-gray-900">10. Changes to this Privacy Policy</h2>
             <p>AppCheck may update this Privacy Policy from time to time.</p>
             <p>Updates will be posted on this page with a revised date.</p>
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-gray-900">10. Contact</h2>
+            <h2 className="text-lg font-semibold text-gray-900">11. Contact</h2>
             <p>If you have questions about this Privacy Policy, please contact:</p>
             <p><a href="mailto:support@appcheck.dev" className="text-apple-blue hover:underline">support@appcheck.dev</a></p>
           </section>

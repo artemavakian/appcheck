@@ -38,7 +38,8 @@ export default function Home() {
           rejection risks before you go through weeks of resubmissions.
         </p>
         <div className="mt-12">
-          <a href="/login" className="btn-primary gap-2.5 text-base">
+          {/* Desktop */}
+          <a href="/login" className="hidden sm:inline-flex btn-primary gap-2.5 text-base">
             <svg
               width="18"
               height="18"
@@ -49,6 +50,10 @@ export default function Home() {
             </svg>
             Continue with Apple
           </a>
+          {/* Mobile */}
+          <span className="sm:hidden btn-primary gap-2.5 text-base cursor-default pointer-events-none">
+            Available on Desktop
+          </span>
         </div>
         <p className="mt-8 text-sm text-gray-400">
           Join developers who ship with confidence
