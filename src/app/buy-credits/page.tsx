@@ -189,12 +189,9 @@ export default function BuyCreditsPage() {
             className="bg-[#1a1a1a] border border-white/10 rounded-2xl shadow-xl p-6 w-full max-w-sm"
             onClick={(e) => e.stopPropagation()}
           >
-            <h3 className="text-lg font-semibold text-white mb-1">
+            <h3 className="text-lg font-semibold text-white mb-4">
               Enter Code
             </h3>
-            <p className="text-sm text-white/40 mb-4">
-              Redeem a promo code for app checks.
-            </p>
 
             <input
               type="text"

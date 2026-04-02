@@ -94,8 +94,8 @@ function ToggleButtons({
         onClick={() => onChange(true)}
         className={`flex-1 py-3 rounded-xl text-sm font-semibold transition-all duration-200 ${
           value
-            ? "bg-white gradient-text border-2 border-[#0A84FF] shadow-sm"
-            : "bg-gray-100 text-gray-500 hover:bg-gray-200 border-2 border-transparent"
+            ? "text-white shadow-md bg-gradient-to-br from-apple-blue to-apple-cyan"
+            : "bg-gray-100 text-gray-500 hover:bg-gray-200"
         }`}
       >
         Yes
@@ -105,8 +105,8 @@ function ToggleButtons({
         onClick={() => onChange(false)}
         className={`flex-1 py-3 rounded-xl text-sm font-semibold transition-all duration-200 ${
           !value
-            ? "bg-white gradient-text border-2 border-[#0A84FF] shadow-sm"
-            : "bg-gray-100 text-gray-500 hover:bg-gray-200 border-2 border-transparent"
+            ? "text-white shadow-md bg-gradient-to-br from-apple-blue to-apple-cyan"
+            : "bg-gray-100 text-gray-500 hover:bg-gray-200"
         }`}
       >
         No
@@ -143,8 +143,8 @@ function CheckboxGroup({
             onClick={() => toggle(option)}
             className={`px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ${
               active
-                ? "bg-white gradient-text border-2 border-[#0A84FF] shadow-sm"
-                : "bg-gray-100 text-gray-600 hover:bg-gray-200 border-2 border-transparent"
+                ? "text-white shadow-md bg-gradient-to-br from-apple-blue to-apple-cyan"
+                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
             }`}
           >
             {option}
@@ -175,8 +175,8 @@ function RadioGroup({
             onClick={() => onChange(option.value)}
             className={`w-full px-4 py-3 rounded-xl text-sm font-medium text-left transition-all duration-200 ${
               active
-                ? "bg-white gradient-text border-2 border-[#0A84FF] shadow-sm"
-                : "bg-gray-100 text-gray-600 hover:bg-gray-200 border-2 border-transparent"
+                ? "text-white shadow-md bg-gradient-to-br from-apple-blue to-apple-cyan"
+                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
             }`}
           >
             {option.label}
@@ -262,6 +262,7 @@ function Tooltip({ text }: { text: string }) {
 export default function CheckPage() {
   const router = useRouter();
   const [step, setStep] = useState(1);
+  const [maxVisited, setMaxVisited] = useState(1);
   const [direction, setDirection] = useState(1);
   const [data, setData] = useState<WizardData>(defaultWizardData);
   const [screenshotFiles, setScreenshotFiles] = useState<File[]>([]);
@@ -279,7 +280,9 @@ export default function CheckPage() {
   const goNext = () => {
     if (step < TOTAL_STEPS) {
       setDirection(1);
-      setStep((s) => s + 1);
+      const next = step + 1;
+      setStep(next);
+      setMaxVisited((prev) => Math.max(prev, next));
     }
   };
 
@@ -287,6 +290,13 @@ export default function CheckPage() {
     if (step > 1) {
       setDirection(-1);
       setStep((s) => s - 1);
+    }
+  };
+
+  const goToStep = (target: number) => {
+    if (target >= 1 && target <= maxVisited && target !== step) {
+      setDirection(target > step ? 1 : -1);
+      setStep(target);
     }
   };
 
@@ -402,7 +412,12 @@ export default function CheckPage() {
       <div className="max-w-2xl mx-auto px-4 py-8 sm:py-12">
         {/* Header */}
         <div className="mb-8">
-          <StepIndicator currentStep={step} totalSteps={TOTAL_STEPS} />
+          <StepIndicator
+            currentStep={step}
+            totalSteps={TOTAL_STEPS}
+            maxVisitedStep={maxVisited}
+            onStepClick={goToStep}
+          />
         </div>
 
         {/* Step Content */}
@@ -567,19 +582,15 @@ function StepAppBasics({ data, update }: StepProps) {
           All app details are processed securely and are never used beyond generating your report.
         </p>
         <h2 className="text-xl font-semibold text-gray-900">App Basics</h2>
-        <p className="text-sm text-gray-500 mt-1">
-          Tell us about your application
-        </p>
       </div>
 
       <div className="space-y-5">
         <div>
-          <FieldLabel>App Name</FieldLabel>
           <input
             type="text"
             value={data.appName}
             onChange={(e) => update("appName", e.target.value)}
-            placeholder="My App"
+            placeholder="App Name"
             className="input-field"
           />
         </div>
@@ -594,8 +605,8 @@ function StepAppBasics({ data, update }: StepProps) {
                 onClick={() => update("platform", p)}
                 className={`flex-1 py-3 rounded-xl text-sm font-semibold transition-all duration-200 ${
                   data.platform === p
-                    ? "bg-white gradient-text border-2 border-[#0A84FF] shadow-sm"
-                    : "bg-gray-100 text-gray-500 hover:bg-gray-200 border-2 border-transparent"
+                    ? "text-white shadow-md bg-gradient-to-br from-apple-blue to-apple-cyan"
+                    : "bg-gray-100 text-gray-500 hover:bg-gray-200"
                 }`}
               >
                 {p}
@@ -617,8 +628,8 @@ function StepAppBasics({ data, update }: StepProps) {
                 onClick={() => update("isNewApp", opt.value)}
                 className={`flex-1 py-3 rounded-xl text-sm font-semibold transition-all duration-200 ${
                   data.isNewApp === opt.value
-                    ? "bg-white gradient-text border-2 border-[#0A84FF] shadow-sm"
-                    : "bg-gray-100 text-gray-500 hover:bg-gray-200 border-2 border-transparent"
+                    ? "text-white shadow-md bg-gradient-to-br from-apple-blue to-apple-cyan"
+                    : "bg-gray-100 text-gray-500 hover:bg-gray-200"
                 }`}
               >
                 {opt.label}

@@ -5,14 +5,20 @@ import clsx from "clsx";
 interface StepIndicatorProps {
   currentStep: number;
   totalSteps: number;
+  maxVisitedStep?: number;
+  onStepClick?: (step: number) => void;
   className?: string;
 }
 
 export function StepIndicator({
   currentStep,
   totalSteps,
+  maxVisitedStep,
+  onStepClick,
   className,
 }: StepIndicatorProps) {
+  const maxReachable = maxVisitedStep ?? currentStep;
+
   return (
     <div className={clsx("w-full", className)}>
       {/* Mobile: compact text */}
@@ -30,11 +36,15 @@ export function StepIndicator({
           const step = i + 1;
           const isCompleted = step < currentStep;
           const isCurrent = step === currentStep;
+          const isClickable = step <= maxReachable && step !== currentStep;
 
           return (
             <div key={step} className="flex items-center">
               {/* Circle */}
-              <div
+              <button
+                type="button"
+                disabled={!isClickable}
+                onClick={() => isClickable && onStepClick?.(step)}
                 className={clsx(
                   "w-9 h-9 rounded-full flex items-center justify-center text-sm font-semibold transition-all duration-300 shrink-0",
                   isCurrent &&
@@ -42,7 +52,9 @@ export function StepIndicator({
                   isCompleted && "bg-apple-blue text-white",
                   !isCurrent &&
                     !isCompleted &&
-                    "border-2 border-gray-300 text-gray-400"
+                    "border-2 border-gray-300 text-gray-400",
+                  isClickable && "cursor-pointer hover:scale-110",
+                  !isClickable && !isCurrent && !isCompleted && "cursor-default"
                 )}
               >
                 {isCompleted ? (
@@ -61,7 +73,7 @@ export function StepIndicator({
                 ) : (
                   step
                 )}
-              </div>
+              </button>
 
               {/* Connector line */}
               {step < totalSteps && (
