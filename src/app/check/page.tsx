@@ -94,8 +94,8 @@ function ToggleButtons({
         onClick={() => onChange(true)}
         className={`flex-1 py-3 rounded-xl text-sm font-semibold transition-all duration-200 ${
           value
-            ? "text-white shadow-sm bg-gray-800"
-            : "bg-gray-100 text-gray-500 hover:bg-gray-200"
+            ? "bg-white gradient-text border-2 border-[#0A84FF] shadow-sm"
+            : "bg-gray-100 text-gray-500 hover:bg-gray-200 border-2 border-transparent"
         }`}
       >
         Yes
@@ -105,8 +105,8 @@ function ToggleButtons({
         onClick={() => onChange(false)}
         className={`flex-1 py-3 rounded-xl text-sm font-semibold transition-all duration-200 ${
           !value
-            ? "text-white shadow-sm bg-gray-800"
-            : "bg-gray-100 text-gray-500 hover:bg-gray-200"
+            ? "bg-white gradient-text border-2 border-[#0A84FF] shadow-sm"
+            : "bg-gray-100 text-gray-500 hover:bg-gray-200 border-2 border-transparent"
         }`}
       >
         No
@@ -143,8 +143,8 @@ function CheckboxGroup({
             onClick={() => toggle(option)}
             className={`px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ${
               active
-                ? "text-white shadow-sm bg-gray-800"
-                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                ? "bg-white gradient-text border-2 border-[#0A84FF] shadow-sm"
+                : "bg-gray-100 text-gray-600 hover:bg-gray-200 border-2 border-transparent"
             }`}
           >
             {option}
@@ -175,8 +175,8 @@ function RadioGroup({
             onClick={() => onChange(option.value)}
             className={`w-full px-4 py-3 rounded-xl text-sm font-medium text-left transition-all duration-200 ${
               active
-                ? "text-white shadow-sm bg-gray-800"
-                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                ? "bg-white gradient-text border-2 border-[#0A84FF] shadow-sm"
+                : "bg-gray-100 text-gray-600 hover:bg-gray-200 border-2 border-transparent"
             }`}
           >
             {option.label}
@@ -469,31 +469,33 @@ export default function CheckPage() {
 
         {/* Navigation */}
         <div className="flex items-center justify-between mt-8">
-          <Button
-            variant="ghost"
-            onClick={goBack}
-            disabled={step === 1}
-            className="gap-1.5"
-          >
-            <ChevronLeft size={16} />
-            Back
-          </Button>
-
-          {step < TOTAL_STEPS ? (
-            <Button onClick={goNext} disabled={!canProceed()} variant="secondary" className="gap-1.5 !bg-gray-800 !text-white !border-gray-700 hover:!bg-gray-700">
-              Continue
-              <ChevronRight size={16} />
+          {step > 1 ? (
+            <Button
+              variant="ghost"
+              onClick={goBack}
+              className="gap-1.5"
+            >
+              <ChevronLeft size={16} />
+              Back
             </Button>
           ) : (
-            <div className="flex flex-col items-end gap-2">
-              <Button onClick={handleAnalyzeClick} disabled={!canProceed()} className="gap-2">
-                <ScanText size={16} />
-                Analyze Submission
-              </Button>
-              <p className="text-[11px] text-gray-400 text-right max-w-xs">
-                All app details are processed securely and are never used beyond generating your report.
-              </p>
-            </div>
+            <div />
+          )}
+
+          {step < TOTAL_STEPS ? (
+            <button
+              onClick={goNext}
+              disabled={!canProceed()}
+              className="inline-flex items-center gap-1.5 px-6 py-3 rounded-xl text-base font-medium transition-all duration-200 hover:bg-gray-100 active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none"
+            >
+              <span className="gradient-text">Continue</span>
+              <ChevronRight size={16} className="text-[#0A84FF]" />
+            </button>
+          ) : (
+            <Button onClick={handleAnalyzeClick} disabled={!canProceed()} className="gap-2">
+              <ScanText size={16} />
+              Analyze Submission
+            </Button>
           )}
         </div>
       </div>
@@ -561,6 +563,9 @@ function StepAppBasics({ data, update }: StepProps) {
   return (
     <div className="space-y-6">
       <div>
+        <p className="text-[11px] text-gray-400 mb-3">
+          All app details are processed securely and are never used beyond generating your report.
+        </p>
         <h2 className="text-xl font-semibold text-gray-900">App Basics</h2>
         <p className="text-sm text-gray-500 mt-1">
           Tell us about your application
@@ -589,8 +594,8 @@ function StepAppBasics({ data, update }: StepProps) {
                 onClick={() => update("platform", p)}
                 className={`flex-1 py-3 rounded-xl text-sm font-semibold transition-all duration-200 ${
                   data.platform === p
-                    ? "text-white shadow-sm bg-gray-800"
-                    : "bg-gray-100 text-gray-500 hover:bg-gray-200"
+                    ? "bg-white gradient-text border-2 border-[#0A84FF] shadow-sm"
+                    : "bg-gray-100 text-gray-500 hover:bg-gray-200 border-2 border-transparent"
                 }`}
               >
                 {p}
@@ -612,8 +617,8 @@ function StepAppBasics({ data, update }: StepProps) {
                 onClick={() => update("isNewApp", opt.value)}
                 className={`flex-1 py-3 rounded-xl text-sm font-semibold transition-all duration-200 ${
                   data.isNewApp === opt.value
-                    ? "text-white shadow-sm bg-gray-800"
-                    : "bg-gray-100 text-gray-500 hover:bg-gray-200"
+                    ? "bg-white gradient-text border-2 border-[#0A84FF] shadow-sm"
+                    : "bg-gray-100 text-gray-500 hover:bg-gray-200 border-2 border-transparent"
                 }`}
               >
                 {opt.label}
