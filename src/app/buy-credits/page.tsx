@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, Ticket } from "lucide-react";
+import { ArrowLeft, Grip } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 
@@ -125,7 +125,7 @@ export default function BuyCreditsPage() {
             onClick={() => setShowRedeem(true)}
             className="flex items-center gap-1.5 text-sm font-medium text-white/40 hover:text-white/80 transition-colors"
           >
-            <Ticket size={14} />
+            <Grip size={14} />
             Use Code
           </button>
         </div>

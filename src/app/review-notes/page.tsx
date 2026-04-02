@@ -266,7 +266,7 @@ export default function ReviewNotesPage() {
                   </div>
                 </div>
               ) : (
-                <div className="rounded-2xl border border-white/[0.06] bg-[#141414] p-8 text-center">
+                <div className="py-8 text-center">
                   <p className="text-white/40 text-sm mb-4">
                     No previous app checks found.
                   </p>

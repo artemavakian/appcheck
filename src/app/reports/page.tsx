@@ -103,7 +103,7 @@ export default function ReportsPage() {
           </h1>
 
           {reports.length === 0 ? (
-            <div className="rounded-2xl border border-white/[0.06] bg-[#141414] py-16 text-center">
+            <div className="py-16 text-center">
               <p className="text-white/30 text-sm">
                 No reports yet. Run your first analysis to get started.
               </p>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronRight, ChevronLeft, ScanText, Info } from "lucide-react";
@@ -94,7 +94,7 @@ function ToggleButtons({
         onClick={() => onChange(true)}
         className={`flex-1 py-3 rounded-xl text-sm font-semibold transition-all duration-200 ${
           value
-            ? "text-white shadow-md bg-gradient-to-br from-apple-blue to-apple-cyan"
+            ? "text-white shadow-sm bg-gray-800"
             : "bg-gray-100 text-gray-500 hover:bg-gray-200"
         }`}
       >
@@ -105,7 +105,7 @@ function ToggleButtons({
         onClick={() => onChange(false)}
         className={`flex-1 py-3 rounded-xl text-sm font-semibold transition-all duration-200 ${
           !value
-            ? "text-white shadow-md bg-gradient-to-br from-apple-blue to-apple-cyan"
+            ? "text-white shadow-sm bg-gray-800"
             : "bg-gray-100 text-gray-500 hover:bg-gray-200"
         }`}
       >
@@ -143,7 +143,7 @@ function CheckboxGroup({
             onClick={() => toggle(option)}
             className={`px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ${
               active
-                ? "text-white shadow-md bg-gradient-to-br from-apple-blue to-apple-cyan"
+                ? "text-white shadow-sm bg-gray-800"
                 : "bg-gray-100 text-gray-600 hover:bg-gray-200"
             }`}
           >
@@ -175,7 +175,7 @@ function RadioGroup({
             onClick={() => onChange(option.value)}
             className={`w-full px-4 py-3 rounded-xl text-sm font-medium text-left transition-all duration-200 ${
               active
-                ? "text-white shadow-md bg-gradient-to-br from-apple-blue to-apple-cyan"
+                ? "text-white shadow-sm bg-gray-800"
                 : "bg-gray-100 text-gray-600 hover:bg-gray-200"
             }`}
           >
@@ -220,19 +220,47 @@ function ConditionalReveal({
 }
 
 function Tooltip({ text }: { text: string }) {
+  const [show, setShow] = useState(false);
+  const [pos, setPos] = useState({ x: 0, y: 0 });
+  const ref = useRef<HTMLSpanElement>(null);
+
+  const handleEnter = () => {
+    if (ref.current) {
+      const rect = ref.current.getBoundingClientRect();
+      setPos({ x: rect.left + rect.width / 2, y: rect.top });
+    }
+    setShow(true);
+  };
+
   return (
-    <span className="relative inline-flex items-center ml-1 group" style={{ zIndex: 9999 }}>
-      <Info size={14} className="text-gray-400 cursor-help" />
-      <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 rounded-lg bg-gray-900 text-white text-xs leading-relaxed w-56 text-center opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity duration-200 shadow-lg" style={{ zIndex: 9999 }}>
-        {text}
+    <>
+      <span
+        ref={ref}
+        className="inline-flex items-center ml-1 cursor-help"
+        onMouseEnter={handleEnter}
+        onMouseLeave={() => setShow(false)}
+      >
+        <Info size={14} className="text-gray-400" />
       </span>
-    </span>
+      {show && (
+        <div
+          className="fixed px-3 py-2 rounded-lg bg-gray-900 text-white text-xs leading-relaxed w-56 text-center shadow-lg pointer-events-none"
+          style={{
+            zIndex: 99999,
+            left: pos.x,
+            top: pos.y,
+            transform: "translate(-50%, -100%) translateY(-8px)",
+          }}
+        >
+          {text}
+        </div>
+      )}
+    </>
   );
 }
 
 export default function CheckPage() {
   const router = useRouter();
-  const [nameEntered, setNameEntered] = useState(false);
   const [step, setStep] = useState(1);
   const [direction, setDirection] = useState(1);
   const [data, setData] = useState<WizardData>(defaultWizardData);
@@ -340,8 +368,8 @@ export default function CheckPage() {
 
   const canProceed = (): boolean => {
     switch (step) {
-      case 8:
-        return data.appDescription.trim().length > 0;
+      case 1:
+        return data.appName.trim().length > 0;
       default:
         return true;
     }
@@ -365,55 +393,6 @@ export default function CheckPage() {
             </p>
           </div>
         </motion.div>
-      </div>
-    );
-  }
-
-  /* ─── App Name Entry Screen (Step 0) ─── */
-  if (!nameEntered) {
-    const hasName = data.appName.trim().length > 0;
-    return (
-      <div className="min-h-screen bg-white flex flex-col">
-        <div className="flex-1 flex flex-col items-center justify-center px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
-            className="w-full max-w-2xl text-center"
-          >
-            <input
-              type="text"
-              value={data.appName}
-              onChange={(e) => update("appName", e.target.value)}
-              placeholder="App Name"
-              autoFocus
-              onKeyDown={(e) => {
-                if (e.key === "Enter" && hasName) setNameEntered(true);
-              }}
-              className="w-full text-center font-bold tracking-tight text-gray-900 placeholder-gray-200 bg-transparent outline-none border-none caret-blue-500"
-              style={{ fontSize: "clamp(4rem, 10vw, 7.5rem)" }}
-            />
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: hasName ? 1 : 0, y: hasName ? 0 : 8 }}
-            transition={{ duration: 0.25 }}
-            className="absolute bottom-10 flex flex-col items-center gap-4 pointer-events-none"
-          >
-            <button
-              onClick={() => {
-                if (hasName) setNameEntered(true);
-              }}
-              className="px-8 py-3 rounded-xl text-sm font-semibold text-white gradient-bg hover:brightness-110 active:scale-[0.98] transition-all pointer-events-auto"
-            >
-              Begin
-            </button>
-            <p className="text-xs text-gray-400 text-center max-w-sm px-4">
-              All app details are processed securely and are never used beyond generating your report.
-            </p>
-          </motion.div>
-        </div>
       </div>
     );
   }
@@ -501,15 +480,20 @@ export default function CheckPage() {
           </Button>
 
           {step < TOTAL_STEPS ? (
-            <Button onClick={goNext} disabled={!canProceed()} className="gap-1.5">
+            <Button onClick={goNext} disabled={!canProceed()} variant="secondary" className="gap-1.5 !bg-gray-800 !text-white !border-gray-700 hover:!bg-gray-700">
               Continue
               <ChevronRight size={16} />
             </Button>
           ) : (
-            <Button onClick={handleAnalyzeClick} disabled={!canProceed()} className="gap-2">
-              <ScanText size={16} />
-              Analyze Submission
-            </Button>
+            <div className="flex flex-col items-end gap-2">
+              <Button onClick={handleAnalyzeClick} disabled={!canProceed()} className="gap-2">
+                <ScanText size={16} />
+                Analyze Submission
+              </Button>
+              <p className="text-[11px] text-gray-400 text-right max-w-xs">
+                All app details are processed securely and are never used beyond generating your report.
+              </p>
+            </div>
           )}
         </div>
       </div>
@@ -585,6 +569,17 @@ function StepAppBasics({ data, update }: StepProps) {
 
       <div className="space-y-5">
         <div>
+          <FieldLabel>App Name</FieldLabel>
+          <input
+            type="text"
+            value={data.appName}
+            onChange={(e) => update("appName", e.target.value)}
+            placeholder="My App"
+            className="input-field"
+          />
+        </div>
+
+        <div>
           <FieldLabel>Platform</FieldLabel>
           <div className="flex gap-3">
             {["iOS", "macOS"].map((p) => (
@@ -594,7 +589,7 @@ function StepAppBasics({ data, update }: StepProps) {
                 onClick={() => update("platform", p)}
                 className={`flex-1 py-3 rounded-xl text-sm font-semibold transition-all duration-200 ${
                   data.platform === p
-                    ? "text-white shadow-md bg-gradient-to-br from-apple-blue to-apple-cyan"
+                    ? "text-white shadow-sm bg-gray-800"
                     : "bg-gray-100 text-gray-500 hover:bg-gray-200"
                 }`}
               >
@@ -617,7 +612,7 @@ function StepAppBasics({ data, update }: StepProps) {
                 onClick={() => update("isNewApp", opt.value)}
                 className={`flex-1 py-3 rounded-xl text-sm font-semibold transition-all duration-200 ${
                   data.isNewApp === opt.value
-                    ? "text-white shadow-md bg-gradient-to-br from-apple-blue to-apple-cyan"
+                    ? "text-white shadow-sm bg-gray-800"
                     : "bg-gray-100 text-gray-500 hover:bg-gray-200"
                 }`}
               >
@@ -1123,7 +1118,7 @@ function StepOverview({}: StepProps) {
           value={overview}
           onChange={(e) => setOverview(e.target.value)}
           rows={8}
-          placeholder="Describe what your app does, its main features, and how users interact with it..."
+          placeholder="Explain your app briefly…"
           className="input-field resize-none"
         />
       </div>
